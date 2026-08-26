@@ -1,7 +1,7 @@
 library('tidyverse')
 library('writexl')
 
-file=list.files('data/', pattern = 'P3-Lay', full.names = TRUE)
+file=list.files('~/Nextcloud/ASCOR-FMG-17214-P3-LayPsychology (Projectfolder)/data/', pattern = 'P3-Lay', full.names = TRUE)
 df=read_csv(file,col_types=cols()) |> 
   slice(-c(1,2)) |> 
   filter(DistributionChannel=='anonymous') 
@@ -95,7 +95,7 @@ df |>
 
 # Incorporate coding data
 library('readxl')
-coded_data=read_xlsx('data/coding/coding_output/combined_coded_data.xlsx') |> 
+coded_data=read_xlsx('data/combined_coded_data.xlsx') |> 
   select(ResponseId,number_1_cleaned,conv_topic_REASSIGN,conv_topic_FLAG) 
 
   #figure out who hasn't been coded
@@ -107,4 +107,8 @@ df = df |>
         conv_topic_REASSIGNED=if_else(!is.na(conv_topic_REASSIGN),1, 0)) |> 
   select(-number_1,-conv_topic_REASSIGN) 
 
-write_csv(df, 'data/clean_data.csv')
+#clean some variables
+df = df |> 
+  mutate(political_leaning=na_if(political_leaning,'-99'))
+
+write_csv(df, 'data/clean_study1_data.csv')
