@@ -1,0 +1,681 @@
+\documentclass[man, 12pt]{apa7}
+\usepackage{etoolbox}
+
+% Patch the document class to set the font to sans-serif
+%\makeatletter
+%\preto{\document}{\renewcommand{\rmdefault}{phv}} % Set main font to Helvetica
+%\makeatother
+ 
+\usepackage{lipsum}
+
+\usepackage[american]{babel}
+
+\usepackage{csquotes}
+
+\usepackage[style=apa,sortcites=true,sorting=nyt,backend=biber]{biblatex}
+\DeclareLanguageMapping{american}{american-apa}
+\addbibresource{references.bib}
+\usepackage{pgfplotstable}
+\usepackage{longtable}
+%Define a new column type using p for text wrapping:
+\usepackage{array}
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\title{How to Gain Advantages from Disagreeing with People you Know OR Disagreeing on purpose: Can planned interpersonal disagreements about the environment and health catalyze change?}
+\shorttitle{Disagreeing with People you Know}
+
+\author{Christin Scholz\textsuperscript{1},
+Marte Otten\textsuperscript{2},
+Hang-Yee Chan\textsuperscript{3}}
+\affiliation{\textsuperscript{1}Amsterdam School of Communication Research, University of Amsterdam, The Netherlands
+\textsuperscript{2}Department of Psychology, University of Amsterdam, The Netherlands
+\textsuperscript{3}Department of Marketing, King's Business School, King's College London, UK
+}
+
+\authornote{
+   \addORCIDlink{Christin Scholz}{0000-0001-6567-7504},
+   
+   \addORCIDlink{Hang-Yee Chan}{0000-0001-7179-9436},
+   
+  Correspondence concerning this article should be addressed to Christin Scholz, Amsterdam School of Communication Research, University of Amsterdam, Nieuwe Achtergracht 166, 1018WV Amsterdam, The Netherlands.  E-mail: c.scholz@uva.nl}
+           
+\abstract{}
+
+\keywords{Interpersonal communication, disagreements, polarization, persuasion, attitude change, behavior change, intellectual humility, implementation intentions}
+
+\begin{document}
+
+\maketitle
+
+We spend a remarkable amount of effort avoiding disagreements with the people around us. We steer conversations away from contentious topics, soften our opinions, and sometimes remain silent rather than risk a fight. Yet disagreement is also one of the few occasions on which another person explicitly presents us with a view that differs from our own. And when that person is someone we know and care about, the encounter combines counter-attitudinal information with a socially meaningful source of influence. 
+
+This creates a tension around disagreements with known others (DKOs). The conversations we are most inclined to avoid may be among those with the greatest potential to help us understand other viewpoints and motivate us to critically reflect on our existing attitudes and behaviors. Unlike encountering an opposing view from a stranger or an institution, one from a close other is harder to dismiss: psychological closeness amplifies social influence, making the response of close others more likley to be spontaneously represented and incorporated into our own judgments and behavior \parencite{smithInfluenceRepresentationsOthers2016}. At the same time, the established relationship that makes disagreement potentially influential can make it more difficult to navigate, potentially threatening relational harmony or escalating into conflict that impacts social relationships beyond a single conversation. 
+
+These dynamics matter because many of the beliefs guiding consequential decisions are formed and maintained in everyday social relationships. Societally-relevant DKOs - those concerning health, politics, or the environment-can therefore do more than determine who wins and argument. They may provide opportunities to encounter and consider perspectives that challenge existing beliefs, deepen understanding of why others think differently, or instead reinforce division or strain relationships. Among the large variety of societally-relevant issues, we focus operationally on a manageable subset, namely those related to health, politics, or the environment. Understanding when societally-relevant DKOs occur-and when they become constructive rather than counterproductive-may thus illuminate an underappreciated pathway of interpersonal influence with implications for both individual attitude/behavior change and social cohesion. Here, we present two pre-registered, empirical studies addressing a core research question (RQ):
+
+RQ: Can we systematically increase the frequency and quality of societally-relevant DKOs with predictable outcomes?
+
+In Study 1, we surveyed a large, representative sample of the Dutch population to establish when and how societally-relevant DKOs occur naturally, who engages in them, and what outcomes they are associated with. In Study 2, we test two interventions designed to reinforce natural tendencies identified in Study 1 that are linked to high quality DKOs with predictable outcomes in a longitudinal, online experiment.
+
+\subsection{Theoretical Background Study 1}
+
+Several rich traditions examine the nature and effects of interpersonal conversations in general, and interpersonal conflict or disagreement, specifically. In what follows, we briefly review key, interdisciplinary evidence that helps characterize the frequency, context, quality, and outcomes of societally-relevant DKOs, and derive several pre-registered hypotheses. By quality, we mean the deliberative nature of the conversation, operationalized based on the Perceived Discourse Quality Index (PDQI) \parencite{caluwaertsDoesInterGroupDeliberation2014} which includes indicators such as the extent to which the conversation was perceived as respectful, open, and honest. Further, we consider a broad range of outcomes related to mutual understanding (e.g., relational consequences, learning) and change (attitudes and behavior). 
+
+Our literature review highlights two overarching knowledge gaps. First, research on the frequency of DKOs is largely disconnected from work on the quality and outcomes. Frequency is typically studied using observational methods which highlight a preference for engaging with known others. Work on quality and outcomes tends to be experimental and favor controlled interactions between strangers. This disconnect complicates both the construction of a holistic understanding of DKOs and the safe design of interventions: increasing frequency without knowing the consequences for quality and outcomes can easily backfire, and costly quality-focused interventions are wasted if the conversations they target rarely occur. Second, empirical data are siloed within disconnected topic areas - marital conflict \parencite{kanterDoesCoupleCommunication2022}, organizational knowledge exchange \parencite{vanwoerkomRomanceLearningDisagreement2010}, cross-partisan political conversations \parencite{combsReducingPoliticalPolarization2023a}, health communication \parencite{hendriksWhatDutchCollege2015}, and environmental peer persuasion \parencite{makiEnvironmentalPeerPersuasion2017}-making individual findings difficult to generalize or compare across contexts. 
+
+\subsubsection{Frequency}
+
+If DKOs are a potential catalyst of social cohesion and change, it is important to understand how often they occur and who is most likely to engage in them. Recent US-centric evidence suggests that conversations about health and politics occur with some regularity, while conversations about climate and the environment are rarer. Atari and colleagues \citeyear{atariPaucityMoralityEveryday2023} found that participants estimated 20.1\% of all their interactions concerned health and 17.5\% politics (also see \parencite{keskinturkWhatAreYou2025}), whereas Latkin and colleauges \citeyear{latkinTheyTalkWeather2024} observed that over 60\% of their large sample had not discussed climate change with friends or family in the previous month. Directly comparable cross-topic data remain largely absent. 
+
+Data on the frequency of disagreements specifically are sparser still, and concentrated mainly in the political domain. The available evidence suggests that disagreements are generally infrequent and occur predominantly with known others rather than strangers \parencite{hofstraImpactDyadsExtended2026, makiEnvironmentalPeerPersuasion2017, jostCognitiveMotivationalMechanisms2022, hendriksWhatDutchCollege2015, moreyWhoMattersTypes2012}. For instance, Schmitt-Beck and Schnaudt \citeyear{schmitt-beckEverydayPoliticalTalk2023} found that disagreements with known others about politics in Germany occur "sometimes" and the Survey Center on American Life \parencite{soal} found that 58\% of US Americans disagreed about politics with a friend or family member in the previous year while only 34\% had done so with a stranger. 
+
+Several mechanisms likely suppress disagreement frequency. A well-documented human aversion to counter-attitudinal content-manifest in convfirmation bias, selective exposure, selective sharing (CITE XINYAO AS SUMBITTED), and motivated reasoning (CITE XINYAO)-reduces the likelihood of seeking out opposing views. Beyond information-processing tendencies, the social stakes of conversations with known others activate belonging motives \parencite{baumeisterNeedBelongDesire1995} that are not optimally served by initiating a disagreement, which may 
+be perceived as relational threat. Consistent with this, people systematically underestimate others' receptiveness to opposing political views and expect conversations with those who disagree to be more negative than they turn out to be, leading them to avoid such exchanges \parencite{mataPeopleUnderestimateHow2026}. Pluralistic ignorance-the mistaken belief that others do not share one's concern about, for example, climate change-constitutdes an additional barrier GEIGER SWIM 2016. When counter-attitudinal conversations do occur, they can produce frustration and sometimes backfire, with attitudes polarizing rather than converging \parencite{makiEnvironmentalPeerPersuasion2017, jostCognitiveMotivationalMechanisms2022}. 
+
+Here, we quantify and directly compare the frequency of DKOs across three societally-relevant topics and hypothesize:
+
+H1: The majority of DKOs occurs with known rather than unknown others. 
+
+Less is known about what predicts DKO frequency at the individual level. Schmitt-Beck and Schnaudt \citeyear{schmitt-beckEverydayPoliticalTalk2023} identify conflict-seeking disposition and political topic interest as positive predictors of political disagreements. More generally, research on conversation initiation and information sharing shows that self-relevant, socially relevant and emotionally charged content is communicated more frequently \parencite{scholzMediaContentSharing2020, cosmePerceivedSelfSocial2025a, bergerWhatGetsShared2025}. While self-relevance supports the role of topic interest, emotionality may be particularly important for disagreements: strong feelings about a topic can override the social costs of raising it, suggesting that many DKOs arise spontaneously rather than by design. We therefore hypothesize: 
+
+H2: Those with higher tolerance for disagreement report more frequent DKOs.; and
+H3: Higher interest in and knowledge about a topic is positively associated with the frequency of DKOs about that topic. 
+H4: At the beginning of the conversation, the average DKO is characterized by a stronger negative rather than positive emotional atmosphere. 
+H5: The majority of DKOs is unplanned. 
+
+\subsubsection{Conversational Motives \& Quality}
+
+When DKOs do occur, the motives that drive them and the actual characteristics of the interaction are crucial in determining the outcomes of an individual DKO as well as the likelihood of reoccurrence as has been highlighted in interdisciplinary (experimental) work (CITE CONFLICT STYLES AND OTHERS). A key limitation of this literature, however, is that experimental work predominantly involves interactions between strangers or between experts and laypersons (e.g., \cite{creativeTalkingClimateHandbook,binnquistZoomSolutionPromoting2022, hendriksInterveningConversationsHow2020,speerFindingAgreementFunctional2026}. This matters for two reasons: the natural communication dynamics of established relationships differ from those of stranger interactions, and people's capacity to authentically adopt experimentally assigned motives or strategies may be limited when conversation partners are familiar with their natural approach. Establishing the baseline distribution of motives and conversation quality in naturally occurring DKOs is therefore a necessary first step for identifying where interventions targeting DKOsare most needed and most likely to succeed. 
+
+RQ1: What are common motives of DKO participants?
+
+RQ2: What are the characteristics of DKOs?
+
+Contrasting the literatures on DKO frequency and quality reveals a further tension: the conditions that make DKOs likely-emotionally charged, unplanned encounters-are not necessarily those conducive to high-quality discourse. Emotions increase the probability of initiatying a conversation but may impair careful listening and promote motivated reasoning. Social cohesion motives drive interaction, but DKOs require a tolerance for conflict that cohesion motives may actively suppress. This suggests that the predictors of DKO frequncy and the predictors of DKO quality may partially dissciate, aming outcomes diffuctu to anticipate without empirical data. We hypothesize: 
+
+H6: Planned vs. unplanned DKOs are characterized by weaker negative emotions (H1A) and higher discourse quality (H1B). 
+H7: DKOs that are characterized by a more negative emotional atmosphere at the beginning of the conversation are also characterized by lower discourse quality.
+H8: Higher intellectual humility is associated with higher discourse quality during DKOs. 
+
+\subsubsection{Outcomes}
+
+Societally-relevant DKOs can have important consequences for both individuals and, in aggregate, for society. We focus on two classes of outcomes: those relevant to social cohesion through mutual understanding and relational quality, and those related to attitude and behavior change.
+
+There is a strong theoretical basis for expecting interactions with close others to be impactful: work on the RICOR model \parencite{smithInfluenceRepresentationsOthers2016} proposes that responses from psychologically close others are spontaneously represented and incorporated into one's own judgments, providing an automatic mechanism for social influence that does not depend on deliberate conformity motives. Longitudinal political-network research corroborates this, showing tha tdisagreement and partner selection are intertwined and that friends and family exert meaningufl influence on political attitudes over time \parencite{belloInfluenceMightierSelection2014}. Health psychology and communication scholars have similarly demonstrated the influence of naturally occurring interpersonal conversations on health and environmental behaviors \parencite{hendriksInterveningConversationsHow2020, makiEnvironmentalPeerPersuasion2017}, though disagreements specifically remain understudied. 
+
+Despite this theoretical potential, disagreements are widely anticipated as negative experiences. Wald, Kardas, and Epley \citeyear{waldMisplacedDividesDiscussing2024} found across three experiments that people systematically underestimate how positive disagreements about divisive topics will be. Experimental studies of conversations between strangers generally confirm this mismatch, with actual experiences rated more positively than expected \parencite{binnquistZoomSolutionPromoting2022}. Whether the same holds for interactions with known others is less clear: relational stakes are higher, but so is familiarity, and expectations may be better calibrated to prior experience. Importantly, outcomes need not be uniform across dimensions. De Jong \citeyear{dejongCrosspartisanDiscussionsReduced2024} showed that brief cross-partisan conversations increased out-party sympathy and willingness to engage in future discussions without changing core policy positions, with the sympathy effect attenuated when issue disagreement was greater. Combs and colleagues \citeyear{combsReducingPoliticalPolarization2023a} similarly found that actual cross-party conversations produced substantial reductions in affective polarization, with reductions tied to the civility of the interaction. Together, these findings underscore that relational and attitudinal outcomes can dissociate, and that both must be measured and targeted.
+
+While we have reasonable data on expected outcomes and on outcomes of experimentally manipulted conversations, the actual distribution of outcomes of naturally occurring DKOs across topics remains largely unknown. We therefore pose:
+
+RQ 3: What are the outcomes of DKOs?
+
+Assuming that people's expectations are calibrated—at least in part—by their actual experiences with known others, we predict:
+
+H9: On average, DKOs are perceived as unenjoyable (H1A), are unlikely to change attitudes (H1B) and behavior (H1C), and do not motivate repetition of similar conversations (H1D). 
+
+\subsubsection{Predicting Outcomes}
+
+Relatively little is known about what predicts the outcomes of naturally occurring disagreements. The existing experimental literature is almost exclusively focused on politics and on two levers: conversation quality and conversational motives. Cross-topic comparisons and naturalistic relationships between conversation context, participant characteristics, and outcomes remain largely unexamined. We therefore ask:
+
+RQ4: What are the effects of DKO context, participant characteristics, conversational motives, and conversation characteristics on DKO outcomes? 
+
+Discourse quality. Argyle and colleagues \citeyear{argyleAIChatAssistants2023} showed that AI-assisted real-time recommendations improved perceived understanding, reduced divisiveness, and improved conversational tone-without shifting policy attitudes. De Jong \citeyear{dejongCrosspartisanDiscussionsReduced2024} identified perspective-taking, feelings of inclusion, perceived commonality, and reduced misperceptions as predictors of conversational outcomes. Similarly, Speer and colleagues \citeyear{speerFindingAgreementFunctional2026} found that exploration and openness during conversations predicted agreement. Santoro and colleagues \citeyear{santoroListenChangeLongitudinal2025} found that high-quality, non-judgmental listening increased interpersonal perceptions and reduced defensiveness. These findings converge on the conclusion that higher discourse quality consistently predicts better relational and experiential outcomes, even when attitudinal change is absent: 
+
+H10: DKOs with higher discourse quality are perceived to be more instructive (H1A), more enjoyable (H1B), less likely to harm the relationship of the conversation partners (H1C) and associated with higher willingness to have similar conversations in the future (H1D). 
+
+Conversational motives. The evidence here is more equivocal. Nussbaum \citeyear{nussbaumEffectGoalInstructions2005} found that a persuasion goal generates more adversarial communication than an exploration goal. Speer and colleagues \citeyear{speerFindingAgreementFunctional2026} found that a compromise goal produced more agreement than a persuasion goal. DeMarree and colleagues \citeyear{demarreeLearningGoalsListening2026} found that a goal to listen to a disagreeing stranger rather than to persuade increased perceived psychological safety and, thereby, reduced polarization. Santoro and colleagues \citeyear{santoroListenChangeLongitudinal2025} manipulated high-quality listening in trained canvassers showing that listening improved interpersonal outcomes, but not persuasion. Together, these findings suggest that conversational motives are important, but have only examined the role of experimentally manipulated motives in pairs focusing on conversations with strangers. The effects of naturally occurring motives in DKOs reamin an open question we address empirically. 
+
+Planning and emotional onset. When people disagree with known others, they can draw on a shared history and a deep understanding of the relationship. A planned conversation allows them to leverage this knowledge to calibrate their approach; an emotionally charged, unplanned onset is likely to undermine it. We therefore hypothesize:
+
+H11: Planned vs. unplanned DKOs are perceived to be more instructive (H2A) more enjoyable (H2B), less likely to harm the relationship of the conversation partners (H2C), more likely to lead to attitude (H2D) and behavior change (H2E), and more likely to be repeated (H2F). 
+
+H12: Stronger negative emotions at the onset of DKOs are associated with lower enjoyability (H3A), higher perceived harm the relationship of the conversation partners (H3B), lower likelihood of attitude (H3C) and behavior change (H3D), and lower repetition likelihood (H3E). RQ9 - Topics: What are similarities and differences between topics (health, environment, and politics)?
+
+Finally, because this is the first study to examine DKOs across health, politics, and environmental topics in a single representative sample, we treat cross-topic comparisons as exploratory:
+
+RQ5: What are the similarities and differences between DKOs across health, political, and environmental topics?
+
+\section{Methods Study 1}
+
+After providing informed consent (ERB # ANONYMIZED), participants completed an online survey consisting of two main parts: In Part 1, participants were asked to recall details about one specific DKO. Participants were randomly assigned to one of the three focal topics (health, politics, or the environment). Participants who were not able to recall a DKO about the assigned topic where first asked to recall a DKO about another focal topic. Participants who did not recall any societally-relevant DKO, were asked to recall a DKO about any topic. In Part 2, participants were asked to report experiences with and impressions of societally-relevant DKOs in general. The pre-registration, measures, and analysis scripts are available on our OSF page. 
+
+\subsection{Participants}
+
+
+
+\subsection{Measures}
+
+Justification of measures
+propensity of following certain motives and the baseline conversation quality across societally-relevant topics in DKOs as a backdrop that highlights specific needs and opportunities for interventions. Exisiting research has particularly focused on the distinction between persuasion and non-persuasive motives like compromising (SPEER ET AL PRE-PRINT). From other work on the motives that drive social interactions, we also know that people engage to improve their social relationships and to learn new things. In terms of conversation quality, a well-defined variable is perceived discourse quality which can be extended wtih enjoyment an indicator of perceived reward and utility. 
+
+\subsection{Analysis}
+
+
+\section{Results}
+
+
+
+\section{Discussion Study 1}
+
+\subsection{STUDY2}
+
+some work showing that AI can suggest improvement strategies for conversations 
+
+A large recent literature manipulates whether participants are motivated to be accurate versus motivated to express or advance a partisan/social identity.
+
+For example, a 2023 Nature Human Behaviour paper, Accuracy and social motivations shape judgements of (mis)information, experimentally manipulated accuracy motivation and partisan-sharing motivation. In one experiment, the nonfinancial accuracy intervention explicitly instructed people to be as accurate as possible and told them they would receive feedback; this increased acceptance of politically incongruent true news.
+
+Again, this isn't a conversation experiment, but it provides a strong theoretical precedent for:
+
+epistemic goal vs. social goal → information processing
+
+That could potentially be imported into disagreement research.
+
+
+because prior work shows that outcomes (high quality and persuasion) do not go together, we use one manipulation for each.
+
+\subsection{Discussion}
+
+
+Future directions
+
+- important to consider who else is present: Lieberman et al. But when ingroup observers were present, conversations became substantially more conflictual and stressful. The observers seemed to make it harder for participants to open up and find common ground.
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{2. Method}
+
+We conducted three online, within-subjects experiments in English-speaking young adults who consume alcohol, the target group of our message sample (see below). Study 1a measured alcohol craving and mechanism-related responses to a broad range of professional and peer-produced pro- and anti-alcohol messages reflecting the current media environment. Study 1b introduced non-alcoholic comparison conditions. Study 2 conceptually replicated Studies 1a/b using a subset of alcoholic messages and a different task design. All participants provided informed consent and study procedures were approved by our university's ethical review board (protocol number anonymized).
+
+\subsection{2.1 Reproducibility package}
+The studies reported here were not pre-registered. Measures, data, and analysis code are available on our OSF page (\href{https://osf.io/cg3fn/files}{https://osf.io/cg3fn/files}). This reproducibility package includes descriptions and sources of all stimuli. Original stimuli are available upon request. Only Study 2 participants completed additional measures concerning orthogonal research questions about meat consumption (see reproducibility package). 
+
+<<hide=TRUE,echo=FALSE,warning=FALSE,message=FALSE>>=
+library('tidyverse')
+library('kableExtra')
+library('ggpubr')
+library('plotrix')
+library('reshape2')
+library('patchwork')
+source('scripts/customFunctions.R')
+
+ppts_study1a=readRDS('data/study1a/cleaned/ppt_df.RDS')
+ppts_study1b=readRDS('data/study1b/cleaned/ppt_df.RDS')
+study2_logs=read_csv('data/study2/cleaned/logs_cleaned.csv',col_types=cols())
+study2_s1=read_csv('data/study2/cleaned/S1_cleaned.csv',col_types=cols())
+study1a_drink_df=readRDS('data/study1a/cleaned/drink_df.RDS')
+study1b_drink_df=readRDS('data/study1b/cleaned/drink_df.RDS')
+study1a_source_df=readRDS('data/study1a/cleaned/source_df.RDS')
+study1a_valence_df=readRDS('data/study1a/cleaned/valence_df.RDS')
+study1b_source_df=readRDS('data/study1b/cleaned/source_df.RDS')
+study1a_familiarity_df=readRDS('data/study1a/cleaned/familiarity_df.RDS')
+study1b_familiarity_df=readRDS('data/study1b/cleaned/familiarity_df.RDS')
+study1a_emo_df=readRDS('data/study1a/cleaned/emo_df.RDS')
+study1b_emo_df=readRDS('data/study1b/cleaned/emo_df.RDS') %>% mutate(emo_rating=as.numeric(emo_rating))
+
+s1a=study1a_drink_df %>% group_by(QualtricsMsgID) %>% count() %>% ungroup() %>% summarise(mean=mean(n),sd=sd(n))
+s1b_na=study1b_drink_df %>% filter(grepl('non',condition)) %>% group_by(filename) %>% count() %>% ungroup() %>% summarise(mean=mean(n),sd=sd(n))
+s1b_a=study1b_drink_df %>% filter(!grepl('non',condition)) %>% group_by(filename) %>% count() %>% ungroup() %>% summarise(mean=mean(n),sd=sd(n))
+@
+
+\subsection{2.2 Study 1a}
+
+\subsubsection{2.2.1 Participants}
+
+Participants (N = $\Sexpr{dim(ppts_study1a)[1]}$) meeting the eligiblity criteria (aged $\Sexpr{min(ppts_study1a$age)}$-$\Sexpr{max(ppts_study1a$age)}$, consumed >=1 unit of alcohol/average week) were recruited on the panel platform Prolific. For participant characteristics, see Table \ref{tab:DescriptivesTable}.
+
+<<DescriptivesTable, hide=TRUE,echo=FALSE,warning=FALSE,message=FALSE>>=
+#Make demographics table
+Descriptives<-c('Females (N)', 'Males (N)', 'Non-Binary (N)', 'Gender: Prefer not to say (N)','Age (M, SD, Range)','Alcohol consumption (past year)','Binge drinking (past year)','AUDIT')
+
+`Study 1a`<-c(sum(ppts_study1a$gender_char=="female"),sum(ppts_study1a$gender_char=="male"),sum(ppts_study1a$gender_char=="non-binary"),sum(ppts_study1a$gender_char=="prefer not to say"),paste0(round(mean(ppts_study1a$age),2), ', ', round(sd(ppts_study1a$age),2), ',', min(ppts_study1a$age),'-',max(ppts_study1a$age)),'Mode: 2x/week, Range: never-daily','Mode: 1-2x/year, Range: never-daily','-')
+
+`Study 1b`<-c(sum(ppts_study1b$gender_char=="female"),sum(ppts_study1b$gender_char=="male"),sum(ppts_study1b$gender_char=="non-binary"),sum(ppts_study1b$gender_char=="prefer not to say"),paste0(round(mean(ppts_study1b$age),2), ', ', round(sd(ppts_study1b$age),2), ',', min(ppts_study1b$age),'-',max(ppts_study1b$age)),'Mode: 2x/week, Range: never-daily','Mode: 2-3 days/month, Range: never-daily','-')
+
+`Study 2`<-c(sum(study2_s1$gender_char=="female"),sum(study2_s1$gender_char=="male"),sum(study2_s1$gender_char=="non-binary"),sum(study2_s1$gender_char=="prefer not to say"),paste0(round(mean(study2_s1$age),2), ', ', round(sd(study2_s1$age),2), ',', min(study2_s1$age),'-',max(study2_s1$age)),'-','-',paste0('M=',round(mean(study2_s1$AUDIT_score),2),' (medium risk), SD=',round(sd(study2_s1$AUDIT_score),2),', Range=',min(study2_s1$AUDIT_score),'-',max(study2_s1$AUDIT_score)))
+
+descriptives=tibble(Descriptives,`Study 1a`,`Study 1b`,`Study 2`)
+
+ kable(descriptives,caption='Sample Characteristics',booktabs=T,format='latex') %>% kable_styling(latex_options = "scale_down") %>% add_footnote("Note. AUDIT = Alcohol Use Disorder Identification Test (Saunders et al., 1993)")
+
+@
+
+\subsubsection{2.2.2 Messages}
+
+We generated $\Sexpr{length(unique(study1a_drink_df$QualtricsMsgID))}$ alcohol-related messages ($\Sexpr{study1a_drink_df %>% group_by(condition) %>% summarize(n_msgs=length(unique(QualtricsMsgID))) %>% summarize(first(n_msgs))}$ per Valence: pro/anti-alcohol x Source:
+professional/peer-produced condition). This large message set enhances the representativeness of our results and minimizes case-category confounds \parencite{kim_reliable_2019}. 
+
+A convenience sample of images was purposefully sampled from public Instagram posts and prior research. Pro- and anti-alcohol images portrayed alcohol (consumption) positively or negatively, respectively. Professional messages were sampled from Instagram pages of businesses (e.g., alcohol brands) and international, English-language anti-(binge) drinking campaigns studied in prior research \parencite{scholz_neural_2019}. Peer-produced messages were sampled from public Instagram accounts of ’normal’ users. Images were chosen to highlight excessive consumption (e.g., exuberant situations like parties, consumption of high-proof alcohol or large quantities, or displays of consequences of excessive consumption). Hashtags were manipulated to reinforce condition (e.g., using brand names, campaign slogans, or commonly used hashtags) and to balance the amount of text across conditions. Stimuli were embedded in templates resembling Instagram posts (Supplementary Figure S1).
+
+\subsubsection{2.2.3 Procedure}
+
+Each participant viewed $\Sexpr{study1a_drink_df %>% group_by(pIDs) %>% count() %>% ungroup() %>% summarize(unique(n)[1])}$ randomly chosen messages, implementing a 2 Valence (pro vs. anti-alcohol) x 2 Source (professional vs. peer-produced) full-factorial design. After each message exposure, participants rated their current alcohol craving, manipulation check items (see Supplementary Materials), emotional responses, and relatability. 
+
+\subsection{2.3 Study 1b}
+
+\subsubsection{2.3.1 Participants}
+
+Participants (N = $\Sexpr{dim(ppts_study1b)[1]}$) were recruited according to the Study 1a procedure (descriptive statistics in Table 1). 
+
+\subsubsection{2.3.2 Messages}
+
+We supplemented the Study 1a message sample by generating $\Sexpr{study1b_drink_df %>% filter(grepl('non',condition)) %>% summarize(length(unique(QualtricsURL)))}$ non-alcoholic messages (15/source condition) mirroring the Study 1a message sampling and design procedures. Non-alcoholic messages depicted (the consumption of) non-alcoholic beverages positively and were matched to the Study 1a alcoholic messages in that they depicted exuberant situations like dancing and large groups laughing or depictions of large beverage quantities.
+
+\subsubsection{2.3.3 Procedure}
+
+Each participant viewed $\Sexpr{study1b_drink_df %>% group_by(pIDs) %>% count() %>% ungroup() %>% summarize(unique(n)[1])}$ randomly chosen messages from the full samples of alcoholic ($\Sexpr{study1b_drink_df %>% filter(!grepl('non',condition)) %>% group_by(pIDs) %>% count() %>% ungroup() %>% summarize(unique(n)[1])}$/person) and non-alcoholic ($\Sexpr{study1b_drink_df %>% filter(grepl('non',condition)) %>% group_by(pIDs) %>% count() %>% ungroup() %>% summarize(unique(n)[1])}$/person) messages, implementing a 3 Valence (pro vs. anti vs. non-alcoholic) x 2 Source (professional vs. peer-produced) full-factorial design. As in Study 1a, participants rated their current alcohol craving, manipulation check items (see Supplementary Materials), emotional responses, and relatability after each message exposure.
+
+\subsection{2.4 Study 2}
+
+\subsubsection{2.4.1 Participants}
+
+Participants (N = $\Sexpr{length(unique(study2_logs$pID))}$) meeting the eligibility criteria (age >=18, has “experiences with drinking alcohol in your life”) were recruited from our university’s student subject pool (descriptive statistics in Table 1). 
+
+\subsubsection{2.4.2 Messages}
+
+A subset of $\Sexpr{study2_logs %>% group_by(pID) %>% count() %>% ungroup() %>% summarize(unique(n)[1])}$ messages (N = $\Sexpr{study2_logs %>% group_by(pID,condition) %>% count() %>% ungroup() %>% summarize(unique(n)[1])}$ per valence * source condition) of alcohol-related messages used in Study 1a/b served as stimuli in Study 2. To answer an orthogonal, exploratory research question, we generated two versions of each message, messages designed as Instagram posts as used in Studies 1a/b and messages designed to resemble Google search results with text as search terms instead of hashtags. Because media context effects were not significant, we collapse across platform types.
+
+\subsubsection{2.4.3 Procedure}
+
+Serving as conceptual replication of Studies 1a/b and pilot study for follow-up neuroimaging work, Study 2 employed an automatically paced task optimized for the functional neuroimaging environment. Each participant completed $\Sexpr{study2_logs %>% group_by(pID) %>% count() %>% ungroup() %>% summarize(unique(n)[1])}$ trials (Supplementary Figure 2), consisting of message exposure (5 s), brief fixation period (a blank screen with a centered cross which participants were asked to focus on while resting briefly), standardized beverage cue and craving rating (image of alcoholic -  $\Sexpr{study2_logs %>% filter(pID!='434970_study2') %>% group_by(pID,type) %>% count() %>% filter(type=='alcohol') %>% ungroup() %>%summarize(min(n))}$-$\Sexpr{study2_logs %>% filter(pID!='434970_study2') %>% group_by(pID,type) %>% count() %>% filter(type=='alcohol') %>% ungroup() %>%summarize(max(n))}$ trials/person - or non-alcohol - $\Sexpr{study2_logs %>% filter(pID!='434970_study2') %>% group_by(pID,type) %>% count() %>% filter(type=='non-alcohol') %>% ungroup() %>%summarize(min(n))}$-$\Sexpr{study2_logs %>% filter(pID!='434970_study2') %>% group_by(pID,type) %>% count() %>% filter(type=='non-alcohol') %>% ungroup() %>%summarize(max(n))}$ trials/person – beverages; 4 s), between-trial fixation. Standardized (non-)alcohol cues were sampled from the Amsterdam Beverage Picture Set (Pronk et al., 2015). After the first two seconds of cue exposure, participants rated their craving for the beverage displayed by the cue. 
+
+As such, this task implemented a 2 Valence (pro vs. anti-alcohol) x 2 Source (professional vs. peer-produced) x 2 Cue type (alcoholic vs. non-alcoholic) design.
+
+\subsection{2.5 Self-Report Measures}
+
+In Studies 1a/b, craving was measured immediately after message exposure: “Looking at this post makes me want to drink alcohol today.” (Likert-type scale: 1 = Not at all, 7 = Very much). In Study 2, craving was assessed after exposure to (non-)alcoholic beverages cues: “Imagine holding this drink. Rate: [Looking at this post] makes me want to drink this” (Likert-type scale: 1 = Not at all, 5 = Very much).
+
+Emotional responses were assessed in Studies 1a/b with two items: “To what extent does this post make you feel the following?” [positive/negative] (Likert-type scale: 1 = Not at all, 7 = Very much).
+
+Relatability was assessed with two items in Studies 1a/b: “To what extent do you agree or disagree with the following statements? This post … " [shows people that are like me/shows a situation I'm familiar with] (Likert-type scale: 1 = Totally disagree, 7 = Totally agree). Supplementary Table 1 reports descriptive statistics.
+
+Drinking and binge drinking frequency were assessed using two items based on the NIAAA's “Task Force on Recommended Alcohol Questions” (adjusted for European drink sizes; \cite{niaaa_recommended_2003}) to minimize survey length for the online panel participants recruited in Study 1a/b, and using the longer AUDIT \parencite{saunders_development_1993} for the university sample in Study 2.
+
+\subsection{2.6 Data Analysis}
+
+<<echo=FALSE>>=
+study1ab_fam=bind_rows(study1a_familiarity_df,study1b_familiarity_df)
+cor=study1ab_fam %>% filter(grepl('familiar',familiarity_variable) | grepl('like me',familiarity_variable)) %>% 
+  mutate(familiarity_variable=ifelse(grepl('familiar',familiarity_variable),'familiar','like_me')) %>%
+  pivot_wider(values_from=fam_rating,names_from=familiarity_variable) %>% 
+  summarize(pc=cor(like_me,familiar)) %>% pull(pc)
+@
+
+A relatability index was created by averaging the “like me” and situational familiarity ratings per trial (correlation of item scores: r = $\Sexpr{round(cor,2)}$). Because craving scales differed across studies, craving was z-scored in analyses including data from both Study 1 and 2.
+
+Because the three datasets provide several opportunities for (conceptual) replication and to pool data across studies to enhance statistical power, we analyzed data by RQ or H rather than by study. The within-subjects data were analyzed using multi-level regression models as implemented in R's lmerTest package \parencite{kuznetsova_lmertest_2019}, accounting for nesting within participants, messages, and, where applicable, studies. Marginal means and post-hoc pairwise comparisons were computed using R's emmeans package\parencite{lenth_emmeans_2022}. Model equations are reported in relevant tables or the results section.
+
+\subsection{2.7 Power and Replicability}
+
+Per study, trial numbers per person were chosen for optimal participant burden and to guarantee sufficient independent ratings per message to generate valid message evaluations (\cite{kim_efficient_2019}; Study 1a: M = $\Sexpr{round(s1a$mean,2)}$, SD = $\Sexpr{round(s1a$sd,2)}$; Study 1b: M = $\Sexpr{round(s1b_a$mean,2)}$, SD = $\Sexpr{round(s1b_a$sd,2)}$ for alcoholic messages, which were already evaluated in Study 1a, M = 24.53, SD = 4.14 for non-alcoholic messages; Study 2: all messages rated by all $\Sexpr{length(unique(study2_logs$pID))}$ participants).
+
+% Power analyses are available in scripts/power.R
+
+We confirmed statistical power post-hoc using simR (1000 simulations) for the most complex effects of interest. Study 2 was powered to detect small interaction effects of conditions on craving (beta=0.2, power= 81.70\%, 95\%CI[79.16, 84.05]). Studies 1 a/b, while underpowered alone, support these Study 2 effects through conceptual replication. Analyses concerning emotions and relatability, pooling data across Studies 1 a/b, were well powered to detect small interactions between condition and mechanism on craving (beta=0.2, power = 100.0\%, 95\%CI[99.63, 100.0]).
+
+\section{3. Results}
+
+Manipulation checks in Study 1a/b confirmed that the stimuli were perceived as intended according to the valence and source manipulations (see Supplementary Materials). 
+
+\subsection{3.1 RQ1: Valence and source effects on alcohol craving}
+
+<<emmeansOneB,echo=FALSE,message=FALSE>>=
+mm_valence1b=read_csv('Tables/craving_table_emmeans_valence_1b.csv',col_types=cols())
+pc_valence1b=read_csv('Tables/craving_table_pairwiseComps_valence1b.csv',col_types=cols())
+pc_pronon_1b=pc_valence1b %>% filter(contrast=='(non-alcoholic) - (pro-alcohol)') %>% mutate(estimate=paste0('estimate = ', round(estimate,2), ', SE= ', round(SE,2), ', p ', formatp(p.value))) %>% .$estimate
+pc_antinon_1b=pc_valence1b %>% filter(contrast=='(anti-alcohol) - (non-alcoholic)') %>% mutate(estimate=paste0('estimate = ', round(estimate,2), ', SE= ', round(SE,2), ', p ', formatp(p.value))) %>% .$estimate
+@
+
+First, we examined relative effects of message valence (pro- vs. non- vs. anti-alcohol) on alcohol craving using Study 1b data (the only study including non-alcoholic messages). Results show a significant influence of valence on craving (Table \ref{tab:CravingTable}, Figure \ref{fig:cravingPlots}A). Pro-alcohol messages ($M_{marginal}$ = $\Sexpr{round(mm_valence1b$emmean[which(mm_valence1b$val_cond=='pro-alcohol')],2)}$, 95\% CI[$\Sexpr{round(mm_valence1b$lower.CL[which(mm_valence1b$val_cond=='pro-alcohol')],2)}$,$\Sexpr{round(mm_valence1b$upper.CL[which(mm_valence1b$val_cond=='pro-alcohol')],2)}$])  significantly enhanced standardized alcohol craving relative to non-alcoholic messages ($M_{marginal}$ = $\Sexpr{round(mm_valence1b$emmean[which(mm_valence1b$val_cond=='non-alcoholic')],2)}$, 95\% CI[$\Sexpr{round(mm_valence1b$lower.CL[which(mm_valence1b$val_cond=='non-alcoholic')],2)}$,$\Sexpr{round(mm_valence1b$upper.CL[which(mm_valence1b$val_cond=='non-alcoholic')],2)}$]; $\Sexpr{pc_pronon_1b}$). The effect of anti- ($M_{marginal}$ = $\Sexpr{round(mm_valence1b$emmean[which(mm_valence1b$val_cond=='anti-alcohol')],2)}$, 95\% CI[$\Sexpr{round(mm_valence1b$lower.CL[which(mm_valence1b$val_cond=='anti-alcohol')],2)}$,$\Sexpr{round(mm_valence1b$upper.CL[which(mm_valence1b$val_cond=='anti-alcohol')],2)}$])  compared to non-alcoholic messages was substantially smaller and not significantly different from zero ($\Sexpr{pc_antinon_1b}$). Table 2 shows that the strong valence effect (pro- > anti-alcohol) on alcohol craving replicates across all three studies.
+
+<<CravingTable, echo=FALSE,results='asis'>>=
+CravingTable=read_csv('Tables/cravingTable.csv',col_types=cols()) 
+
+CravingTable[is.na(CravingTable)]<-''
+
+kable(CravingTable,caption='Condition Effects on Standardized Craving (B [95\\% CI], p-value)',booktabs=T,digit=2, format='latex') %>%
+ kable_styling(latex_options = "scale_down") %>% add_footnote("Note. pID = participant ID; sID = stimulus ID; Model equations: Study 1a & b: Standardized alcohol craving ~ valence * source + (1|participant) + (1|stimulus), where valence has two categories (pro/anti-alcohol) in Study 1a and an additional third category (non-alcoholic) in Study 1b. Study 2: Standardized craving (alcoholic and non-alcoholic) ~ valence * source + valence * cue type + source * cue type + (1|participant) + (1|stimulus)")
+@
+
+<<cravingPlots,fig.cap="Average Beverage Craving by Stimulus Valence and Binge Drinking Habits; A. Alcohol craving in Studies 1a/b by valence condition, B. Alcohol and non-alcoholic craving in Study 2 by valence condition, C. Alcohol craving in Study 1b by valence condition and binge drinking frequency. Error bars represent standard errors.", echo=FALSE,message=FALSE>>=
+
+study1a_data=study1a_drink_df %>% group_by(QualtricsMsgID) %>%
+    summarize(avg_drink_rating=mean(drink_rating,na.rm=T),val_cond=unique(val_cond)) %>%
+             group_by(val_cond) %>% 
+             summarize(se_drink_rating=std.error(avg_drink_rating),
+                       avg_drink_rating=mean(avg_drink_rating,na.rm=T)) %>% ungroup() %>%
+    mutate(Study='Study 1a')
+
+study1b_data=study1b_drink_df %>% group_by(filename) %>%
+    summarize(avg_drink_rating=mean(drink_rating,na.rm=T),val_cond=unique(val_cond)) %>%
+             group_by(val_cond) %>% 
+             summarize(se_drink_rating=std.error(avg_drink_rating),
+                       avg_drink_rating=mean(avg_drink_rating,na.rm=T)) %>% ungroup() %>%
+    mutate(Study='Study 1b')
+
+valPlot1_data=rbind(study1a_data,study1b_data)
+
+valPlot1= valPlot1_data%>% 
+  mutate(val_cond=factor(val_cond,levels=c('anti-alcohol','non-alcoholic','pro-alcohol')),
+         Study=factor(Study,levels=c('Study 1a','Study 1b'))) %>%
+  ggplot(aes(x=val_cond,y=avg_drink_rating,fill=Study)) + 
+  geom_col(position='dodge') + 
+  geom_errorbar(aes(ymin=avg_drink_rating-(1.96*se_drink_rating), ymax=avg_drink_rating+(1.96*se_drink_rating)),width=.2,position=position_dodge(width=0.9)) + ggtitle('Study 1a/b (Craving scale: 1-7)') + 
+  ylab('Average Beverage Craving') + 
+  xlab('Valence Condition') + 
+  labs(tag='A')+
+  theme_bw() + 
+  theme(legend.position='bottom',text=element_text(size=10)) +
+  scale_y_continuous(breaks=seq(1,7,1),limits=c(0,7)) + 
+  scale_fill_manual(values=c('lightgrey','darkgrey'))
+
+# New facet label names for type variable
+type.labs <- c("alcoholic cues", "non-alcoholic cues")
+names(type.labs) <- c("alcohol", "non-alcohol")
+
+valPlot2=study2_logs %>% group_by(file,val_cond,type) %>% 
+  summarize(avg_rating.keys=mean(rating.keys,na.rm=T)) %>%
+  group_by(val_cond,type) %>% 
+  summarize(avg_drink_rating=mean(avg_rating.keys),
+            se_drink_rating=std.error(avg_rating.keys,na.rm=T)) %>% ungroup() %>% 
+         ggplot(aes(val_cond,avg_drink_rating)) + geom_bar(stat='identity',fill='darkgrey') + geom_errorbar(aes(ymin=avg_drink_rating-(1.96*se_drink_rating), ymax=avg_drink_rating+(1.96*se_drink_rating)),width=.2) + ggtitle('Study 2 (Craving Scale 1-5)') + ylab('Average Beverage Craving (1-5)') + xlab('Valence Condition') + labs(y='',tag='B') + facet_wrap(~type,labeller=labeller(type=type.labs)) + theme_bw() + theme(legend.position='bottom',text=element_text(size=10)) + scale_y_continuous(breaks=seq(1,5,1),limits=c(0,5))
+
+bingePlot=study1b_drink_df %>% 
+  left_join(ppts_study1b) %>%
+  mutate(binge_drinking_rev=case_when(binge_drinking==10~1,
+                                      binge_drinking==9~2,
+                                      binge_drinking==8~3,
+                                      binge_drinking==7~4,
+                                      binge_drinking==6~5,
+                                      binge_drinking==5~6,
+                                      binge_drinking==4~7,
+                                      binge_drinking==3~8,
+                                      binge_drinking==2~9,
+                                      binge_drinking==1~10,
+                                      TRUE~binge_drinking),
+        binge_drink_cat=case_when(binge_drinking_rev>median(binge_drinking_rev)~'>Median',
+                                  binge_drinking_rev<=median(binge_drinking_rev)~'<=Median',
+                                  TRUE~NA_character_))%>%
+    group_by(val_cond,binge_drink_cat) %>%
+    summarize(se_drink_rating=std.error(drink_rating),
+              drink_rating=mean(drink_rating,na.rm=T)) %>% ungroup() %>%
+  ggplot(aes(x=val_cond,y=drink_rating, fill=binge_drink_cat)) +
+  geom_col(position=position_dodge()) +
+  geom_errorbar(aes(ymin=drink_rating-1.96*se_drink_rating,ymax=drink_rating+1.96*se_drink_rating),position=position_dodge(width=0.9),width=0.2) +
+  theme_bw() +
+  labs(y='Alcohol Craving',x='Valence Condition',fill='Binge Drinking \nHabits', tag='C')+
+  scale_fill_manual(values=c('lightgrey','darkgrey'))+ theme(legend.position='bottom')
+
+ggarrange(valPlot1,valPlot2,bingePlot, ncol=2, nrow=2)
+
+@
+
+Furthermore, in Study 2, we conducted a specificity test, examining whether our stimuli manipulated alcohol craving as opposed to the general urge to consume beverages. We found a significant interaction between valence and cue type (whether participants rated their urge to consume alcoholic or non-alcoholic beverages per trial). Craving for non-alcoholic beverages was lower after viewing pro- compared to anti-alcohol messages (Table \ref{tab:CravingTable}, Figure \ref{fig:cravingPlots}B). 
+
+<<echo=FALSE>>=
+pc_source1a=read_csv('Tables/craving_table_pairwiseComps_source1a.csv',col_types=cols())
+pc_source1b=read_csv('Tables/craving_table_pairwiseComps_source1b.csv',col_types=cols())
+pc_source2=read_csv('Tables/craving_table_pairwiseComps_source2.csv',col_types=cols())
+
+pc_source1a=pc_source1a %>% filter(contrast=='(peer-produced) - professional') %>% mutate(estimate=paste0('estimate = ', round(estimate,2), ', SE= ', round(SE,2), ', p ', formatp(p.value))) %>% .$estimate
+pc_source1b=pc_source1b %>% filter(contrast=='(peer-produced) - professional') %>% mutate(estimate=paste0('estimate = ', round(estimate,2), ', SE= ', round(SE,2), ', p ', formatp(p.value))) %>% .$estimate
+pc_source2=pc_source2 %>% filter(contrast=='(peer-produced) - professional') %>% mutate(estimate=paste0('estimate = ', round(estimate,2), ', SE= ', round(SE,2), ', p ', formatp(p.value))) %>% .$estimate
+@
+
+Using emmeans, we found no main effects of source across all three studies (Study 1a: $\Sexpr{pc_source1a}$, Study 1b: $\Sexpr{pc_source1b}$, Study 2: $\Sexpr{pc_source2}$) and Table \ref{tab:CravingTable} shows no evidence of interactions between source and valence.
+
+\subsubsection{3.1.1 Drinking habits and message receptivity}
+
+A possible explanation for the ineffectiveness of anti-alcohol (vs. non-alcoholic) messages is that anti-alcohol messages often target high risk (binge) drinkers and may not resonate with low risk drinkers. Yet, an additional multi-level regression model fit to Study 1b data (Figure \ref{fig:cravingPlots}C, Supplementary Table 5) shows that those who reported higher binge drinking frequency, on average, reported higher alcohol craving and a higher sensitivity to pro-alcohol (vs. non-alcoholic), but not to anti-alcohol messages.
+
+\subsection{3.2 RQ2: Mechanisms}
+
+Next, we examined the extent to which different message types succeeded in engaging emotional responses and relatability as well as differences across message types in the relationship between each mechanism and alcohol craving.
+
+\subsubsection{3.2.1 Emotions}
+
+<<emoTablesAvg,echo=FALSE,message=FALSE>>=
+EmoAvgneg=read_csv('Tables/EmoAvgneg_table.csv',col_types=cols())
+EmoAvgpos=read_csv('Tables/EmoAvgpos_table.csv',col_types=cols())
+
+study1a_emo_df=readRDS('data/study1a/cleaned/emo_df.RDS') %>% mutate(Study='Study 1a')
+study1b_emo_df=readRDS('data/study1b/cleaned/emo_df.RDS') %>% mutate(Study='Study 1b') %>% mutate(emo_rating=as.numeric(emo_rating))
+
+emo_1ab=bind_rows(study1a_emo_df,study1b_emo_df) %>% pivot_wider(names_from=specific_emotion,values_from=emo_rating) %>%
+  mutate(val_cond=case_when(grepl('non',condition)~'non-alcoholic',
+                            grepl('anti',condition)~'anti-alcohol',
+                            grepl('pro',condition)~'pro-alcohol',
+                            TRUE~NA_character_),
+         source_cond=case_when(grepl('social',condition)~'peer',
+                               grepl('prof',condition)~'professional',
+                               TRUE~NA_character_))
+
+@
+
+To examine differences in emotionality across message types in Studies 1a/b, we fit two multi-level regression models regressing negative and positive emotions, respectively, on valence, source, and their interaction, accounting for random intercepts across participants, stimuli and studies. Pro-alcohol messages were associated with more positive ($\Sexpr{EmoAvgpos$Estimate[2]}$) and less negative ($\Sexpr{EmoAvgneg$Estimate[2]}$) emotional responses than anti-alcohol messages. Professionally produced messages evoked more negative emotions than peer-produced messages ($\Sexpr{EmoAvgneg$Estimate[3]}$), which was qualified by an interaction with valence ($\Sexpr{EmoAvgneg$Estimate[4]}$) such that the source effect was only present for anti-alcohol messages. Figure ~\ref{fig:FamEmoFigure}A further shows no substantial differences in the overall emotionality of messages varying in valence and source. For instance, the strength of negative responses to anti-alcohol messages (Mean=$\Sexpr{round(mean(emo_1ab$negative[grepl('anti',emo_1ab$condition)],na.rm=T),2)}$, SD=$\Sexpr{round(sd(emo_1ab$negative[grepl('anti',emo_1ab$condition)],na.rm=T),2)}$) is roughly matched by the strength of positive responses to pro-alcohol messages (Mean =$\Sexpr{round(mean(emo_1ab$positive[grepl('pro',emo_1ab$condition)],na.rm=T),2)}$, SD=$\Sexpr{round(sd(emo_1ab$positive[grepl('pro',emo_1ab$condition)],na.rm=T),2)}$).
+
+<<MakeEmoFigureOne, echo=FALSE,message=FALSE>>=
+drink_1ab=study1a_drink_df %>% bind_rows(study1b_drink_df)
+emo_vars=unique(study1a_emo_df$specific_emotion) 
+emo_vars=case_when(grepl('embarrassed',emo_vars)~sub('\\(','\n \\(',emo_vars),TRUE~emo_vars)
+
+emo_df_1ab=study1a_emo_df %>% bind_rows(study1b_emo_df) %>% left_join(drink_1ab) 
+
+fig_df=emo_df_1ab %>%
+mutate(source=case_when(source=grepl('prof',condition)~'professional',
+                          grepl('soc',condition)~'peer-produced',
+                          TRUE~NA_character_),
+         valence=case_when(grepl('non_',condition)~'non-alcoholic',
+                           grepl('pro_',condition)~'pro-alcohol',
+                           grepl('anti_',condition)~'anti-alcohol',
+                           TRUE~NA_character_),
+         condition=case_when(condition=='pro_social'~'pro-alcohol \npeer-produced',
+                             condition=='pro_prof'~'pro-alcohol \nprofessional',
+                             condition=='anti_social'~'anti-alcohol \npeer-produced',
+                             condition=='anti_prof'~'anti-alcohol \nprofessional',
+                             condition=='non_pro_prof'~'non-alcoholic \nprofessional',
+                             condition=='non_pro_social'~'non-alcoholic \npeer-produced',
+                             TRUE~NA_character_),
+         specific_emotion=paste0(specific_emotion, ' emotions')) %>% 
+  group_by(valence,source,specific_emotion,filename) %>% 
+  summarize(mean_emo_rating=mean(emo_rating,na.rm=T),
+            mean_drink_rating=mean(drink_rating,na.rm=T)) 
+  
+fig_emo1=fig_df%>%
+  group_by(valence,source,specific_emotion) %>%
+  summarize(`Average Emotion Rating (1-7)`=mean(mean_emo_rating,na.rm=T),
+            se_emo=std.error(mean_emo_rating,na.rm=T)) %>% 
+filter(!is.na(source)) %>% 
+mutate(valence=case_when(valence=='anti-alcohol'~'anti',
+valence=='pro-alcohol'~'pro',
+valence=='non-alcoholic'~'non',
+TRUE~valence)) %>%
+ggplot(aes(x=valence,y=`Average Emotion Rating (1-7)`,fill=source)) + 
+    geom_bar(stat='identity',position='dodge') +
+  geom_errorbar(aes(ymin=`Average Emotion Rating (1-7)`-(1.96*se_emo),ymax=`Average Emotion Rating (1-7)`+(1.96*se_emo)),position=position_dodge(0.9),width=0.15) +
+  facet_wrap(~specific_emotion) +
+  scale_fill_manual(values=c('lightgrey','darkgrey')) +
+  labs(x='Valence Condition',fill='Source',tag='A') + theme_bw() + theme(legend.position='bottom')
+@
+
+Table ~\ref{tab:emofamTable} (left) shows relationships between emotional responses to message exposure and alcohol craving by message conditions in Studies 1a/b. On average, positive emotional responses to alcohol-related messages increased alcohol craving and negative emotional responses decreased alcohol craving. Further confirming H1a, positive emotions were more strongly positively associated with craving for pro- vs. anti-alcohol messages. Yet, targeted emotions did not universally act as stronger pathways towards craving across all messages. In contrast to H1b, the negative effect of negative emotional responses on craving was also stronger for pro- compared to anti-alcohol messages (Figure \ref{fig:FamEmoFigure}B). Emotional responses did not interact with source.
+
+<<MakeEmoFigureTwo,echo=FALSE,warning=FALSE,message=FALSE>>=
+emo_df_1ab = study1a_emo_df %>% bind_rows(study1b_emo_df) %>% filter(!grepl('non',condition))
+drink_df_1ab=study1a_drink_df %>% bind_rows(study1b_drink_df)
+
+master=drink_df_1ab %>% right_join(emo_df_1ab) %>% filter(specific_emotion %in% c('positive','negative'))
+
+fig_emo2=master%>%
+mutate(condition=fct_recode(condition,'Anti - Professional'='anti_prof','Anti - Peer-Produced'='anti_social','Pro - Professional'='pro_prof','Pro - Peer-Produced'='pro_social')) %>%
+group_by(filename,val_cond,specific_emotion) %>%
+summarise(emo_rating=mean(emo_rating,na.rm=T),
+          drink_rating=mean(drink_rating,na.rm=T)) %>%
+ggplot(aes(x=emo_rating,y=drink_rating,color=val_cond)) +
+  geom_smooth(method='lm') +
+  geom_point(alpha=0.3) +
+  scale_color_manual(values=c('black','darkgrey')) +
+  facet_wrap(~specific_emotion) +
+  labs(color='Condition',y='Alcohol Craving (1-7)',x='Strength of experienced emotion (1-7)',tag='B') + 
+  theme_bw()+ theme(legend.position='bottom')
+@
+
+<<emofamTable, echo=FALSE,message=FALSE,results='asis'>>=
+emo_fam_table=read_csv('Tables/emoFamTable.csv',col_types=cols()) 
+
+emo_fam_table[is.na(emo_fam_table)]<-''
+
+emo_fam_table %>% kable(caption='Relationship between grand mean-centered positive and negative emotions in response to alcohol-related messages ("Emotion Effect") and perceived relatability of the messages ("Relatability Effect") and alcohol craving in Studies 1a/b by message type)',booktabs=T) %>% 
+kable_styling(latex_options = "scale_down") %>% add_footnote("pID = participant ID; sID = stimulus ID; Trials displaying non-alcoholic stimuli in Study 1b are excluded from these analyses. Emotion model equation: alcohol craving ~ positive emotions * valence + negative emotions * valence + positive emotions * source + negative emotions * source + (1|participant) + (1|stimulus) + (1|study); Relatability model equation: alcohol craving ~ relatability * valence + relatability * source + (1|participant) + (1|stimulus) + (1|study)")
+@
+
+\subsubsection{3.2.2 Relatability}
+
+<<echo=FALSE, message=FALSE>>=
+familiarity_study1ab=study1a_familiarity_df %>% bind_rows(study1b_familiarity_df) %>% 
+  mutate(var=case_when(grepl('like me',familiarity_variable)~'like me',
+                       grepl('familiar with',familiarity_variable)~'familiar situation',
+                       grepl('imagine seeing',familiarity_variable)~'realisitc',
+                       grepl('high quality',familiarity_variable)~'high quality',
+                       TRUE~NA_character_),
+         source=case_when(grepl('prof',condition)~'professional',
+                          grepl('soc',condition)~'peer-produced',
+                          TRUE~NA_character_),
+         valence=case_when(grepl('non_',condition)~'non-alcoholic',
+                           grepl('pro_',condition)~'pro-alcohol',
+                           grepl('anti_',condition)~'anti-alcohol',
+                           TRUE~NA_character_),
+         condition=case_when(condition=='pro_social'~'pro-alcohol \npeer-produced',
+                             condition=='pro_prof'~'pro-alcohol \nprofessional',
+                             condition=='anti_social'~'anti-alcohol \npeer-produced',
+                             condition=='anti_prof'~'anti-alcohol \nprofessional',
+                             condition=='non_pro_prof'~'non-alcoholic \nprofessional',
+                             condition=='non_pro_social'~'non-alcoholic \npeer-produced',
+                             TRUE~NA_character_)) %>%
+  dplyr::select(-familiarity_variable)
+
+familiarity_study1ab = familiarity_study1ab %>% 
+  pivot_wider(values_from=fam_rating,names_from=var) %>% 
+  mutate(fam_index=(`like me` + `familiar situation`)/2)
+
+famAvg=read_csv('Tables/famAvg_table.csv',col_types=cols())
+@
+
+To test average condition differences in perceived relatability, we fit a multi-level regression model to Study 1a/b data regressing relatability on valence, source, and their interaction, accounting for random intercepts across participants, stimuli and studies. Confirming H2, pro-alcohol messages were perceived as more relatable than anti-alcohol messages ($\Sexpr{famAvg$Estimate[2]}$), with pro-alcohol messages being almost as relatable as non-alcoholic information (Figure \ref{fig:FamEmoFigure}C). We did not find significant effects of source or a source by valence interaction.
+
+<<FamFigureOne, echo=FALSE,message=FALSE>>=
+fig_fam1=familiarity_study1ab%>%
+  dplyr::group_by(source,valence,filename) %>%
+    summarize(fam_index=mean(fam_index,na.rm=T)) %>% 
+  group_by(source,valence) %>%
+  summarize(`Average Rating (1-7)`=mean(fam_index,na.rm=T),se_fam_index=std.error(fam_index,na.rm=T)) %>% ggplot(aes(valence,`Average Rating (1-7)`,fill=source)) + 
+  geom_bar(stat='identity',position='dodge') + labs(x='Valence',y='Relatability Index (1-7)', fill='Source',tag='C') +
+  geom_errorbar(aes(ymin=`Average Rating (1-7)`-(1.96*se_fam_index),ymax=`Average Rating (1-7)`+(1.96*se_fam_index)),position=position_dodge(0.9),width=0.15)+
+  scale_fill_manual(values=c('lightgrey','darkgrey')) + theme_bw()+ theme(legend.position='bottom')
+@
+
+Table \ref{tab:emofamTable} (right) shows relationships between message relatability and alcohol craving by message conditions in Studies 1a/b. In partial support of H3, relatability enhanced the intended effects of pro-, but not anti-alcohol messages. Specifically, relatability was more strongly positively associated with alcohol craving in pro- compared to anti-alcohol messages. However, the effect of relatability on alcohol craving remained positive in response to anti-alcohol messages (Figure \ref{fig:FamEmoFigure}D). Again, we did not find source by relatability interactions.
+
+<<FamEmoFigure, echo=FALSE,message=FALSE,results='asis',fig.cap='Drivers of Alcohol Craving in Studies 1a/b. A. Emotional responses by message type, B. Relationship between negative and positive emotional responses and alcohol craving, C. Perceived familiarity by message type, D. Relationship between perceived relatability and alcohol craving. Error bars in A and C represent standard errors.'>>=
+
+familiarity_1ab=study1a_familiarity_df %>% bind_rows(study1b_familiarity_df)
+
+familiarity_1ab_wide = familiarity_1ab %>% 
+  pivot_wider(values_from=fam_rating,names_from=familiarity_variable) %>% 
+  mutate(fam_index=(`shows people that are like me`+`shows a situation I'm familiar with`)/2)
+
+fig_fam2=drink_1ab %>% right_join(familiarity_1ab_wide) %>% 
+  group_by(filename) %>%
+  summarise(fam_index=mean(fam_index,na.rm=T),
+            drink_rating=mean(drink_rating,na.rm=T),
+            val_cond=first(val_cond),
+            source_cond=first(source_cond)) %>% 
+  mutate(val_cond=factor(val_cond,levels=c('anti-alcohol','non-alcoholic','pro-alcohol'))) %>%
+  filter(val_cond!='non-alcoholic') %>% 
+  ggplot(aes(x=fam_index,y=drink_rating,color=val_cond)) + 
+  geom_smooth(method='lm') +
+  geom_point(alpha=0.3) +
+  theme_bw() +
+  scale_color_manual(values=c('black','darkgrey')) +
+  ylab('Alcohol Craving') + 
+  xlab('Relatability Index') +
+  labs(color='Valence',tag='D')+ theme(legend.position='bottom')
+
+# Arrange Plots
+plot_row1 <- ggarrange(plotlist = list(fig_emo1,fig_fam1), ncol = 2, common.legend = TRUE,legend='bottom')
+plot_row2 <- ggarrange(plotlist = list(fig_emo2,fig_fam2), ncol = 2, common.legend = TRUE,legend='bottom')
+
+ggarrange(plot_row1, plot_row2, nrow = 2)
+@
+
+\section{4. Discussion}
+
+Within rich, dynamic information environments, persuasive messages are in acute competition with thematically related messages encountered in close spatial and temporal proximity. Competitors may be congruent or conflicting in content and source. In the context of alcohol, young adults navigate a competitive landscape shaped by alcohol brands and health officials, partygoing peers and concerned parents. What message prevails when a professional anti-alcohol ad competes with a peer's party pictures, and why? Across three studies, we asked: What are the relative effects of alcohol-related messages varying in valence and source on alcohol craving? Are these effects driven by similar or different psychological mechanisms across message types?
+
+\subsection{4.1 Pro-Alcohol messages are more impactful than anti-Alcohol messages}
+
+We found that pro-alcohol messages substantially increased craving compared to non-alcoholic and anti-alcohol messages. Anti-alcohol messages were significantly less impactful than pro-alcohol messages and did not reduce craving relative to non-alcoholic messages. This adds to sparse and inconsistent previous findings on whether pro- \parencite{stautz_impact_2017} or anti-alcohol \parencite{stautz_viewing_2016} messages are more effective.
+
+We discuss three explanations. First, anti-alcohol messages may inherently be less impactful than pro-alcohol messaging. Although not explicitly tested in prior work, this aligns with reviews identifying small or even statistically insignificant effects of anti-alcohol campaigns \parencite{young_effectiveness_2018} and stronger effects of alcohol marketing on consumption \parencite{jernigan_alcohol_2017}. Here, we confirm these independent observations through a direct comparison of message types, using a large, diverse sample of messages that is substantially more representative of the general information environment than average stimulus sets in persuasion research. Future research may extend this work by systematically examining the role of specific message characteristics (e.g., comparing pro- and anti-alcohol messaging focused on social vs. health impacts of alcohol).
+
+Second, our results may reflect a context-driven floor effect. Baseline alcohol craving was already low in response to non-alcoholic messages (M = $\Sexpr{study1b_drink_df %>% filter(grepl('non',condition)) %>% summarize(mean=round(mean(drink_rating),2),sd=round(sd(drink_rating),2)) %>% pull(mean)}$, SD = $\Sexpr{study1b_drink_df %>% filter(grepl('non',condition)) %>% summarize(mean=round(mean(drink_rating),2),sd=round(sd(drink_rating),2)) %>% pull(sd)}$ on a scale from 1-7), leaving limited room for further reduction by anti-alcohol messages. The message exposure contexts of our online samples in Study 1a/b plausibly resembles a natural exposure context for alcohol-related content (browsing the internet on your own time). Assuming that non-addicted individuals exhibit low alcohol craving most of the time, anti-alcohol messages may have a substantially smaller window of opportunity for impacting craving compared to pro-alcohol messages. Further, high craving situations may be further complicated by the presence of conflicting pro-alcohol messages (e.g., pro-alcohol comments from friends). 
+
+Third, most anti-alcohol campaigns target extreme drinking rather than advocating abstinence. We thus tested whether alcohol-related messages resonated more with frequent binge drinkers. On the contrary, more frequent binge drinkers were more sensitive to pro-, but not to anti-alcohol messaging. This partially aligns with earlier findings that heavier drinkers perceive pro-alcohol content as more effective and anti-alcohol content as less effective \parencite{austin_assessing_1999}. Overall, these results suggest that restricting pro-alcohol content may be more effective than promoting anti-alcohol messaging.
+
+\subsection{4.2 Psychological mechanisms disproportionately support pro-alcohol message effects}
+
+Next, we examined to what extent the message types included here relied on overlapping or distinct psychological mechanisms to influence craving. Mechanistic overlap may increase the chance of interference (i.e., amplification or suppression effects) when messages are in acute competition. Specifically, we examined the relative success of each message type in engaging emotional and relatability responses and compared the relevance of each mechanism in determining craving across message types. Extending prior findings \parencite{stautz_impact_2017} to more diverse messages, we found that pro-alcohol messages elicited more positive and less negative emotions than anti-alcohol messages. In contrast to expectations proposed by prior work \parencite{austin_assessing_1999}, the average strength of emotionality was comparable across pro- and anti-alcohol messages. We further found an interaction between valence and source such that professional anti-alcohol messages elicited stronger negative emotions than peer-produced anti-alcohol messaging, whereas emotional responses to pro-alcohol messaging varied little across source. This is in line with Benign Violation Theory \parencite{mcgraw_benign_2010} which suggests that norm violations like overconsumption of alcohol elicit amusement if perceived as non-threatening. Pro-alcohol social norms likely discourage strong anti-alcohol sentiments in peer-produced content, which may instead put a positive spin on negative emotions associated with adverse drinking outcomes. Such ambiguity, most commonly studied in science communication, is generally negatively associated with persuasiveness \parencite{gustafson_review_2020}, partially because ambiguous messages can be discounted more easily \parencite{keating_ambiguity_2023}. 
+
+Furthermore, in line with Becheur and Valette-Florence (\citeyear{becheur_use_2014}), we found that positive emotions increased while negative emotions decreased craving. Importantly, we also directly compared these relationships across message types and found universally stronger emotion-craving links for pro-compared to anti-alcohol messages, suggesting that craving is more emotionally driven in response to pro-alcohol messages. This disparity could stem from the strong pro-alcohol norms among young adults. In this context, negative emotions in response to anti-alcohol content may create dissonance \parencite{festinger_theory_1957}, motivating down-regulation of uncomfortable emotions \parencite{agrawal_emotional_2010,dore_brain_2019}. This may selectively weaken the impact of emotional responses to anti-alcohol but not pro-alcohol messaging. More comparative research is needed to understand these mechanisms and related implications. For instance, will emotional anti-alcohol appeals always be overpowered by emotional pro-alcohol appeals in acute competitive scenarios? And what is the role of specific discrete emotions?
+
+Our results further show that participants found pro-alcohol content substantially more relatable than anti-alcohol content. Peer-produced pro-alcohol content was as relatable as non-alcoholic content. This aligns with prior work showing that anti-alcohol content is relatively rare online \parencite{hendriks_alcohol-related_2017} and offline \parencite{scholz_neural_2019}, partially because pro-alcohol sentiments are incentivised by social norms \parencite{borsari_peer_2001,duckworth_transitions_2021}. Relatability enhanced the effectiveness of pro-alcohol messages, consistent with prior research \parencite{cosme_message_2022,kim_effect_2016,lustria_meta-analysis_2013}. Surprisingly, relatability of anti-alcohol messages did not support persuasive effects and, instead, also enhanced craving, although this effect was significantly weaker. This difference may further explain the finding that frequent binge drinkers showed heightened sensitivity to pro- but not anti-alcohol information. Higher frequency drinking may be associated with higher overall relatability, which is in turn more strongly linked to craving for pro-compared to anti-alcohol messages.
+
+\subsection{4.3 Minimal source effects}
+
+Strikingly, message source had limited impact across analyses. Professionally designed content did not outperform peer-produced content, even though peers were unknown rather than close others who would likely exert larger influence \parencite{tajfel_integrative_1979}. This stands in contrast to findings that professional production quality enhances persuasiveness \parencite{amos_exploring_2008}. One explanation is that peer-produced messaging compensates for lower production quality through greater relatability and authenticity. Prior work (largely outside the context of health messaging) supports authenticity as a key persuasive factor \parencite{petraglia_importance_2009,zheng_not_2024}, especially on social media \parencite{poyry_call_2021}, where users may be desensitized to variance in production quality through frequent exposures to peer-produced messaging, thus emphasizing other aspects like authenticity \parencite{lawrence_when_2013}. It has even been suggested that lower production quality can enhance the persuasiveness of user generated content by signaling trustworthiness \parencite{hautz_let_2014}. Furthermore, as discussed earlier, a feature of peer-produced content that may limit persuasiveness is ambiguity introduced by ill defined or absent persuasive intent. Here, we may have artificially reduced ambiguity by selecting content with clear valence. More comparative work is needed to understand the boundary conditions of source effects, for instance exploring the role of social closeness or brand attitudes, especially given the current lack of related work in health communication \parencite{jenkins_assessing_2020}.
+
+\subsection{4.4 Limitations}
+
+First, alcohol craving is known to vary depending on individual differences (e.g., cultural context, drinking habits) and time (e.g., time of day or weekday). Future work should examine the role of these contextual variables in acute message competition. Second, although our set of 190 message stimuli is more representative of the alcohol information environment than many comparable studies, it does not cover all message types and we may have further limited generalizability to other situations by enforcing a controlled experimental design (e.g., within-subject design with an alcohol-only environment rather than a more diverse information environment, disambiguated message conditions). Third, we examined a relatability index, averaging perceived similarity with depicted characters and familiarity with depicted scenarios. Future work may add nuance by examining sub-dimensions of relatability separately.
+
+\subsection{4.5 Conclusions and future directions}
+
+This report conceptualized acute message competition as spatially and/or temporally proximal exposure to thematically related messages, distinguishing it from existing work on cumulative exposure to related messages over long time periods. Empirically, we identified a context in which acute message competition may limit the effectiveness of health communication: anti-alcohol messages underperformed in direct comparison to pro-alcohol messages in a context with low baseline craving.
+
+As such, this report raises an important question for persuasion research: In what situations does acute message competition occur and in what way? Key next steps include testing specific order effects (e.g., pro-alcohol messages following anti-alcohol messages or vice versa) in ecologically valid contexts such as natural(istic) social media feeds containing related message types in situations where alcohol craving is high or low. Our findings generate testable hypotheses, including that effects of anti-alcohol messages may be suppressed in direct competition with pro-alcohol messages, particularly when both operate through emotional or relatability mechanisms. 
+
+Methodologically, studying acute message competition requires novel paradigms for evaluating multiple messages per participant. This raises challenges of participant burden and bias, especially in examining order effects. A key decision involves selecting outcome variables: relatively stable constructs (e.g., attitudes) may be less vulnerable to acute message competition than dynamic states (e.g., craving). Implicit measures, such as psychophysiological indicators, may reduce burden and capture effects more sensitively.
+
+Theoretically, if order effects are substantiated, a broader framework of acute message competition across persuasive contexts will be needed. Such a framework, in fruitful interaction with other state-of-the-art approaches such as just-in-time interventions, could identify conditions that mitigate suppression effects (where an intended message effect disappears in a competitive scenario) or support amplification effects (where an intended message effect is amplified by the presence of other messages), ultimately enhancing the overall effectiveness of public health communication.
+
+\printbibliography
+
+\end{document}
+
