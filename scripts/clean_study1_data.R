@@ -107,8 +107,17 @@ df = df |>
         conv_topic_REASSIGNED=if_else(!is.na(conv_topic_REASSIGN),1, 0)) |> 
   select(-number_1,-conv_topic_REASSIGN) 
 
-#clean some variables
+#Clean and Score Variables
 df = df |> 
   mutate(political_leaning=na_if(political_leaning,'-99'))
+
+
+
+df=df|> mutate(conv_topic_char=case_when(!is.na(conv_topic) & conv_topic=='1'~"Health",
+                                     !is.na(conv_topic) & conv_topic=='2'~'Politics',
+                                     !is.na(conv_topic) & conv_topic=='3'~'Environment',
+                                     !is.na(conv_topic) & conv_topic=='4'~'Other',
+                                     TRUE~NA_character_),
+                conv_topic_char=factor(conv_topic_char,levels=c('Health','Politics','Environment','Other')))
 
 write_csv(df, 'data/clean_study1_data.csv')

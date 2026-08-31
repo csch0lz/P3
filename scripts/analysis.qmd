@@ -26,7 +26,7 @@ library('lmerTest')
 #| echo: false
 #| include: false
 
-df=read_csv(here('data/clean_data.csv'),col_types=cols())
+df=read_csv(here('data/clean_study1_data.csv'),col_types=cols())
 
 
 ```
@@ -61,6 +61,13 @@ An overview of hypotheses can be found in the attached Excel file. Some highligh
 
 - Emotions at onset and during the conversation don't appear as impactful for the outcomes of DKOs as expected
 
+# Exclusions
+
+```{r}
+S1=df |> filter(completed==1, attentionPassed==1, time_exclusion==0, time_straightliner_exclusion==0) |>
+mutate(age_1=as.numeric(age_1),political_leaning=as.numeric(political_leaning))
+```
+
 # 2 Indices {#sec-2indices}
 
 Summary scores on validated scales will be computed as advised in the existing literature. If a scale's Chronbach's alpha value is below 0.7, we may decide to remove individual items in an effort to improve the reliability of the scale. Specifically:
@@ -75,14 +82,7 @@ The number of recalled DKOs per topic is shown in @tbl-convTopic. Although parti
 #| echo: false
 #| label: tbl-convTopic
 #| tbl-cap: "Number of recalled DKOs per topic"
-df=df |> mutate(conv_topic=case_when(conv_topic==1~"Health",
-                                     conv_topic==2~'Politics',
-                                     conv_topic==3~'Environment',
-                                     conv_topic==4~'Other',
-                                     TRUE~NA_character_),
-                conv_topic=factor(conv_topic,levels=c('Health','Politics','Environment','Other')))
-
-df |> count(conv_topic) |> kable()
+S1 |> count(conv_topic_char) |> kable()
 ```
 
 [Tolerance for disagreement:]{.underline}
@@ -396,7 +396,7 @@ Disagreements about the focal topics were even less frequent with the most likel
 #| echo: false
 #| message: false
 
-freq_df=df_all |> select(ResponseId,contains('frequency')) |> 
+freq_df=S1 |> select(ResponseId,contains('frequency')) |> 
   pivot_longer(cols=contains('frequency'), names_to='conversation_type',values_to='frequency') |> 
   mutate(frequency_char=case_when(frequency==1~'1: Less than yearly', 
                                   frequency==2~'2: Once/year', 
@@ -412,9 +412,117 @@ freq_df=df_all |> select(ResponseId,contains('frequency')) |>
                                      conversation_type=='frequency_4'~'4: politics', 
                                      conversation_type=='frequency_5'~'5: disagree politics', 
                                      conversation_type=='frequency_6'~'6: environment', 
-                                     conversation_type=='frequency_7'~'7: disagree environment'))
+                                     conversation_type=='frequency_7'~'7: disagree environment'),
+        disagreement=as.factor(if_else(grepl('dis',conversation_type),1,0,missing=NA)),
+        topic=case_when(grepl('health',conversation_type)~'Health',
+                       grepl('politics',conversation_type)~'Politics',
+                       grepl('environment',conversation_type)~'Environment',
+                       grepl('any',conversation_type)~'Any topic',
+                        TRUE~NA_character_)) 
 
-ggplot(freq_df, aes(x=frequency_char)) + geom_bar() + facet_wrap(~conversation_type) + theme_minimal() + theme(axis.text.x = element_text(angle = 90,vjust=0.5)) + labs(x='')
+library(dplyr)
+library(ggplot2)
+
+ggplot(freq_df, aes(x = topic, y = frequency, fill = disagreement)) +
+  
+  # Distribution
+  geom_violin(
+    position = position_dodge(width = 0.8),
+    alpha = 0.45,
+    trim = FALSE,
+    width = 0.8,
+    color = NA
+  ) +
+  
+  # Individual observations
+  geom_jitter(
+    aes(color = disagreement),
+    position = position_jitterdodge(
+      jitter.width = 0.18,
+      jitter.height = 0,
+      dodge.width = 0.8
+    ),
+    alpha = 0.35,
+    size = 1.4
+  ) +
+  
+  # Median
+  stat_summary(
+    fun = median,
+    geom = "point",
+    position = position_dodge(width = 0.8),
+    size = 3,
+    color = "black"
+  ) +
+  
+  # Frequency scale
+  scale_y_continuous(
+    breaks = 1:8,
+    labels = c(
+      "Less than yearly",
+      "Once/year",
+      "2–11 times/year",
+      "Monthly",
+      "2–3 times/month",
+      "Weekly",
+      "2–6 times/week",
+      "Daily"
+    ),
+    expand = expansion(mult = c(0.02, 0.05))
+  ) +
+  
+  # Journal-style colors
+  scale_fill_manual(
+    values = c(
+      "0" = "#3B5A7A",  # muted navy
+      "1" = "#C26A5A"   # muted terracotta
+    ),
+    labels = c(
+      "0" = "No disagreement",
+      "1" = "Disagreement"
+    )
+  ) +
+  
+  scale_color_manual(
+    values = c(
+      "0" = "#3B5A7A",
+      "1" = "#C26A5A"
+    ),
+    labels = c(
+      "0" = "No disagreement",
+      "1" = "Disagreement"
+    )
+  ) +
+  
+  labs(
+    x = NULL,
+    y = "Conversation frequency",
+    fill = NULL,
+    color = NULL
+  ) +
+  
+  theme_classic(base_size = 12) +
+  theme(
+    axis.text.x = element_text(
+      size = 11,
+      color = "black"
+    ),
+    axis.text.y = element_text(
+      size = 10,
+      color = "black"
+    ),
+    axis.title.y = element_text(
+      size = 11,
+      margin = margin(r = 10)
+    ),
+    legend.position = "top",
+    legend.text = element_text(size = 10),
+    legend.key.width = unit(0.9, "cm"),
+    panel.border = element_blank(),
+    axis.line = element_line(linewidth = 0.5),
+    axis.ticks = element_line(linewidth = 0.4),
+    plot.margin = margin(10, 10, 10, 10)
+  )
 ```
 
 The vast majority of RECALLED, societally-relevant DKOs occured face-to-face (@fig-mode).
