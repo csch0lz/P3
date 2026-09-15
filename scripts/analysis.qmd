@@ -26,7 +26,7 @@ library('lmerTest')
 #| echo: false
 #| include: false
 
-df=read_csv(here('data/clean_study1_data.csv'),col_types=cols())
+S1_all=read_csv(here('data/clean_study1_data.csv'),col_types=cols())
 
 
 ```
@@ -64,7 +64,7 @@ An overview of hypotheses can be found in the attached Excel file. Some highligh
 # Exclusions
 
 ```{r}
-S1=df |> filter(completed==1, attentionPassed==1, time_exclusion==0, time_straightliner_exclusion==0) |>
+S1_all=S1_all |> filter(completed==1, attentionPassed==1, time_exclusion==0, time_straightliner_exclusion==0) |>
 mutate(age_1=as.numeric(age_1),political_leaning=as.numeric(political_leaning))
 ```
 
@@ -82,7 +82,7 @@ The number of recalled DKOs per topic is shown in @tbl-convTopic. Although parti
 #| echo: false
 #| label: tbl-convTopic
 #| tbl-cap: "Number of recalled DKOs per topic"
-S1 |> count(conv_topic_char) |> kable()
+S1_all |> count(conv_topic_char) |> kable()
 ```
 
 [Tolerance for disagreement:]{.underline}
@@ -96,21 +96,15 @@ S1 |> count(conv_topic_char) |> kable()
 ```{r TFD}
 #| echo: false
 #| warning: false
+#| eval: false
 
-alpha_result <- df %>%
+# MOVE TO CLEAN STUDY 1 LATER
+
+alpha_result <- S1_all %>%
   select(TFD_1:TFD_15) %>%
   psych::alpha(check.keys=TRUE)
 
 print(paste("Chronbach's alpha of the TFD scale is:", round(alpha_result$total$raw_alpha,3)))
-
-df = df |> 
-  rowwise() |>
-  mutate(
-  #Tolerance for Disagreement
-   TFD_pos = sum(c_across(c(TFD_1, TFD_2, TFD_5, TFD_7, TFD_8, TFD_14, TFD_15)), na.rm = TRUE),
-   TFD_neg = sum(c_across(c(TFD_3, TFD_4, TFD_6, TFD_9, TFD_10, TFD_11, TFD_12, TFD_13)), na.rm = TRUE),
-   TFD = 48 + TFD_pos - TFD_neg) |>  
-  select(-starts_with('TFD_')) |> ungroup()
 ```
 
 The distribution of the Tolerance of Disagreement scores is shown in @fig-TFDdist.
@@ -121,7 +115,7 @@ The distribution of the Tolerance of Disagreement scores is shown in @fig-TFDdis
 #| message: false
 #| warning: false
 #| echo: false
-df |> ggplot(aes(x=TFD)) + geom_histogram() + theme_minimal() + labs(x='Tolerance for Disagreement Score')
+S1_all |> ggplot(aes(x=TFD)) + geom_histogram() + theme_minimal() + labs(x='Tolerance for Disagreement Score')
 ```
 
 [Depth of Disagreement:]{.underline}
@@ -131,18 +125,11 @@ df |> ggplot(aes(x=TFD)) + geom_histogram() + theme_minimal() + labs(x='Toleranc
 ```{r}
 #| echo: false
 # depth of disagreement
-alpha_result <- df %>%
-  select(depth_1:depth_7) %>%
+alpha_result <- S1_all %>%
+  select(starts_with('depth_')) %>%
   psych::alpha()
 
 print(paste("Chronbach's alpha of the depth of disagreement scale is:", round(alpha_result$total$raw_alpha,3)))
-
-df = df |>
-  rowwise() |>
-  mutate(
-    depth = mean(c_across(c(depth_1:depth_7)), na.rm = TRUE)
-  ) |>
-  select(-starts_with('depth_')) |> ungroup()
 ```
 
 The distribution of the Depth of Disagreement scores is shown in @fig-DepthDist.
@@ -153,7 +140,7 @@ The distribution of the Depth of Disagreement scores is shown in @fig-DepthDist.
 #| message: false
 #| warning: false
 #| echo: false
-df |> ggplot(aes(x=depth)) + geom_histogram() + theme_minimal() + labs(x='Depth Disagreement Score')
+S1_all |> ggplot(aes(x=depth)) + geom_histogram() + theme_minimal() + labs(x='Depth Disagreement Score')
 ```
 
 [Perceived discourse quality index:]{.underline}
@@ -164,18 +151,11 @@ df |> ggplot(aes(x=depth)) + geom_histogram() + theme_minimal() + labs(x='Depth 
 #| echo: false
 #| warning: false
 #PDQI
-alpha_result <- df %>%
+alpha_result <- S1_all %>%
   select(process_PDQI_1:process_PDQI_7,-contains('emo')) %>%
   psych::alpha()
 
 print(paste("Chronbach's alpha of the PDQI scale (RECALL) is:", round(alpha_result$total$raw_alpha,3)))
-
-
-df = df |> 
-  rowwise() |>
-  mutate(
-    PDQI = mean(c_across(c(process_PDQI_1:process_PDQI_7)), na.rm = TRUE)
-  ) |> ungroup()
 ```
 
 The distribution of the PDQI scores is shown in @fig-PDQIdist.
@@ -186,7 +166,7 @@ The distribution of the PDQI scores is shown in @fig-PDQIdist.
 #| message: false
 #| warning: false
 #| echo: false
-df |> ggplot(aes(x=PDQI)) + geom_histogram() + theme_minimal() + labs(x='PDQI Score')
+S1_all |> ggplot(aes(x=PDQI)) + geom_histogram() + theme_minimal() + labs(x='PDQI Score')
 ```
 
 - *PDQI_general*: The items quantifying how respectful (*process_general_1*) and how honest (*process_general_3*) DKOs are perceived to be in the general part of the survey will be averaged.
@@ -195,19 +175,14 @@ df |> ggplot(aes(x=PDQI)) + geom_histogram() + theme_minimal() + labs(x='PDQI Sc
 #| echo: false
 
 #PDQI_general
-alpha_result <- df %>%
+alpha_result <- S1_all %>%
   select(process_general_1, process_general_3) %>%
   psych::alpha()
 
 print(paste("Chronbach's alpha of the PDQI scale (GENERAL) is:", round(alpha_result$total$raw_alpha,3)))
 
 
-df = df |> 
-  rowwise() |>
-  mutate(
-    PDQI_general = mean(c_across(c(process_general_1, process_general_3)), na.rm = TRUE)
-  ) |>
-  select(-starts_with('process_PDQI_general_')) |> ungroup()
+
 ```
 
 The distribution of the GENERAL PDQI scores is shown in @fig-GenPDQIdist.
@@ -218,7 +193,7 @@ The distribution of the GENERAL PDQI scores is shown in @fig-GenPDQIdist.
 #| message: false
 #| warning: false
 #| echo: false
-df |> ggplot(aes(x=PDQI_general)) + geom_histogram(breaks = seq(0.5, 7.5, by = 1)) + theme_minimal() + labs(x='GENERAL PDQI Score') + scale_x_continuous(breaks=seq(1,7,1),limits = c(0, 7)) 
+S1_all |> ggplot(aes(x=PDQI_general)) + geom_histogram(breaks = seq(0.5, 7.5, by = 1)) + theme_minimal() + labs(x='GENERAL PDQI Score') + scale_x_continuous(breaks=seq(1,7,1),limits = c(0, 7)) 
 ```
 
 [Intellectual humility:]{.underline}
@@ -228,18 +203,11 @@ df |> ggplot(aes(x=PDQI_general)) + geom_histogram(breaks = seq(0.5, 7.5, by = 1
 ```{r IH}
 #| echo: false
 
-alpha_result <- df %>%
+alpha_result <- S1_all %>%
   select(IH_1:IH_6) %>%
   psych::alpha()
 
 print(paste("Chronbach's alpha of the IH scale is:", round(alpha_result$total$raw_alpha,3)))
-
-df = df |> 
-  rowwise() |>
-  mutate(
-    IH = mean(c_across(c(IH_1:IH_6)), na.rm = TRUE)
-  ) |>
-  select(-starts_with('IH_')) |> ungroup()
 ```
 
 The distribution of the IH scores is shown in @fig-IHdist.
@@ -250,31 +218,14 @@ The distribution of the IH scores is shown in @fig-IHdist.
 #| message: false
 #| warning: false
 #| echo: false
-df |> ggplot(aes(x=IH)) + geom_histogram() + theme_minimal() + labs(x='IH Score')
+S1_all |> ggplot(aes(x=IH)) + geom_histogram() + theme_minimal() + labs(x='IH Score')
 ```
 
 [Outcomes:]{.underline}
 
 - To reduce the number of tests, some analyses examining effects on DKO outcomes will combine the two outcome items measuring attitude change of participants and their conversation partners and the two items measuring behavior change of participants and their conversation partners into one index each representing the likelihood that ANY change occurred as a result of the conversation, such that (per person):
 
-```{r outcomes}
-#| echo: false
-#| warning: false
-
-#Outcomes
-df = df |> 
-  #set Don't know to NA
-  mutate(across(starts_with("outcome_"), ~ na_if(., -99))) |> 
-  rowwise() |>
-  mutate(
-    outcome_attitude_change = max(c_across(c(outcome_3,outcome_4)), na.rm = TRUE),
-    outcome_behavior_change = max(c_across(c(outcome_8,outcome_9)), na.rm = TRUE),
-    outcome_general_attitude_change = max(c_across(c(outcome_general_3,outcome_general_4)), na.rm = TRUE),
-    outcome_general_behavior_change = max(c_across(c(outcome_general_8,outcome_general_9)), na.rm = TRUE),
-  ) |> ungroup()
-```
-
-The distributions of the attitude and behavior change scores for recalled DKOs (RECALL) and DKOs in general (GENERAL) are shown in @fig-ChangeDist.
+  The distributions of the attitude and behavior change scores for recalled DKOs (RECALL) and DKOs in general (GENERAL) are shown in @fig-ChangeDist.
 
 ```{r ChangeDist}
 #| label: fig-ChangeDist
@@ -282,7 +233,7 @@ The distributions of the attitude and behavior change scores for recalled DKOs (
 #| message: false
 #| warning: false
 #| echo: false
-df |> 
+S1_all |> 
   select(ResponseId,contains('change')) |> 
   pivot_longer(cols=contains('change'),names_to='change_type',values_to='change_score') |>
   mutate(change_type=case_when(change_type=='outcome_attitude_change'~'RECALL: Attitude Change',
@@ -306,7 +257,7 @@ We may exclude participants' responses to the recall part of the survey based on
 #| echo: false
 #| message: false
 
-ggplot(df, aes(x=as.numeric(ease))) + geom_histogram() + scale_x_continuous(breaks = seq(1, 7, 1)) + theme_minimal() + labs(x='Ease of remembering DKO')
+ggplot(S1_all, aes(x=as.numeric(ease))) + geom_histogram() + scale_x_continuous(breaks = seq(1, 7, 1)) + theme_minimal() + labs(x='Ease of remembering DKO')
 ```
 
 [Missing data]{.underline} (working on this one...)
@@ -314,8 +265,7 @@ ggplot(df, aes(x=as.numeric(ease))) + geom_histogram() + scale_x_continuous(brea
 In principle, incomplete questionnaires will be excluded from analysis. We will evaluate the distribution of topics (variable conv_topic) of the recalled DKOs. If one or more topics are recalled very infrequently, we may also take into account partial data form participants who completed the RECALL part but not #later portions of the survey. This partial data needs to pass basic quality checks (no missed attention checks and no indication of straightlining or speeding).
 
 ```{r excludeOther}
-df_all=df
-df=df |> filter(conv_topic %in% c('Health','Politics','Environment'))
+S1=S1_all |> filter(conv_topic <4)
 ```
 
 # 4 Descriptive Analysis {#sec-3descriptive-analysis}
@@ -344,10 +294,9 @@ We will generate summary statistics describing the sample based on available par
 #| include: false
 vars <- c("age_1", "political_leaning","IH","TFD","interest_1", "interest_2","interest_3","knowledge_1", "knowledge_2","knowledge_3","awareness_1", "awareness_2","awareness_3")
 
-pol_leaning_dk=sum(df_all$political_leaning==-99)
-df_all = df_all |> mutate(political_leaning=ifelse(political_leaning==-99,NA,political_leaning))
+pol_leaning_dk=sum(is.na(S1_all$political_leaning))
 
-sample_stats=df_all %>%
+sample_stats=S1_all %>%
   summarise(
     across(
       all_of(vars),
@@ -368,20 +317,20 @@ sample_stats=df_all %>%
 | Variable | Summary |
 |------------------------------------|------------------------------------|
 | Age | M = `r sample_stats$mean[sample_stats$variable=='age_1']`, SD = `r sample_stats$sd[sample_stats$variable=='age_1']` |
-| Gender | `r sum(df_all$gender==1)` female, `r sum(df_all$gender==2)` male, `r sum(df_all$gender==3)` non-binary, `r sum(df_all$gender==4)` other, `r sum(df_all$gender==5)` prefer not to say |
-| Education | Geen of Basisschool N = `r sum(df_all$Education==1)`, Vmbo, havo-onderbouw, vwo-onderbouw, mbo1 N = `r sum(df_all$Education==2)`, Havo, vwo, mbo2-4 N = `r sum(df_all$Education==3)`, Hbo-bachelor, vwo-bachelor N = `r sum(df_all$Education==4)`, Hbo-master, vwo-master, doctor, N = `r sum(df_all$Education==5)` |
+| Gender | `r sum(S1_all$gender==1)` female, `r sum(S1_all$gender==2)` male, `r sum(S1_all$gender==3)` non-binary, `r sum(S1_all$gender==4)` other, `r sum(S1_all$gender==5)` prefer not to say |
+| Education | Geen of Basisschool N = `r sum(S1_all$Education==1)`, Vmbo, havo-onderbouw, vwo-onderbouw, mbo1 N = `r sum(S1_all$Education==2)`, Havo, vwo, mbo2-4 N = `r sum(S1_all$Education==3)`, Hbo-bachelor, vwo-bachelor N = `r sum(S1_all$Education==4)`, Hbo-master, vwo-master, doctor, N = `r sum(S1_all$Education==5)` |
 | Political Leaning (0: Left, 10: Right) | M = `r sample_stats$mean[sample_stats$variable=='political_leaning']`, SD = `r sample_stats$sd[sample_stats$variable=='political_leaning']`, Prefer not to say/Don't know: N = `r pol_leaning_dk` |
 | Interest | Health: `r sample_stats$mean[sample_stats$variable=='interest_1']`, SD = `r sample_stats$sd[sample_stats$variable=='interest_1']` Politics: `r sample_stats$mean[sample_stats$variable=='interest_2']`, SD = `r sample_stats$sd[sample_stats$variable=='interest_2']`, Environment: `r sample_stats$mean[sample_stats$variable=='interest_3']`, SD = `r sample_stats$sd[sample_stats$variable=='interest_3']` |
 | Knowledge | Health: `r sample_stats$mean[sample_stats$variable=='knowledge_1']`, SD = `r sample_stats$sd[sample_stats$variable=='knowledge_1']` Politics: `r sample_stats$mean[sample_stats$variable=='knowledge_2']`, SD = `r sample_stats$sd[sample_stats$variable=='knowledge_2']`, Environment: `r sample_stats$mean[sample_stats$variable=='knowledge_3']`, SD = `r sample_stats$sd[sample_stats$variable=='knowledge_3']` |
 | Awareness of other's views | Health: `r sample_stats$mean[sample_stats$variable=='awareness_1']`, SD = `r sample_stats$sd[sample_stats$variable=='awareness_1']` Politics: `r sample_stats$mean[sample_stats$variable=='awareness_2']`, SD = `r sample_stats$sd[sample_stats$variable=='awareness_2']`, Environment: `r sample_stats$mean[sample_stats$variable=='awareness_3']`, SD = `r sample_stats$sd[sample_stats$variable=='awareness_3']` |
-| Intellectual Humility | M = `r round(mean(df_all$IH,na.rm=T),2)`, SD = `r round(sd(df_all$IH,na.rm=T),2)`, Range = `r range(df_all$IH,na.rm=T)` |
-| Tolerance for Disagreement | M = `r round(mean(df_all$TFD,na.rm=T),2)`, SD = `r round(sd(df_all$TFD,na.rm=T),2)`, Range = `r range(df_all$TFD,na.rm=T)` |
+| Intellectual Humility | M = `r round(mean(S1_all$IH,na.rm=T),2)`, SD = `r round(sd(S1_all$IH,na.rm=T),2)`, Range = `r range(S1_all$IH,na.rm=T)` |
+| Tolerance for Disagreement | M = `r round(mean(S1_all$TFD,na.rm=T),2)`, SD = `r round(sd(S1_all$TFD,na.rm=T),2)`, Range = `r range(S1_all$TFD,na.rm=T)` |
 
 ## 4.2 Descriptive Analysis
 
 Descriptive goals concern the distribution of individual variables and are achieved through descriptive statistics (e.g., measures of central tendency, variance, confidence intervals, counts) and figures. This concerns the following research questions and variables:
 
-:::: panel-tabset
+::: panel-tabset
 ### RQ1: Context
 
 Overall, the GENERAL part of the survey suggests that disagreements are relatively infrequent (@fig-frequency). The most common reported frequency of "any disagreement" was "2-11x/year".
@@ -389,41 +338,65 @@ Overall, the GENERAL part of the survey suggests that disagreements are relative
 With regards to the three focal topics, conversations about the environment were least frequent, with the most common response being "2-11x/year", closely followed by "less than yearly". Conversations about health were somewhat more frequent ("2-11x/year" and "monthly" being the most common categories). Conversations about politics were most frequent, with the most common response being "2-11x/year", closely followed by "weekly" and "monthly".
 
 Disagreements about the focal topics were even less frequent with the most likely responses for the environment and health being "less than yearly" and the most likely response for politics being "2-11x/year".
+:::
 
-```{r frequency}
+```{r}
 #| label: fig-frequency
 #| fig-cap: "Frequency of DKOs (GENERAL)"
 #| echo: false
 #| message: false
 
-freq_df=S1 |> select(ResponseId,contains('frequency')) |> 
-  pivot_longer(cols=contains('frequency'), names_to='conversation_type',values_to='frequency') |> 
-  mutate(frequency_char=case_when(frequency==1~'1: Less than yearly', 
-                                  frequency==2~'2: Once/year', 
-                                  frequency==3~'3: 2-11 times/year', 
-                                  frequency==4~'4: Monthly', 
-                                  frequency==5~'5: 2-3 times/month', 
-                                  frequency==6~'6: Weekly', 
-                                  frequency==7~'7: 2-6 times/week', 
-                                  frequency==8~'8: Daily'), 
-         conversation_type=case_when(conversation_type=='frequency_1'~'1: any disagreement', 
-                                     conversation_type=='frequency_2'~'2: health', 
-                                     conversation_type=='frequency_3'~'3: disagree health', 
-                                     conversation_type=='frequency_4'~'4: politics', 
-                                     conversation_type=='frequency_5'~'5: disagree politics', 
-                                     conversation_type=='frequency_6'~'6: environment', 
-                                     conversation_type=='frequency_7'~'7: disagree environment'),
-        disagreement=as.factor(if_else(grepl('dis',conversation_type),1,0,missing=NA)),
-        topic=case_when(grepl('health',conversation_type)~'Health',
-                       grepl('politics',conversation_type)~'Politics',
-                       grepl('environment',conversation_type)~'Environment',
-                       grepl('any',conversation_type)~'Any topic',
-                        TRUE~NA_character_)) 
+req_S1 = S1 |> 
+  select(ResponseId, contains('frequency')) |> 
+  pivot_longer(
+    cols = contains('frequency'), 
+    names_to = 'conversation_type',
+    values_to = 'frequency'
+  ) |> 
+  mutate(
+    frequency_char = case_when(
+      frequency == 1 ~ '1: Less than yearly', 
+      frequency == 2 ~ '2: Once/year', 
+      frequency == 3 ~ '3: 2-11 times/year', 
+      frequency == 4 ~ '4: Monthly', 
+      frequency == 5 ~ '5: 2-3 times/month', 
+      frequency == 6 ~ '6: Weekly', 
+      frequency == 7 ~ '7: 2-6 times/week', 
+      frequency == 8 ~ '8: Daily'
+    ), 
+    
+    conversation_type = case_when(
+      conversation_type == 'frequency_1' ~ '1: any disagreement', 
+      conversation_type == 'frequency_2' ~ '2: health', 
+      conversation_type == 'frequency_3' ~ '3: disagree health', 
+      conversation_type == 'frequency_4' ~ '4: politics', 
+      conversation_type == 'frequency_5' ~ '5: disagree politics', 
+      conversation_type == 'frequency_6' ~ '6: environment', 
+      conversation_type == 'frequency_7' ~ '7: disagree environment'
+    ),
+    
+    disagreement = as.factor(
+      if_else(
+        grepl('dis', conversation_type),
+        1,
+        0,
+        missing = NA
+      )
+    ),
+    
+    topic = case_when(
+      grepl('health', conversation_type) ~ 'Health',
+      grepl('politics', conversation_type) ~ 'Politics',
+      grepl('environment', conversation_type) ~ 'Environment',
+      grepl('any', conversation_type) ~ 'Any topic',
+      TRUE ~ NA_character_
+    )
+  ) 
 
-library(dplyr)
-library(ggplot2)
-
-ggplot(freq_df, aes(x = topic, y = frequency, fill = disagreement)) +
+ggplot(
+  freq_df, 
+  aes(x = topic, y = frequency, fill = disagreement)
+) +
   
   # Distribution
   geom_violin(
@@ -474,8 +447,8 @@ ggplot(freq_df, aes(x = topic, y = frequency, fill = disagreement)) +
   # Journal-style colors
   scale_fill_manual(
     values = c(
-      "0" = "#3B5A7A",  # muted navy
-      "1" = "#C26A5A"   # muted terracotta
+      "0" = "#3B5A7A",
+      "1" = "#C26A5A"
     ),
     labels = c(
       "0" = "No disagreement",
@@ -525,6 +498,7 @@ ggplot(freq_df, aes(x = topic, y = frequency, fill = disagreement)) +
   )
 ```
 
+:::: panel-tabset
 The vast majority of RECALLED, societally-relevant DKOs occured face-to-face (@fig-mode).
 
 ```{r}
@@ -533,7 +507,7 @@ The vast majority of RECALLED, societally-relevant DKOs occured face-to-face (@f
 #| echo: false
 #| message: false
 
-mode=df |> select(ResponseId,conv_topic,contains('mode'),-contains('TEXT')) |> 
+mode=S1 |> select(ResponseId,conv_topic,contains('mode'),-contains('TEXT')) |> 
   pivot_longer(cols=contains('mode'),names_to='mode',values_to='mode_present') |> 
   mutate(mode=case_when(mode=='mode_1'~'face-to-face',
                         mode=='mode_2'~'audio',
@@ -559,14 +533,7 @@ mode |>
   labs(x='Mode of conversation',y='Proportion of all RECALLED DKOs') 
 ```
 
-```{r cleanNumber}
-#| echo: false
-#| warning: false
-#check responses to df$number_1
-df = df |> mutate(number_1=parse_number(number_1))
-```
-
-On average, `r df |>  summarize(m=round(mean(number_1,na.rm=T),2),sd=round(sd(number_1,na.rm=T),2)) |> pull(m)` (SD = `r df |>  summarize(m=round(mean(number_1,na.rm=T),2),sd=round(sd(number_1,na.rm=T),2)) |> pull(sd)`) people participated in recalled, societally-relevant DKOs.
+On average, `r S1 |>  summarize(m=round(mean(number_1_cleaned,na.rm=T),2),sd=round(sd(number_1_cleaned,na.rm=T),2)) |> pull(m)` (SD = `r S1 |>  summarize(m=round(mean(number_1_cleaned,na.rm=T),2),sd=round(sd(number_1_cleaned,na.rm=T),2)) |> pull(sd)`) people participated in recalled, societally-relevant DKOs.
 
 RECALLED, societally-relevant DKOs most frequently occurred with family members, followed by friends. Colleagues and acquaintances were less likely conversation partners. Only a small proportion of recalled DKOs occurred with strangers (@fig-relationship).
 
@@ -576,7 +543,7 @@ RECALLED, societally-relevant DKOs most frequently occurred with family members,
 #| echo: false
 #| message: false
 
-df |>
+S1 |>
   mutate(total_conversations=sum(!is.na(relationship))) |> 
   group_by(relationship,total_conversations) |>  
   summarize(prop_conversations=n()/unique(total_conversations)) |> 
@@ -593,7 +560,7 @@ ggplot(aes(x=relationship,y=prop_conversations)) +
   labs(x='Relationship Type',y='Proportion of all conversations') 
 ```
 
-On a scale from 0 (Not close at all) to 100 (Extremely close), participants rated their conversation partners in RECALLED, societally-relevant DKOs, on average, as moderately close (M = `r df |> summarize(m=round(mean(closeness_1,na.rm=T),2),sd=round(sd(closeness_1,na.rm=T),2)) |> pull(m)`, SD = `r df |> summarize(m=round(mean(closeness_1,na.rm=T),2),sd=round(sd(closeness_1,na.rm=T),2)) |> pull(sd)`). The distribution is skewed with relatively many participants reporting very high closeness and relatively few participants reporting low closeness (@fig-ClosenessDist).
+On a scale from 0 (Not close at all) to 100 (Extremely close), participants rated their conversation partners in RECALLED, societally-relevant DKOs, on average, as moderately close (M = `r S1 |> summarize(m=round(mean(closeness_1,na.rm=T),2),sd=round(sd(closeness_1,na.rm=T),2)) |> pull(m)`, SD = `r S1 |> summarize(m=round(mean(closeness_1,na.rm=T),2),sd=round(sd(closeness_1,na.rm=T),2)) |> pull(sd)`). The distribution is skewed with relatively many participants reporting very high closeness and relatively few participants reporting low closeness (@fig-ClosenessDist).
 
 ```{r ClosenessDist}
 #| label: fig-ClosenessDist
@@ -601,7 +568,48 @@ On a scale from 0 (Not close at all) to 100 (Extremely close), participants rate
 #| message: false
 #| warning: false
 #| echo: false
-df |> ggplot(aes(x=closeness_1)) + geom_histogram() + theme_minimal() + labs(x='Closeness with Conversation Partner')
+
+closeness_df <- S1 |>
+  filter(!is.na(closeness_1), !is.na(conv_topic_char)) |>
+  mutate(
+    closeness_bin = cut(
+      closeness_1,
+      breaks = seq(0, 100, by = 10),
+      include.lowest = TRUE,
+      right = FALSE,
+      labels = paste0(seq(0, 90, by = 10), "–", seq(9, 99, by = 10))
+    )
+  ) |>
+  count(conv_topic_char, closeness_bin) |>
+  group_by(conv_topic_char) |>
+  mutate(
+    percentage = n / sum(n) * 100
+  ) |>
+  ungroup()
+
+closeness_df |>
+  ggplot(aes(x = closeness_bin, y = percentage)) +
+  
+  geom_col() +
+  
+  scale_y_continuous(
+    labels = function(x) paste0(x, "%"),
+    expand = expansion(mult = c(0, 0.05))
+  ) +
+  
+  labs(
+    x = "Closeness with Conversation Partner",
+    y = "Percentage of cases"
+  ) +
+  
+  facet_wrap(~conv_topic_char) +
+  
+  theme_minimal() + theme(
+    axis.text.x = element_text(
+      angle = 45,
+      hjust = 1
+    )
+  )
 ```
 
 Partially replicating the findings from the RECALL part of the survey, in the GENERAL portion, participants indicated that societally-relevant DKOs most frequently occurred with known others (@fig-KnownOther). Yet, a substantial portion of participants indicated that known others were only "sometimes" conversation partners. Overall, the results are consistent with the idea that DKOs with known others are at least common and, given the findings in the RECALL part, likely more memorable and impactful.
@@ -612,7 +620,7 @@ Partially replicating the findings from the RECALL part of the survey, in the GE
 #| message: false
 #| warning: false
 #| echo: false
-df_all |> 
+S1_all |> 
    ggplot(aes(x=plan_strangers_1)) + geom_histogram() + theme_minimal() + labs(x='Frequency (1: Never, 5: Always)')
 ```
 
@@ -630,7 +638,7 @@ The only trigger with substantial negative impact was expecting negative emotion
 #| message: false
 #| warning: false
 #| echo: false
-df_all |> select(ResponseId,starts_with('triggers_'),-triggers_10_TEXT) |> 
+S1_all |> select(ResponseId,starts_with('triggers_'),-triggers_10_TEXT) |> 
   pivot_longer(cols=contains('_'),names_to='trigger',values_to='trigger_impact') |> 
   mutate(trigger=case_when(trigger=='triggers_1'~'1: knowledge (self)',
                            trigger=='triggers_2'~'2: feel strongly (self)',
@@ -668,10 +676,10 @@ Triggers rated as having negative impact (ratings \<=3; N=21) concerned were als
 #| include: false
 
 #positive triggers
-df_all |> filter(triggers_10>=5,!is.na(triggers_10_TEXT)) |> pull(triggers_10_TEXT)
+S1_all |> filter(triggers_10>=5,!is.na(triggers_10_TEXT)) |> pull(triggers_10_TEXT)
 
 #negative triggers
-df_all |> filter(triggers_10<=3,!is.na(triggers_10_TEXT)) |> pull(triggers_10_TEXT)
+S1_all |> filter(triggers_10<=3,!is.na(triggers_10_TEXT)) |> pull(triggers_10_TEXT)
 ```
 
 In the RECALL part of the survey, participants who indicated that they started the DKO intentionally themselves, were also asked to indicate what triggered them to do this. 71 participants indicated a trigger. Most of the responses don't indicate actual triggers, but rather describe the topic of the conversation. The answers that do indicate triggers suggest that people cared deeply about the topic. Some others were curious about their "opponents" reasoning or worried about others' decisions.
@@ -684,7 +692,7 @@ Regarding the emotional atmosphere at the beginning of RECALLED, societally-rele
 #| echo: false
 #| message: false
 
-df |> select(ResponseId,contains('onset')) |>  
+S1 |> select(ResponseId,contains('onset')) |>  
   pivot_longer(cols=contains('onset'), names_to='emotion',values_to='intensity') |> 
   mutate(emotion=case_when(emotion=='emotion_onset_1'~'negative', 
                            emotion=='emotion_onset_2'~'positive')) |> 
@@ -694,7 +702,7 @@ ggplot(aes(x=intensity)) + geom_bar() + facet_wrap(~emotion) + theme_minimal() +
 ```{r}
 #| echo: false
 #| include: false
-unique(df$planning_trigger[!is.na(df$planning_trigger)])
+unique(S1$planning_trigger[!is.na(S1$planning_trigger)])
 ```
 
 ### RQ4: Motives
@@ -712,7 +720,7 @@ In the GENERAL part of the survey, the most frequent motives participants pursue
 #| message: false
 #| warning: false
 #| echo: false
-motive_df = df_all |> select(ResponseId,starts_with('motive'),-contains('TEXT')) |>
+motive_df = S1_all |> select(ResponseId,starts_with('motive'),-contains('TEXT')) |>
   pivot_longer(cols=contains('motive'),names_to='motive',values_to='rating') |> 
   mutate(survey_part=case_when(grepl('general',motive)~'GENERAL',
                                TRUE~'RECALL'),
@@ -756,7 +764,7 @@ When recalling specific DKOs, the findings from the GENERAL part of the survey w
 #| message: false
 #| warning: false
 #| echo: false
-motive_df |> filter(survey_part=='RECALL') |> filter(ResponseId %in% df$ResponseId) |> 
+motive_df |> filter(survey_part=='RECALL') |> filter(ResponseId %in% S1$ResponseId) |> 
     group_by(motive) |> 
   summarize(prop_chosen=sum(rating,na.rm=T)/n()) |> 
   mutate(motive = fct_reorder(motive, prop_chosen, .desc = TRUE)) |> 
@@ -779,13 +787,13 @@ Most RECALLED DKOs lasted between 5 and 15 minutes with few lasting longer than 
 #| message: false
 #| warning: false
 #| echo: false
-df |> ggplot(aes(x=duration_1)) + geom_histogram() + theme_minimal() + labs(x='Duration in min') +
+S1 |> ggplot(aes(x=duration_1)) + geom_histogram() + theme_minimal() + labs(x='Duration in min') +
   scale_x_continuous(breaks=seq(0,60,5))
 ```
 
-Perceived discourse quality (PDQI) if RECALLED DKOs was relatively high with an average score of `r round(mean(df$PDQI,na.rm=T),2)` (SD = `r round(sd(df$PDQI,na.rm=T),2)`) on a scale from 1 (lowest quality) - 7 (highest quality; @fig-PDQIdist).
+Perceived discourse quality (PDQI) if RECALLED DKOs was relatively high with an average score of `r round(mean(df$PDQI,na.rm=T),2)` (SD = `r round(sd(S1$PDQI,na.rm=T),2)`) on a scale from 1 (lowest quality) - 7 (highest quality; @fig-PDQIdist).
 
-With regards to DKOs in GENERAL, participants indicated similarly high perceived discourse quality with an average score of `r round(mean(df_all$PDQI_general,na.rm=T),2)` (SD = `r round(sd(df_all$PDQI_general,na.rm=T),2)`) on a scale from 1 (lowest quality) - 7 (highest quality; @fig-GenPDQIdist).
+With regards to DKOs in GENERAL, participants indicated similarly high perceived discourse quality with an average score of `r round(mean(S1_all$PDQI_general,na.rm=T),2)` (SD = `r round(sd(S1_all$PDQI_general,na.rm=T),2)`) on a scale from 1 (lowest quality) - 7 (highest quality; @fig-GenPDQIdist).
 
 During both the RECALL and GENERAL parts of the survey, participants reported experiencing positive and negative emotions with, on average, moderate intensity (@fig-processEmo). Unemotional and extremely emotional DKOs were substantially less common.
 
@@ -795,7 +803,7 @@ During both the RECALL and GENERAL parts of the survey, participants reported ex
 #| message: false
 #| warning: false
 #| echo: false
-df_all |> select(ResponseId,contains('process_emo')) |> 
+S1_all |> select(ResponseId,contains('process_emo')) |> 
   pivot_longer(cols=contains('emo'),names_to='emotion',values_to='intensity') |> 
   mutate(survey_part=case_when(grepl('general',emotion)~'GENERAL',
                                TRUE~'RECALL'),
@@ -823,7 +831,7 @@ Change-related outcomes (both for attitudes and behavior) were infrequently expe
 #| message: false
 #| warning: false
 #| echo: false
-df_all |> select(ResponseId,contains('outcome'),-contains('change')) |>
+S1_all |> select(ResponseId,contains('outcome'),-contains('change')) |>
   pivot_longer(cols=contains('outcome'),names_to='outcome',values_to='rating') |>
   mutate(rating=na_if(rating,-99),
          survey_part=case_when(grepl('general',outcome)~'GENERAL',
@@ -839,7 +847,7 @@ df_all |> select(ResponseId,contains('outcome'),-contains('change')) |>
                            grepl('_8',outcome)~'change my behavior',
                            grepl('_9',outcome)~"change other's behavior",
                            grepl('_10',outcome)~'want to repeat'),
-         rating=case_when(survey_part=='RECALL' & !(ResponseId %in% df$ResponseId)~NA_real_,
+         rating=case_when(survey_part=='RECALL' & !(ResponseId %in% S1$ResponseId)~NA_real_,
                           TRUE~rating)) |> 
   group_by(survey_part,outcome) |>
    summarize(rating_m=mean(rating,na.rm=T),
@@ -854,7 +862,7 @@ df_all |> select(ResponseId,contains('outcome'),-contains('change')) |>
     axis.text.x = element_text(angle = 45, hjust = 1),
     plot.margin = margin(t = 5.5, r = 5.5, b = 20, l = 5.5)
   ) +
-  labs(y="Rating \n(1-7)",y='Outcome')  + geom_hline(yintercept=4, linetype="dashed", color="red")
+  labs(y="Rating \n(1 False - 7 True)",y='Outcome')  + geom_hline(yintercept=4, linetype="dashed", color="red")
   
 ```
 
@@ -863,7 +871,7 @@ df_all |> select(ResponseId,contains('outcome'),-contains('change')) |>
 ```{r}
 #| echo: false
 
-strategy_df=df_all |> select(ResponseId, IH,political_leaning, gender, age_1, contains('persuation_attempt'),-contains('TEXT')) |> 
+strategy_df=S1_all |> select(ResponseId, IH,political_leaning, gender, age_1, contains('persuation_attempt'),-contains('TEXT')) |> 
   pivot_longer(cols=contains('persuation_attempt'),names_to='strategy',values_to='rating') |>
   mutate(strategy=case_when(strategy=='persuation_attempt_1'~'Show knowledge/trustworthiness',
                            strategy=='persuation_attempt_2'~'Build emotional connection',
@@ -892,23 +900,23 @@ labs(x='Strategy',y='Effectiveness rating')
 #df |> select(IH, contains('persuation_attempt'),contains('outcome'),contains('motive'),contains('PDQI'),-contains('TEXT')) |> 
 #cor(use = "pairwise.complete.obs") |> write.csv('~/Desktop/cormat.csv')
 
-#unique(df_all$persuation_attempt_4_TEXT[!is.na(df_all$persuation_attempt_4_TEXT)])
+#unique(S1_all$persuation_attempt_4_TEXT[!is.na(S1_all$persuation_attempt_4_TEXT)])
 ```
 
 ```{r}
 #| echo: false
 
-df |> 
+S1 |> 
   # replace NA with 0 in all variables contains('motive') 
   mutate(across((contains('motive')& !contains('TEXT')), ~replace_na(., 0))) |>
   lm(outcome_attitude_change~motive_2+motive_3+motive_4,data=_) |> summary()
 
-df |> 
+S1 |> 
   # replace NA with 0 in all variables contains('motive') 
   mutate(across((contains('motive')& !contains('TEXT')), ~replace_na(., 0))) |>
   lm(outcome_behavior_change~motive_2+motive_3+motive_4,data=_) |> summary()
 
-df |> 
+S1 |> 
   # replace NA with 0 in all variables contains('motive') 
   mutate(across((contains('motive')& !contains('TEXT')), ~replace_na(., 0))) |>
   lm(outcome_behavior_change~persuation_attempt_1+persuation_attempt_2+persuation_attempt_3,data=_) |> summary()
@@ -926,10 +934,10 @@ Hypothesized relationships are further probed in the exploratory part of the dat
 
 In the RECALL part of the survey, participants were explicitly asked to recall a disagreement with someone they know. As such, only the GENERAL part of the survey is informative for this hypothesis.
 
-In the GENERAL part of the survey, participants, on average, indicated to talk to known others rather than strangers about societally-relevant disagreements slightly more than half the time (M = `r round(mean(df_all$plan_strangers_1,na.rm=T),2)`, SD = `r round(sd(df_all$plan_strangers_1,na.rm=T),2)`).
+In the GENERAL part of the survey, participants, on average, indicated to talk to known others rather than strangers about societally-relevant disagreements slightly more than half the time (M = `r round(mean(S1_all$plan_strangers_1,na.rm=T),2)`, SD = `r round(sd(S1_all$plan_strangers_1,na.rm=T),2)`).
 
 ```{r}
-tt <- t.test(df_all$plan_strangers_1, mu = 3, alternative = "greater", conf.level = 0.95)
+tt <- t.test(S1_all$plan_strangers_1, mu = 3, alternative = "greater", conf.level = 0.95)
 ```
 
 The pre-registered one-sided, one-sample *t* test showed that the average was indeed significantly greater than 3, *t*(`r tt$parameter`) = `r round(tt$statistic,2)`, *p* = `r ifelse(tt$p.value<0.001,'<.001',round(tt$p.value,3))`, 95% CI \[`r round(tt$conf.int[1],2)`, 'Inf'\]. However, the practical effect size was small.
@@ -940,11 +948,11 @@ We will run a one-sided Pearson Correlation test correlating the frequency of ha
 
 ```{r}
 #confirmatory
-ct=cor.test(df_all$frequency_1,df_all$TFD,alternative = "greater")
+ct=cor.test(S1_all$frequency_1,S1_all$TFD,alternative = "greater")
 #exploratory
-health_ct=cor.test(df_all$frequency_3,df_all$TFD,alternative = "greater") 
-pol_ct=cor.test(df_all$frequency_5,df_all$TFD,alternative = "greater") 
-env_ct=cor.test(df_all$frequency_7,df_all$TFD,alternative = "greater") 
+health_ct=cor.test(S1_all$frequency_3,S1_all$TFD,alternative = "greater") 
+pol_ct=cor.test(S1_all$frequency_5,S1_all$TFD,alternative = "greater") 
+env_ct=cor.test(S1_all$frequency_7,S1_all$TFD,alternative = "greater") 
 
 ```
 
@@ -964,7 +972,7 @@ freq_df=freq_df |> mutate(disagreement_topic=case_when(
   conversation_type=='5: disagree politics'~'politics',
   conversation_type=='7: disagree environment'~'environment',TRUE~NA_character_)) 
 
-freq_df=df |> select(ResponseId,contains('interest'),contains('knowledge')) |> 
+freq_df=S1 |> select(ResponseId,contains('interest'),contains('knowledge')) |> 
   pivot_longer(cols=contains('_'),names_to=c('.value','disagreement_topic'), names_pattern=('(interest|knowledge)_(\\d+)')) |> 
   mutate(disagreement_topic=case_when(disagreement_topic==1~'health',
                                       disagreement_topic==2~'politics',
@@ -1043,7 +1051,7 @@ This hypothesis received support in both the RECALL and GENERAL parts of the sur
 | I don’t remember. | NA |
 
 ```{r planningIndicator}
-df=df |> 
+S1=S1 |> 
   mutate(planning_label=case_when(planning==1~"planned_self",
                             planning==2~"planned_other",
                             planning==3~"unplanned",
@@ -1059,8 +1067,8 @@ df=df |>
 #| echo: false
 #| include: false
 
-#also add this to df_all just in case
-df_all=df_all |> 
+#also add this to S1_all just in case
+S1_all=S1_all |> 
   mutate(planning_label=case_when(planning==1~"planned_self",
                             planning==2~"planned_other",
                             planning==3~"unplanned",
@@ -1074,20 +1082,20 @@ df_all=df_all |>
 ```{r ztest}
 #| echo: false
 
-zTest=prop.test(x=sum(df$planning_indicator[!is.na(df$planning_indicator)]), 
-                n=length(df$planning_indicator[!is.na(df$planning_indicator)]),
+zTest=prop.test(x=sum(S1$planning_indicator[!is.na(S1$planning_indicator)]), 
+                n=length(S1$planning_indicator[!is.na(S1$planning_indicator)]),
           p = 0.5,
           conf.level=0.95,
           alternative = "less",
           correct = FALSE)   
 ```
 
-In support of RQ3-H1, of the RECALLED, societally-relevant DKOs, only `r df |> summarize(prop_planned=round(sum(planning<3,na.rm=T)/sum(planning<4,na.rm=T)*100,2))` % (95% CI\[`r zTest$conf.int[1]`,`r round(zTest$conf.int[2],2)`\]) were planned. This is significantly less than 50% (chi-squared = `r round(zTest$statistic,2)`, *p* = `r ifelse(zTest$p.value<0.001,'<.001',round(zTest$p.value,3))`).
+In support of RQ3-H1, of the RECALLED, societally-relevant DKOs, only `r S1 |> summarize(prop_planned=round(sum(planning<3,na.rm=T)/sum(planning<4,na.rm=T)*100,2))` % (95% CI\[`r zTest$conf.int[1]`,`r round(zTest$conf.int[2],2)`\]) were planned. This is significantly less than 50% (chi-squared = `r round(zTest$statistic,2)`, *p* = `r ifelse(zTest$p.value<0.001,'<.001',round(zTest$p.value,3))`).
 
 ### GENERAL
 
 ```{r}
-tt=t.test(df_all$plan_strangers_2,df_all$plan_strangers_3,paired=T, alternative='less')
+tt=t.test(S1_all$plan_strangers_2,S1_all$plan_strangers_3,paired=T, alternative='less')
 ```
 
 In further support of RQ3-H1, participants indicated that planned DKOs were less frequent than unplanned DKOs (@fig-planning), *t*(`r tt$parameter`) = `r round(tt$statistic,2)`, *p* = `r ifelse(tt$p.value<0.001,'<.001',round(tt$p.value,3))`, 95% CI \[-Inf, `r round(tt$conf.int[2],2)`\]. although the effect size is somewhat smaller than what might be expected based on the results from the RECALL part of the survey.
@@ -1098,7 +1106,7 @@ In further support of RQ3-H1, participants indicated that planned DKOs were less
 #| message: false
 #| warning: false
 #| echo: false
-df |> select(ResponseId,plan_strangers_2,plan_strangers_3) |> 
+S1 |> select(ResponseId,plan_strangers_2,plan_strangers_3) |> 
   pivot_longer(cols=contains('_'),names_to='planning',values_to='frequency') |> 
   mutate(planning=case_when(grepl('_2',planning)~'planned',
                             grepl('_3',planning)~'unplanned',
@@ -1115,6 +1123,71 @@ df |> select(ResponseId,plan_strangers_2,plan_strangers_3) |>
 ```
 :::
 
+**Figure Likelihood Planning is Linked to Overall Frequency**
+
+```{r}
+
+# Compute correlations between Planning and each frequency variable
+cor_results <- map_dfr(
+  paste0("frequency_", c(1,3,5,7)),
+  function(freq) {
+    
+    # Keep only complete cases for this particular correlation
+    dat <- S1 |>
+      select(plan_strangers_2, all_of(freq)) |>
+      drop_na()
+    
+    test <- cor.test(
+      dat$plan_strangers_2,
+      dat[[freq]],
+      method = "pearson"
+    )
+    
+    tibble(
+      freq = freq,
+      estimate = unname(test$estimate),
+      conf.low = test$conf.int[1],
+      conf.high = test$conf.int[2],
+      p.value = test$p.value,
+      n = nrow(dat)
+    )
+  }
+)
+
+# Coefficient plot
+cor_results |>
+  mutate(
+    freq = case_when(freq=='frequency_1'~'any disagreement',
+                        freq=='frequency_3'~'health DKO',
+                       freq=='frequency_5'~'politics DKO',
+                       freq=='frequency_7'~'environment DKO',
+                       TRUE~NA_character_),
+    freq = fct_reorder(freq, estimate)
+  ) |>
+  ggplot(aes(x = estimate, y = freq)) +
+  geom_errorbar(
+    aes(xmin = conf.low, xmax = conf.high),
+    orientation = "y",
+    height = 0.15,
+    linewidth = 0.7
+  ) +
+  geom_point(size = 3) +
+  geom_vline(
+    xintercept = 0,
+    linetype = "dashed",
+    linewidth = 0.5
+  ) +
+  scale_x_continuous(
+    limits = c(-1, 1),
+    breaks = seq(-1, 1, 0.25)
+  ) +
+  labs(
+    x = "Pearson correlation (r)",
+    y = NULL
+  ) +
+  theme_classic(base_size = 12)
+```
+
 ## 5.5 RQ3-H3: At the beginning of the conversation, the average DKO is characterized by stronger negative than positive emotions.
 
 This hypothesis was not supported.
@@ -1122,10 +1195,10 @@ This hypothesis was not supported.
 ```{r emoTest}
 #emotion_onset_1 = negative emotions
 #emtion_onset_2 = positive emotions
-emott=t.test(df$emotion_onset_1,df$emotion_onset_2,paired=T, alternative='greater')
+emott=t.test(S1$emotion_onset_1,S1$emotion_onset_2,paired=T, alternative='greater')
 ```
 
-In contrast to our expectations, the emotional atmosphere at the beginning of RECALLED, societally-relevant DKOs was actually more positive (M = `r round(mean(df$emotion_onset_2,na.rm=T),2)`, SD = `r round(sd(df$emotion_onset_2,na.rm=T),2)`) than negative (M = `r round(mean(df$emotion_onset_1,na.rm=T),2)`, SD = `r round(sd(df$emotion_onset_1,na.rm=T),2)`), *t*(`r emott$parameter`) = `r round(emott$statistic,2)`, *p* = `r ifelse(emott$p.value<0.001,'<.001',round(emott$p.value,3))`, 95% CI \[`r round(emott$conf.int[1],2)`, Inf\].
+In contrast to our expectations, the emotional atmosphere at the beginning of RECALLED, societally-relevant DKOs was actually more positive (M = `r round(mean(S1$emotion_onset_2,na.rm=T),2)`, SD = `r round(sd(S1$emotion_onset_2,na.rm=T),2)`) than negative (M = `r round(mean(S1$emotion_onset_1,na.rm=T),2)`, SD = `r round(sd(S1$emotion_onset_1,na.rm=T),2)`), *t*(`r emott$parameter`) = `r round(emott$statistic,2)`, *p* = `r ifelse(emott$p.value<0.001,'<.001',round(emott$p.value,3))`, 95% CI \[`r round(emott$conf.int[1],2)`, Inf\].
 
 ## 5.6 RQ6-H1: Planned vs. unplanned DKOs are characterized by weaker negative emotions (H1A) and higher discourse quality (H1B).
 
@@ -1151,20 +1224,20 @@ Note: Here, we are interested in emotions during the conversation, not the emoti
 **H1A: Negative Emotion**
 
 ```{r rq6h1a}
-varequ=var.test(as.numeric(process_emo_1)~planning_indicator,data=df)$p.value>=0.05
-tt=t.test(as.numeric(process_emo_1)~planning_indicator,data=df,var_equal=varequ, alternative='greater')
+varequ=var.test(as.numeric(process_emo_1)~planning_indicator,data=S1)$p.value>=0.05
+tt=t.test(as.numeric(process_emo_1)~planning_indicator,data=S1,var_equal=varequ, alternative='greater')
 ```
 
-This hypothsis was not supported. Planned, RECALLED, societally-relevant DKOs were characterized by slighlty stronger negative emotions (M = `r round(mean(df$process_emo_1[df$planning_indicator==1],na.rm=T),2)`, SD = `r round(sd(df$process_emo_1[df$planning_indicator==1],na.rm=T),2)`) than unplanned DKOs (M = `r round(mean(df$process_emo_1[df$planning_indicator==0],na.rm=T),2)`, SD = `r round(sd(df$process_emo_1[df$planning_indicator==0],na.rm=T),2)`), *t*(`r round(tt$parameter,2)`) = `r round(tt$statistic,2)`, *p* = `r ifelse(tt$p.value<0.001,'<.001',round(tt$p.value,3))`, 95% CI \[`r round(tt$conf.int[1],2)`, Inf\]).
+This hypothsis was not supported. Planned, RECALLED, societally-relevant DKOs were characterized by slighlty stronger negative emotions (M = `r round(mean(S1$process_emo_1[S1$planning_indicator==1],na.rm=T),2)`, SD = `r round(sd(S1$process_emo_1[S1$planning_indicator==1],na.rm=T),2)`) than unplanned DKOs (M = `r round(mean(S1$process_emo_1[S1$planning_indicator==0],na.rm=T),2)`, SD = `r round(sd(S1$process_emo_1[S1$planning_indicator==0],na.rm=T),2)`), *t*(`r round(tt$parameter,2)`) = `r round(tt$statistic,2)`, *p* = `r ifelse(tt$p.value<0.001,'<.001',round(tt$p.value,3))`, 95% CI \[`r round(tt$conf.int[1],2)`, Inf\]).
 
 **H1B: Discourse Quality**
 
 ```{r rq6h1b}
-varequ=var.test(PDQI~planning_indicator,data=df)$p.value>=0.05
-tt=t.test(PDQI~planning_indicator,data=df,var_equal=varequ, alternative='less')
+varequ=var.test(PDQI~planning_indicator,data=S1)$p.value>=0.05
+tt=t.test(PDQI~planning_indicator,data=S1,var_equal=varequ, alternative='less')
 ```
 
-Planned, RECALLED, societally-relevant DKOs were characterized by slighlty higher perceived discourse quality (M = `r round(mean(df$PDQI[df$planning_indicator==1],na.rm=T),2)`, SD = `r round(sd(df$PDQI[df$planning_indicator==1],na.rm=T),2)`) than unplanned DKOs (M = `r round(mean(df$PDQI[df$planning_indicator==0],na.rm=T),2)`, SD = `r round(sd(df$PDQI[df$planning_indicator==0],na.rm=T),2)`), but this difference was very small and not statistically significant *t*(`r round(tt$parameter,2)`) = `r round(tt$statistic,2)`, *p* = `r ifelse(tt$p.value<0.001,'<.001',round(tt$p.value,3))`, 95% CI \[-Inf, `r round(tt$conf.int[2],2)`\]).
+Planned, RECALLED, societally-relevant DKOs were characterized by slighlty lower perceived discourse quality (M = `r round(mean(S1$PDQI[S1$planning_indicator==1],na.rm=T),2)`, SD = `r round(sd(S1$PDQI[S1$planning_indicator==1],na.rm=T),2)`) than unplanned DKOs (M = `r round(mean(S1$PDQI[S1$planning_indicator==0],na.rm=T),2)`, SD = `r round(sd(S1$PDQI[S1$planning_indicator==0],na.rm=T),2)`), but this difference was very small and not statistically significant *t*(`r round(tt$parameter,2)`) = `r round(tt$statistic,2)`, *p* = `r ifelse(tt$p.value<0.001,'<.001',round(tt$p.value,3))`, 95% CI \[-Inf, `r round(tt$conf.int[2],2)`\]).
 
 ### GENERAL
 
@@ -1173,7 +1246,7 @@ Planned, RECALLED, societally-relevant DKOs were characterized by slighlty highe
 **H1A: Negative Emotion**
 
 ```{r rq6h1AGeneral}
-ct=cor.test(df_all$plan_strangers_2,df_all$process_emo_general_2, alternative="less") # expect neg
+ct=cor.test(S1_all$plan_strangers_2,S1_all$process_emo_general_2, alternative="less") # expect neg
 ```
 
 This hypothesis is not supported. There is no significant correlation between reporting a greater proportion of DKOs to be planned and reporting that DKOs are less strongly characterized by negative emotions (r = `r round(ct$estimate,3)`, p = `r round(ct$p.value,3)`.
@@ -1181,7 +1254,7 @@ This hypothesis is not supported. There is no significant correlation between re
 **H1B: Discourse Quality**
 
 ```{r rq6h1BGeneral}
-ct=cor.test(df_all$plan_strangers_2,df_all$PDQI_general, alternative="greater") 
+ct=cor.test(S1_all$plan_strangers_2,S1_all$PDQI_general, alternative="greater") 
 ```
 
 This hypothesis is not supported. There is no significant correlation between reporting a greater proportion of DKOs to be planned and reporting that DKOs are characterized by higher discourse quality (r = `r round(ct$estimate,3)`, p = `r round(ct$p.value,3)`.
@@ -1190,7 +1263,7 @@ This hypothesis is not supported. There is no significant correlation between re
 ## 5.7 RQ6-H2: DKOs that are characterized by more negative emotions at the beginning of the conversation are also characterized by lower discourse quality.
 
 ```{r}
-ct=cor.test(df$emotion_onset_1,df$PDQI, alternative='less')
+ct=cor.test(S1$emotion_onset_1,S1$PDQI, alternative='less')
 ```
 
 This hypothesis is supported, but the effect size is relatively small. There is a significant correlation between RECALLED DKOs with lower negative emotions at the onset of the conversation and higher discourse quality for that DKO (r = `r round(ct$estimate,3)` p = `r round(ct$p.value,3)`.
@@ -1207,7 +1280,7 @@ This hypothesis receives strong support in both the RECALL and GENERAL parts of 
 ### RECALL
 
 ```{r}
-ct=cor.test(df$IH,df$PDQI, alternative='greater')
+ct=cor.test(S1$IH,S1$PDQI, alternative='greater')
 ```
 
 This hypothesis is supported with a sizeable effect. Higher intellectual humility is positively correlated with recalling DKOs with higher PDQI scores (r = `r round(ct$estimate,3)`, p `r ifelse(ct$p.value<0.001,'< .001',paste0('= ',round(ct$p.value,3)))`).
@@ -1217,11 +1290,83 @@ This hypothesis is supported with a sizeable effect. Higher intellectual humilit
 - We will run a one-sided Pearson correlation test assessing whether participants who score higher on the intellectual humility index also report that their DKOs have higher scores on the general perceived discourse quality index.
 
 ```{r}
-ct=cor.test(df_all$IH,df_all$PDQI_general, alternative='greater')
+ct=cor.test(S1_all$IH,S1_all$PDQI_general, alternative='greater')
 ```
 
 This hypothesis is supported with a sizeable effect. People with higher intellectual humility have DKOs with, on average, higher PDQI scores (r = `r round(ct$estimate,3)`, p = `r ifelse(ct$p.value<0.001,'< .001',paste0('= ',round(ct$p.value,3)))`).
 :::
+
+**Figure**
+
+```{r}
+S1 |>
+  ggplot(aes(x = IH, y = PDQI)) +
+  geom_point(
+    alpha = 0.35,
+    size = 2.2
+  ) +
+  geom_smooth(
+    method = "lm",
+    formula = y ~ x,
+    linewidth = 0.9,
+    alpha = 0.15
+  ) +
+  annotate(
+    "text",
+    x = -Inf,
+    y = -Inf,
+    label = stat_text,
+    hjust = -0.05,
+    vjust = -0.5,
+    size = 4
+  ) +
+  labs(
+    x = "Intellectual Humility",
+    y = "PDQI"
+  ) +
+  theme_classic(base_size = 12) +
+  theme(
+    axis.title = element_text(size = 12),
+    axis.text = element_text(size = 10, color = "black"),
+    axis.line = element_line(linewidth = 0.5),
+    axis.ticks = element_line(linewidth = 0.4),
+    plot.margin = margin(10, 15, 10, 10)
+  )
+```
+
+**Figure by topic**
+
+```{r}
+S1 |>
+  ggplot(aes(x = IH, y = PDQI)) +
+  geom_point(
+    aes(color = conv_topic_char),
+    alpha = 0.3,
+    size = 2
+  ) +
+  geom_smooth(
+    aes(color = conv_topic_char),
+    method = "lm",
+    formula = y ~ x,
+    linewidth = 0.9,
+    alpha = 0.15
+  ) +
+  labs(
+    x = "Intellectual Humility",
+    y = "PDQI",
+    color = "Conversation topic"
+  ) +
+  theme_classic(base_size = 12) +
+  theme(
+    axis.title = element_text(size = 12),
+    axis.text = element_text(size = 10, color = "black"),
+    legend.position = "top",
+    legend.title = element_text(size = 10),
+    legend.text = element_text(size = 10),
+    axis.line = element_line(linewidth = 0.5),
+    axis.ticks = element_line(linewidth = 0.4)
+  )
+```
 
 ## 5.9 RQ7_H1: On average, DKOs are perceived as unenjoyable (H1A), are unlikely to change attitudes (H1B) and behavior (H1C), and do not motivate repetition of similar conversations (H1D).
 
@@ -1229,10 +1374,10 @@ This hypothesis is supported with a sizeable effect. People with higher intellec
 #| echo: false
 #| include: false
 #clean outcome variables
-df <- df |>
+S1 <- S1 |>
   mutate(across(starts_with("outcome_"),
                 ~ na_if(.x, -99)))
-df_all <- df_all |>
+S1_all <- S1_all |>
   mutate(across(starts_with("outcome_"),
                 ~ na_if(.x, -99)))
 
@@ -1242,12 +1387,12 @@ All hypotheses, except RQ7_H1D were tested in both the RECALL and GENERAL parts 
 
 | Hypothesis | RECALL | GENERAL |
 |------------------------|------------------------|------------------------|
-| H1A: Unenjoyable | UNSUPPORTED; M = `r round(mean(df$outcome_2,na.rm=T),2)`, SD = `r round(sd(df$outcome_2,na.rm=T),2)`) | UNSUPPORTED M = `r round(mean(df$outcome_general_2,na.rm=T),2)`, SD = `r round(sd(df$outcome_general_2,na.rm=T),2)` |
-| H1B: No attitude change (own attitude) | SUPPORTED M = `r round(mean(df$outcome_3,na.rm=T),2)`, SD = `r round(sd(df$outcome_3,na.rm=T),2)`, p `r ifelse(t.test(df$outcome_3, mu = 4, alternative = "less")$p.value<0.001,'< .001',paste0('= ',round(t.test(df$outcome_3, mu = 4, alternative = "less")$p.value,3)))` | SUPPORTED M = `r round(mean(df_all$outcome_general_3,na.rm=T),2)`, SD = `r round(sd(df_all$outcome_general_3,na.rm=T),2)`, p `r ifelse(t.test(df_all$outcome_general_3, mu = 4, alternative = "less")$p.value<0.001,'< .001',paste0('= ',round(t.test(df_all$outcome_general_3, mu = 4, alternative = "less")$p.value,3)))` |
-| H1B: No attitude change (other's attitude) | SUPPORTED M = `r round(mean(df$outcome_4,na.rm=T),2)`, SD = `r round(sd(df$outcome_4,na.rm=T),2)`, p `r ifelse(t.test(df$outcome_4, mu = 4, alternative = "less")$p.value<0.001,'< .001',paste0('= ',round(t.test(df$outcome_4, mu = 4, alternative = "less")$p.value,3)))` | SUPPORTED M = `r round(mean(df_all$outcome_general_4,na.rm=T),2)`, SD = `r round(sd(df_all$outcome_general_4,na.rm=T),2)`, p `r ifelse(t.test(df_all$outcome_general_4, mu = 4, alternative = "less")$p.value<0.001,'< .001',paste0('= ',round(t.test(df_all$outcome_general_4, mu = 4, alternative = "less")$p.value,3)))` |
-| H1C: No behavior change (own behavior) | SUPPORTED M = `r round(mean(df$outcome_8,na.rm=T),2)`, SD = `r round(sd(df$outcome_8,na.rm=T),2)`, p `r ifelse(t.test(df$outcome_8, mu = 4, alternative = "less")$p.value<0.001,'< .001',paste0('= ',round(t.test(df$outcome_8, mu = 4, alternative = "less")$p.value,3)))` | SUPPORTED M = `r round(mean(df_all$outcome_general_8,na.rm=T),2)`, SD = `r round(sd(df_all$outcome_general_8,na.rm=T),2)`, p `r ifelse(t.test(df_all$outcome_general_8, mu = 4, alternative = "less")$p.value<0.001,'< .001',paste0('= ',round(t.test(df_all$outcome_general_8, mu = 4, alternative = "less")$p.value,3)))` |
-| H1C: No behavior change (other's behavior) | SUPPORTED M = `r round(mean(df$outcome_9,na.rm=T),2)`, SD = `r round(sd(df$outcome_9,na.rm=T),2)`, p `r ifelse(t.test(df$outcome_9, mu = 4, alternative = "less")$p.value<0.001,'< .001',paste0('= ',round(t.test(df$outcome_9, mu = 4, alternative = "less")$p.value,3)))` | SUPPORTED M = `r round(mean(df_all$outcome_general_9,na.rm=T),2)`, SD = `r round(sd(df_all$outcome_general_9,na.rm=T),2)`, p `r ifelse(t.test(df_all$outcome_general_9, mu = 4, alternative = "less")$p.value<0.001,'< .001',paste0('= ',round(t.test(df_all$outcome_general_9, mu = 4, alternative = "less")$p.value,3)))` |
-| H1D: No repetition | UNSUPPORTED M = `r round(mean(df$outcome_10,na.rm=T),2)`, SD = `r round(sd(df$outcome_10,na.rm=T),2)` | not measured |
+| H1A: Unenjoyable | UNSUPPORTED; M = `r round(mean(S1$outcome_2,na.rm=T),2)`, SD = `r round(sd(S1$outcome_2,na.rm=T),2)`) | UNSUPPORTED M = `r round(mean(S1_all$outcome_general_2,na.rm=T),2)`, SD = `r round(sd(S1_all$outcome_general_2,na.rm=T),2)` |
+| H1B: No attitude change (own attitude) | SUPPORTED M = `r round(mean(S1$outcome_3,na.rm=T),2)`, SD = `r round(sd(S1$outcome_3,na.rm=T),2)`, p `r ifelse(t.test(S1$outcome_3, mu = 4, alternative = "less")$p.value<0.001,'< .001',paste0('= ',round(t.test(S1$outcome_3, mu = 4, alternative = "less")$p.value,3)))` | SUPPORTED M = `r round(mean(S1_all$outcome_general_3,na.rm=T),2)`, SD = `r round(sd(S1_all$outcome_general_3,na.rm=T),2)`, p `r ifelse(t.test(S1_all$outcome_general_3, mu = 4, alternative = "less")$p.value<0.001,'< .001',paste0('= ',round(t.test(S1_all$outcome_general_3, mu = 4, alternative = "less")$p.value,3)))` |
+| H1B: No attitude change (other's attitude) | SUPPORTED M = `r round(mean(S1$outcome_4,na.rm=T),2)`, SD = `r round(sd(S1$outcome_4,na.rm=T),2)`, p `r ifelse(t.test(S1$outcome_4, mu = 4, alternative = "less")$p.value<0.001,'< .001',paste0('= ',round(t.test(S1$outcome_4, mu = 4, alternative = "less")$p.value,3)))` | SUPPORTED M = `r round(mean(S1_all$outcome_general_4,na.rm=T),2)`, SD = `r round(sd(S1_all$outcome_general_4,na.rm=T),2)`, p `r ifelse(t.test(S1_all$outcome_general_4, mu = 4, alternative = "less")$p.value<0.001,'< .001',paste0('= ',round(t.test(S1_all$outcome_general_4, mu = 4, alternative = "less")$p.value,3)))` |
+| H1C: No behavior change (own behavior) | SUPPORTED M = `r round(mean(S1$outcome_8,na.rm=T),2)`, SD = `r round(sd(S1$outcome_8,na.rm=T),2)`, p `r ifelse(t.test(S1$outcome_8, mu = 4, alternative = "less")$p.value<0.001,'< .001',paste0('= ',round(t.test(S1$outcome_8, mu = 4, alternative = "less")$p.value,3)))` | SUPPORTED M = `r round(mean(S1_all$outcome_general_8,na.rm=T),2)`, SD = `r round(sd(S1_all$outcome_general_8,na.rm=T),2)`, p `r ifelse(t.test(S1_all$outcome_general_8, mu = 4, alternative = "less")$p.value<0.001,'< .001',paste0('= ',round(t.test(S1_all$outcome_general_8, mu = 4, alternative = "less")$p.value,3)))` |
+| H1C: No behavior change (other's behavior) | SUPPORTED M = `r round(mean(S1$outcome_9,na.rm=T),2)`, SD = `r round(sd(S1$outcome_9,na.rm=T),2)`, p `r ifelse(t.test(S1$outcome_9, mu = 4, alternative = "less")$p.value<0.001,'< .001',paste0('= ',round(t.test(S1$outcome_9, mu = 4, alternative = "less")$p.value,3)))` | SUPPORTED M = `r round(mean(S1_all$outcome_general_9,na.rm=T),2)`, SD = `r round(sd(S1_all$outcome_general_9,na.rm=T),2)`, p `r ifelse(t.test(S1_all$outcome_general_9, mu = 4, alternative = "less")$p.value<0.001,'< .001',paste0('= ',round(t.test(S1_all$outcome_general_9, mu = 4, alternative = "less")$p.value,3)))` |
+| H1D: No repetition | UNSUPPORTED M = `r round(mean(S1$outcome_10,na.rm=T),2)`, SD = `r round(sd(S1$outcome_10,na.rm=T),2)` | not measured |
 
 ## 5.10 RQ8_H1: DKOs with higher discourse quality are perceived to be more instructive (H1A), more enjoyable (H1B), less likely to harm the relationship of the conversation partners (H1C) and associated with higher willingness to have similar conversations in the future (H1D).
 
@@ -1256,12 +1401,82 @@ All hypotheses, except RQ7_H1D were tested in both the RECALL and GENERAL parts 
 
 | Hypothesis | RECALL | GENERAL |
 |------------------------|------------------------|------------------------|
-| H1A: Instructive | SUPPORTED; r=`r round(cor.test(df$PDQI,df$outcome_1, alternative='greater')$estimate,3)`, p `r ifelse(cor.test(df$PDQI,df$outcome_1, alternative='greater')$p.value<0.001,'< 0.001',paste0('= ',round(cor.test(df$PDQI,df$outcome_1, alternative='greater')$p.value,3)))` | SUPPORTED; r=`r round(cor.test(df_all$PDQI_general,df_all$outcome_general_1, alternative='greater')$estimate,3)`, p `r ifelse(cor.test(df_all$PDQI_general,df_all$outcome_general_1, alternative='greater')$p.value<0.001,'< 0.001',paste0('= ',round(cor.test(df_all$PDQI_general,df_all$outcome_general_1, alternative='greater')$p.value,3)))` |
-| H1B: Enjoyable | SUPPORTED; r=`r round(cor.test(df$PDQI,df$outcome_2, alternative='greater')$estimate,3)`, p `r ifelse(cor.test(df$PDQI,df$outcome_2, alternative='greater')$p.value<0.001,'< 0.001',paste0('= ',round(cor.test(df$PDQI,df$outcome_2, alternative='greater')$p.value,3)))` | SUPPORTED; r=`r round(cor.test(df_all$PDQI_general,df_all$outcome_general_2, alternative='greater')$estimate,3)`, p `r ifelse(cor.test(df_all$PDQI_general,df_all$outcome_general_2, alternative='greater')$p.value<0.001,'< 0.001',paste0('= ',round(cor.test(df_all$PDQI_general,df_all$outcome_general_2, alternative='greater')$p.value,3)))` |
-| H1C: Relationship harm | SUPPORTED; r=`r round(cor.test(df$PDQI,df$outcome_7, alternative='less')$estimate,3)`, p `r ifelse(cor.test(df$PDQI,df$outcome_7, alternative='less')$p.value<0.001,'< 0.001',paste0('= ',round(cor.test(df$PDQI,df$outcome_7, alternative='less')$p.value,3)))` | SUPPORTED; r=`r round(cor.test(df_all$PDQI_general,df_all$outcome_general_7, alternative='less')$estimate,3)`, p `r ifelse(cor.test(df_all$PDQI_general,df_all$outcome_general_7, alternative='less')$p.value<0.001,'< 0.001',paste0('= ',round(cor.test(df_all$PDQI_general,df_all$outcome_general_7, alternative='less')$p.value,3)))` |
-| H1D: Repetition | SUPPORTED; r=`r round(cor.test(df$PDQI,df$outcome_10, alternative='greater')$estimate,3)`, p `r ifelse(cor.test(df$PDQI,df$outcome_10, alternative='greater')$p.value<0.001,'< 0.001',paste0('= ',round(cor.test(df$PDQI,df$outcome_10, alternative='greater')$p.value,3)))` | not measured |
+| H1A: Instructive | SUPPORTED; r=`r round(cor.test(S1$PDQI,S1$outcome_1, alternative='greater')$estimate,3)`, p `r ifelse(cor.test(S1$PDQI,S1$outcome_1, alternative='greater')$p.value<0.001,'< 0.001',paste0('= ',round(cor.test(S1$PDQI,S1$outcome_1, alternative='greater')$p.value,3)))` | SUPPORTED; r=`r round(cor.test(S1_all$PDQI_general,S1_all$outcome_general_1, alternative='greater')$estimate,3)`, p `r ifelse(cor.test(S1_all$PDQI_general,S1_all$outcome_general_1, alternative='greater')$p.value<0.001,'< 0.001',paste0('= ',round(cor.test(S1_all$PDQI_general,S1_all$outcome_general_1, alternative='greater')$p.value,3)))` |
+| H1B: Enjoyable | SUPPORTED; r=`r round(cor.test(S1$PDQI,S1$outcome_2, alternative='greater')$estimate,3)`, p `r ifelse(cor.test(S1$PDQI,S1$outcome_2, alternative='greater')$p.value<0.001,'< 0.001',paste0('= ',round(cor.test(S1$PDQI,S1$outcome_2, alternative='greater')$p.value,3)))` | SUPPORTED; r=`r round(cor.test(S1_all$PDQI_general,S1_all$outcome_general_2, alternative='greater')$estimate,3)`, p `r ifelse(cor.test(S1_all$PDQI_general,S1_all$outcome_general_2, alternative='greater')$p.value<0.001,'< 0.001',paste0('= ',round(cor.test(S1_all$PDQI_general,S1_all$outcome_general_2, alternative='greater')$p.value,3)))` |
+| H1C: Relationship harm | SUPPORTED; r=`r round(cor.test(S1$PDQI,S1$outcome_7, alternative='less')$estimate,3)`, p `r ifelse(cor.test(S1$PDQI,S1$outcome_7, alternative='less')$p.value<0.001,'< 0.001',paste0('= ',round(cor.test(S1$PDQI,S1$outcome_7, alternative='less')$p.value,3)))` | SUPPORTED; r=`r round(cor.test(S1_all$PDQI_general,S1_all$outcome_general_7, alternative='less')$estimate,3)`, p `r ifelse(cor.test(S1_all$PDQI_general,S1_all$outcome_general_7, alternative='less')$p.value<0.001,'< 0.001',paste0('= ',round(cor.test(S1_all$PDQI_general,S1_all$outcome_general_7, alternative='less')$p.value,3)))` |
+| H1D: Repetition | SUPPORTED; r=`r round(cor.test(S1$PDQI,S1$outcome_10, alternative='greater')$estimate,3)`, p `r ifelse(cor.test(S1$PDQI,S1$outcome_10, alternative='greater')$p.value<0.001,'< 0.001',paste0('= ',round(cor.test(S1$PDQI,S1$outcome_10, alternative='greater')$p.value,3)))` | not measured |
 
 **Exploratory Analysis**: The effects of PDQI on enjoyment are replicated in exploratory models fit to both the RECALL (@fig-rq8ex2) and GENERAL (@fig-rq8ex8) portions of the survey. The effect on wanting to repeat the conversation was only measured in the RECALL portion and replicated in the exploratory model (@fig-rq8ex6). The effect on learning something was only replicated in the GENERAL portion (@fig-rq8ex7), and the effect on relationship harm was only replicated in the RECALL portion (@fig-rq8ex5).
+
+**Figure**
+
+```{r}
+# Compute correlations between PDQI and each outcome
+cor_results <- map_dfr(
+  paste0("outcome_", 1:10),
+  function(outcome) {
+    
+    # Keep only complete cases for this particular correlation
+    dat <- S1 |>
+      select(PDQI, all_of(outcome)) |>
+      drop_na()
+    
+    test <- cor.test(
+      dat$PDQI,
+      dat[[outcome]],
+      method = "pearson"
+    )
+    
+    tibble(
+      outcome = outcome,
+      estimate = unname(test$estimate),
+      conf.low = test$conf.int[1],
+      conf.high = test$conf.int[2],
+      p.value = test$p.value,
+      n = nrow(dat)
+    )
+  }
+)
+
+# Coefficient plot
+cor_results |>
+  mutate(
+    outcome = case_when(outcome=='outcome_1'~'intructive',
+                        outcome=='outcome_2'~'enjoy',
+                       outcome=='outcome_3'~'change own mind',
+                       outcome=='outcome_4'~'change others mind',
+                       outcome=='outcome_5'~'compromise',
+                       outcome=='outcome_6'~'relational benefit',
+                       outcome=='outcome_7'~'relational harm',
+                       outcome=='outcome_8'~'change own behavior',
+                       outcome=='outcome_9'~'change others behavior',
+                       outcome=='outcome_10'~'want to repeat',
+                       TRUE~NA_character_),
+    outcome = fct_reorder(outcome, estimate)
+  ) |>
+  ggplot(aes(x = estimate, y = outcome)) +
+  geom_errorbar(
+    aes(xmin = conf.low, xmax = conf.high),
+    orientation = "y",
+    height = 0.15,
+    linewidth = 0.7
+  ) +
+  geom_point(size = 3) +
+  geom_vline(
+    xintercept = 0,
+    linetype = "dashed",
+    linewidth = 0.5
+  ) +
+  scale_x_continuous(
+    limits = c(-1, 1),
+    breaks = seq(-1, 1, 0.25)
+  ) +
+  labs(
+    x = "Pearson correlation (r)",
+    y = NULL
+  ) +
+  theme_classic(base_size = 12)
+```
 
 ## 5.11 RQ8_H2: Planned vs. unplanned DKOs are perceived to be more instructive (H2A), more enjoyable (H2B), less likely to harm the relationship of the conversation partners (H2C), more likely to lead to attitude (H2D) and behavior change (H2E), and more likely to be repeated (H2F).
 
@@ -1275,23 +1490,94 @@ All hypotheses, except RQ7_H1D were tested in both the RECALL and GENERAL parts 
 #| include: false
 
 #RECALL models
-varequ=var.test(as.numeric(outcome_1)~planning_indicator,data=df)$p.value>=0.05
-tinstruct=t.test(as.numeric(outcome_1)~planning_indicator,data=df,var_equal=varequ, alternative='less')
+varequ=var.test(as.numeric(outcome_1)~planning_indicator,data=S1)$p.value>=0.05
+tinstruct=t.test(as.numeric(outcome_1)~planning_indicator,data=S1,var_equal=varequ, alternative='less')
 
-varequ=var.test(as.numeric(outcome_2)~planning_indicator,data=df)$p.value>=0.05
-tenjoy=t.test(as.numeric(outcome_2)~planning_indicator,data=df,var_equal=varequ, alternative='less')
+varequ=var.test(as.numeric(outcome_2)~planning_indicator,data=S1)$p.value>=0.05
+tenjoy=t.test(as.numeric(outcome_2)~planning_indicator,data=S1,var_equal=varequ, alternative='less')
 
-varequ=var.test(as.numeric(outcome_7)~planning_indicator,data=df)$p.value>=0.05
-tharm=t.test(as.numeric(outcome_7)~planning_indicator,data=df,var_equal=varequ, alternative='greater')
+varequ=var.test(as.numeric(outcome_7)~planning_indicator,data=S1)$p.value>=0.05
+tharm=t.test(as.numeric(outcome_7)~planning_indicator,data=S1,var_equal=varequ, alternative='greater')
 
-varequ=var.test(as.numeric(outcome_attitude_change)~planning_indicator,data=df)$p.value>=0.05
-tatt=t.test(as.numeric(outcome_attitude_change)~planning_indicator,data=df,var_equal=varequ, alternative='less')
+varequ=var.test(as.numeric(outcome_attitude_change)~planning_indicator,data=S1)$p.value>=0.05
+tatt=t.test(as.numeric(outcome_attitude_change)~planning_indicator,data=S1,var_equal=varequ, alternative='less')
 
-varequ=var.test(as.numeric(outcome_behavior_change)~planning_indicator,data=df)$p.value>=0.05
-tbehav=t.test(as.numeric(outcome_behavior_change)~planning_indicator,data=df,var_equal=varequ, alternative='less')
+varequ=var.test(as.numeric(outcome_behavior_change)~planning_indicator,data=S1)$p.value>=0.05
+tbehav=t.test(as.numeric(outcome_behavior_change)~planning_indicator,data=S1,var_equal=varequ, alternative='less')
 
-varequ=var.test(as.numeric(outcome_10)~planning_indicator,data=df)$p.value>=0.05
-trep=t.test(as.numeric(outcome_10)~planning_indicator,data=df,var_equal=varequ, alternative='less')
+varequ=var.test(as.numeric(outcome_10)~planning_indicator,data=S1)$p.value>=0.05
+trep=t.test(as.numeric(outcome_10)~planning_indicator,data=S1,var_equal=varequ, alternative='less')
+```
+
+**Figure**
+
+```{r}
+
+# Compute correlations between planning and each outcome
+cor_results <- map_dfr(
+  paste0("outcome_", 1:10),
+  function(outcome) {
+    
+    # Keep only complete cases for this particular correlation
+    dat <- S1 |>
+      select(planning_indicator, all_of(outcome)) |>
+      drop_na()
+    
+    test <- cor.test(
+      dat$planning_indicator,
+      dat[[outcome]],
+      method = "pearson"
+    )
+    
+    tibble(
+      outcome = outcome,
+      estimate = unname(test$estimate),
+      conf.low = test$conf.int[1],
+      conf.high = test$conf.int[2],
+      p.value = test$p.value,
+      n = nrow(dat)
+    )
+  }
+)
+
+# Coefficient plot
+cor_results |>
+  mutate(
+    outcome = case_when(outcome=='outcome_1'~'intructive',
+                        outcome=='outcome_2'~'enjoy',
+                       outcome=='outcome_3'~'change own mind',
+                       outcome=='outcome_4'~'change others mind',
+                       outcome=='outcome_5'~'compromise',
+                       outcome=='outcome_6'~'relational benefit',
+                       outcome=='outcome_7'~'relational harm',
+                       outcome=='outcome_8'~'change own behavior',
+                       outcome=='outcome_9'~'change others behavior',
+                       outcome=='outcome_10'~'want to repeat',
+                       TRUE~NA_character_),
+    outcome = fct_reorder(outcome, estimate)
+  ) |>
+  ggplot(aes(x = estimate, y = outcome)) +
+  geom_errorbar(
+    aes(xmin = conf.low, xmax = conf.high),
+    orientation = "y",
+    height = 0.15,
+    linewidth = 0.7
+  ) +
+  geom_point(size = 3) +
+  geom_vline(
+    xintercept = 0,
+    linetype = "dashed",
+    linewidth = 0.5
+  ) +
+  scale_x_continuous(
+    limits = c(-1, 1),
+    breaks = seq(-1, 1, 0.25)
+  ) +
+  labs(
+    x = "Pearson correlation (r)",
+    y = NULL
+  ) +
+  theme_classic(base_size = 12)
 ```
 
 ```{r}
@@ -1299,25 +1585,25 @@ trep=t.test(as.numeric(outcome_10)~planning_indicator,data=df,var_equal=varequ, 
 #| include: false
 #GENERAL MODELS
 
-cinstruct=cor.test(df_all$plan_strangers_2,df_all$outcome_general_1, alternative='greater')
+cinstruct=cor.test(S1_all$plan_strangers_2,S1_all$outcome_general_1, alternative='greater')
 
-cenjoy=cor.test(df_all$plan_strangers_2,df_all$outcome_general_2, alternative='greater')
+cenjoy=cor.test(S1_all$plan_strangers_2,S1_all$outcome_general_2, alternative='greater')
 
-charm=cor.test(df_all$plan_strangers_2,df_all$outcome_general_7, alternative='less')
+charm=cor.test(S1_all$plan_strangers_2,S1_all$outcome_general_7, alternative='less')
 
-catt=cor.test(df_all$plan_strangers_2,df_all$outcome_general_attitude_change, alternative='greater')
+catt=cor.test(S1_all$plan_strangers_2,S1_all$outcome_general_attitude_change, alternative='greater')
 
-cbehav=cor.test(df_all$plan_strangers_2,df_all$outcome_general_behavior_change, alternative='greater')
+cbehav=cor.test(S1_all$plan_strangers_2,S1_all$outcome_general_behavior_change, alternative='greater')
 ```
 
 | Hypothesis | RECALL Planned | RECALL Unplanned | RECALL Test | GENERAL |
 |---------------|---------------|---------------|---------------|---------------|
-| H2A: Instructive | M = `r round(mean(df$outcome_1[df$planning_indicator==1],na.rm=T),2)`, SD = `r round(sd(df$outcome_1[df$planning_indicator==1],na.rm=T),2)` | M = `r round(mean(df$outcome_1[df$planning_indicator==0],na.rm=T),2)`, SD = `r round(sd(df$outcome_1[df$planning_indicator==0],na.rm=T),2)`) | p `r ifelse(tinstruct$p.value<0.001,'< .001',paste0('= ',round(tinstruct$p.value,3)))` | r = `r round(cinstruct$estimate,3)` , p `r ifelse(cinstruct$p.value<0.001,'< .001',paste0('= ',round(cinstruct$p.value,3)))` |
-| H2B: Enjoyable | M = `r round(mean(df$outcome_2[df$planning_indicator==1],na.rm=T),2)`, SD = `r round(sd(df$outcome_2[df$planning_indicator==1],na.rm=T),2)` | M = `r round(mean(df$outcome_2[df$planning_indicator==0],na.rm=T),2)`, SD = `r round(sd(df$outcome_2[df$planning_indicator==0],na.rm=T),2)` | p `r ifelse(tenjoy$p.value<0.001,'< .001',paste0('= ',round(tenjoy$p.value,3)))` | r = `r round(cenjoy$estimate,3)` , p `r ifelse(cenjoy$p.value<0.001,'< .001',paste0('= ',round(cenjoy$p.value,3)))` |
-| H2C: Harm relationship | M = `r round(mean(df$outcome_7[df$planning_indicator==1],na.rm=T),2)`, SD = `r round(sd(df$outcome_7[df$planning_indicator==1],na.rm=T),2)` | M = `r round(mean(df$outcome_7[df$planning_indicator==0],na.rm=T),2)`, SD = `r round(sd(df$outcome_7[df$planning_indicator==0],na.rm=T),2)` | p `r ifelse(tharm$p.value<0.001,'< .001',paste0('= ',round(tharm$p.value,3)))` | r = `r round(charm$estimate,3)` , p `r ifelse(charm$p.value<0.001,'< .001',paste0('= ',round(charm$p.value,3)))` |
-| H2D: Attitude change | M = `r round(mean(df$outcome_attitude_change[df$planning_indicator==1],na.rm=T),2)`, SD = `r round(sd(df$outcome_attitude_change[df$planning_indicator==1],na.rm=T),2)` | M = `r round(mean(df$outcome_attitude_change[df$planning_indicator==0],na.rm=T),2)`, SD = `r round(sd(df$outcome_attitude_change[df$planning_indicator==0],na.rm=T),2)` | p `r ifelse(tatt$p.value<0.001,'< .001',paste0('= ',round(tatt$p.value,3)))` | r = `r round(catt$estimate,3)` , p `r ifelse(catt$p.value<0.001,'< .001',paste0('= ',round(catt$p.value,3)))` |
-| H2E: Behavior change | M = `r round(mean(df$outcome_behavior_change[df$planning_indicator==1],na.rm=T),2)`, SD = `r round(sd(df$outcome_behavior_change[df$planning_indicator==1],na.rm=T),2)` | M = `r round(mean(df$outcome_behavior_change[df$planning_indicator==0],na.rm=T),2)`, SD = `r round(sd(df$outcome_behavior_change[df$planning_indicator==0],na.rm=T),2)` | p `r ifelse(tbehav$p.value<0.001,'< .001',paste0('= ',round(tbehav$p.value,3)))` | r = `r round(cbehav$estimate,3)` , p `r ifelse(cbehav$p.value<0.001,'< .001',paste0('= ',round(cbehav$p.value,3)))` |
-| H2F: Repetition | M = `r round(mean(df$outcome_10[df$planning_indicator==1],na.rm=T),2)`, SD = `r round(sd(df$outcome_10[df$planning_indicator==1],na.rm=T),2)` | M = `r round(mean(df$outcome_10[df$planning_indicator==0],na.rm=T),2)`, SD = `r round(sd(df$outcome_10[df$planning_indicator==0],na.rm=T),2)` | p `r ifelse(trep$p.value<0.001,'< .001',paste0('= ',round(trep$p.value,3)))` | not measured |
+| H2A: Instructive | M = `r round(mean(S1$outcome_1[S1$planning_indicator==1],na.rm=T),2)`, SD = `r round(sd(S1$outcome_1[S1$planning_indicator==1],na.rm=T),2)` | M = `r round(mean(S1$outcome_1[S1$planning_indicator==0],na.rm=T),2)`, SD = `r round(sd(S1$outcome_1[S1$planning_indicator==0],na.rm=T),2)`) | p `r ifelse(tinstruct$p.value<0.001,'< .001',paste0('= ',round(tinstruct$p.value,3)))` | r = `r round(cinstruct$estimate,3)` , p `r ifelse(cinstruct$p.value<0.001,'< .001',paste0('= ',round(cinstruct$p.value,3)))` |
+| H2B: Enjoyable | M = `r round(mean(S1$outcome_2[S1$planning_indicator==1],na.rm=T),2)`, SD = `r round(sd(S1$outcome_2[S1$planning_indicator==1],na.rm=T),2)` | M = `r round(mean(S1$outcome_2[S1$planning_indicator==0],na.rm=T),2)`, SD = `r round(sd(S1$outcome_2[S1$planning_indicator==0],na.rm=T),2)` | p `r ifelse(tenjoy$p.value<0.001,'< .001',paste0('= ',round(tenjoy$p.value,3)))` | r = `r round(cenjoy$estimate,3)` , p `r ifelse(cenjoy$p.value<0.001,'< .001',paste0('= ',round(cenjoy$p.value,3)))` |
+| H2C: Harm relationship | M = `r round(mean(S1$outcome_7[S1$planning_indicator==1],na.rm=T),2)`, SD = `r round(sd(S1$outcome_7[S1$planning_indicator==1],na.rm=T),2)` | M = `r round(mean(S1$outcome_7[S1$planning_indicator==0],na.rm=T),2)`, SD = `r round(sd(S1$outcome_7[S1$planning_indicator==0],na.rm=T),2)` | p `r ifelse(tharm$p.value<0.001,'< .001',paste0('= ',round(tharm$p.value,3)))` | r = `r round(charm$estimate,3)` , p `r ifelse(charm$p.value<0.001,'< .001',paste0('= ',round(charm$p.value,3)))` |
+| H2D: Attitude change | M = `r round(mean(S1$outcome_attitude_change[S1$planning_indicator==1],na.rm=T),2)`, SD = `r round(sd(S1$outcome_attitude_change[S1$planning_indicator==1],na.rm=T),2)` | M = `r round(mean(S1$outcome_attitude_change[S1$planning_indicator==0],na.rm=T),2)`, SD = `r round(sd(S1$outcome_attitude_change[S1$planning_indicator==0],na.rm=T),2)` | p `r ifelse(tatt$p.value<0.001,'< .001',paste0('= ',round(tatt$p.value,3)))` | r = `r round(catt$estimate,3)` , p `r ifelse(catt$p.value<0.001,'< .001',paste0('= ',round(catt$p.value,3)))` |
+| H2E: Behavior change | M = `r round(mean(S1$outcome_behavior_change[S1$planning_indicator==1],na.rm=T),2)`, SD = `r round(sd(S1$outcome_behavior_change[S1$planning_indicator==1],na.rm=T),2)` | M = `r round(mean(S1$outcome_behavior_change[S1$planning_indicator==0],na.rm=T),2)`, SD = `r round(sd(S1$outcome_behavior_change[S1$planning_indicator==0],na.rm=T),2)` | p `r ifelse(tbehav$p.value<0.001,'< .001',paste0('= ',round(tbehav$p.value,3)))` | r = `r round(cbehav$estimate,3)` , p `r ifelse(cbehav$p.value<0.001,'< .001',paste0('= ',round(cbehav$p.value,3)))` |
+| H2F: Repetition | M = `r round(mean(S1$outcome_10[S1$planning_indicator==1],na.rm=T),2)`, SD = `r round(sd(S1$outcome_10[S1$planning_indicator==1],na.rm=T),2)` | M = `r round(mean(S1$outcome_10[S1$planning_indicator==0],na.rm=T),2)`, SD = `r round(sd(S1$outcome_10[S1$planning_indicator==0],na.rm=T),2)` | p `r ifelse(trep$p.value<0.001,'< .001',paste0('= ',round(trep$p.value,3)))` | not measured |
 
 ## 5.12 RQ8_H3: Stronger negative emotions at the onset of DKOs are associated with lower enjoyability (H3A), higher perceived harm to the relationship of the conversation partners (H3B), lower likelihood of attitude (H3C) and behavior change (H3D), and lower repetition likelihood (H3E).
 
@@ -1327,11 +1613,11 @@ cbehav=cor.test(df_all$plan_strangers_2,df_all$outcome_general_behavior_change, 
 #| echo: false
 #| include: false
 
-renjoy=cor.test(df$emotion_onset_1,df$outcome_2, alternative='less')
-rharm=cor.test(df$emotion_onset_1,df$outcome_7, alternative='greater')
-ratt=cor.test(df$emotion_onset_1,df$outcome_attitude_change, alternative='less')
-rbehav=cor.test(df$emotion_onset_1,df$outcome_behavior_change, alternative='less')
-rrep=cor.test(df$emotion_onset_1,df$outcome_10, alternative='less')
+renjoy=cor.test(S1$emotion_onset_1,S1$outcome_2, alternative='less')
+rharm=cor.test(S1$emotion_onset_1,S1$outcome_7, alternative='greater')
+ratt=cor.test(S1$emotion_onset_1,S1$outcome_attitude_change, alternative='less')
+rbehav=cor.test(S1$emotion_onset_1,S1$outcome_behavior_change, alternative='less')
+rrep=cor.test(S1$emotion_onset_1,S1$outcome_10, alternative='less')
 
 ```
 
@@ -1345,6 +1631,77 @@ rrep=cor.test(df$emotion_onset_1,df$outcome_10, alternative='less')
 
 # 6 EXPLORATORY GOALS
 
+**Intellectual humility predicting outcomes**
+
+```{r}
+
+# Compute correlations between PDQI and each outcome
+cor_results <- map_dfr(
+  paste0("outcome_", 1:10),
+  function(outcome) {
+    
+    # Keep only complete cases for this particular correlation
+    dat <- S1 |>
+      select(IH, all_of(outcome)) |>
+      drop_na()
+    
+    test <- cor.test(
+      dat$IH,
+      dat[[outcome]],
+      method = "pearson"
+    )
+    
+    tibble(
+      outcome = outcome,
+      estimate = unname(test$estimate),
+      conf.low = test$conf.int[1],
+      conf.high = test$conf.int[2],
+      p.value = test$p.value,
+      n = nrow(dat)
+    )
+  }
+)
+
+# Coefficient plot
+cor_results |>
+  mutate(
+    outcome = case_when(outcome=='outcome_1'~'intructive',
+                        outcome=='outcome_2'~'enjoy',
+                       outcome=='outcome_3'~'change own mind',
+                       outcome=='outcome_4'~'change others mind',
+                       outcome=='outcome_5'~'compromise',
+                       outcome=='outcome_6'~'relational benefit',
+                       outcome=='outcome_7'~'relational harm',
+                       outcome=='outcome_8'~'change own behavior',
+                       outcome=='outcome_9'~'change others behavior',
+                       outcome=='outcome_10'~'want to repeat',
+                       TRUE~NA_character_),
+    outcome = fct_reorder(outcome, estimate)
+  ) |>
+  ggplot(aes(x = estimate, y = outcome)) +
+  geom_errorbar(
+    aes(xmin = conf.low, xmax = conf.high),
+    orientation = "y",
+    height = 0.15,
+    linewidth = 0.7
+  ) +
+  geom_point(size = 3) +
+  geom_vline(
+    xintercept = 0,
+    linetype = "dashed",
+    linewidth = 0.5
+  ) +
+  scale_x_continuous(
+    limits = c(-1, 1),
+    breaks = seq(-1, 1, 0.25)
+  ) +
+  labs(
+    x = "Pearson correlation (r)",
+    y = NULL
+  ) +
+  theme_classic(base_size = 12)
+```
+
 Exploratory goals will be tested using multiple regression models. To correct for the number of statistical tests, we will apply the Benjamini-Hochberg correction within each model to all p-values, except for the intercept.
 
 Before models are fitted, we will examine bivariate correlations between all predictors and may decide to exclude predictors from the models in case of multi-collinearity (r \> .7).
@@ -1357,12 +1714,12 @@ Before models are fitted, we will examine bivariate correlations between all pre
 #| echo: false
 #| include: false
 
-df = df |> mutate(gender=factor(gender),
+S1 = S1 |> mutate(gender=factor(gender),
                   Education=factor(Education),
                   #convert age to decades for more interpretable effect size
                   age_dec=age_1/10)
 
-df_all = df_all |> mutate(gender=factor(gender),
+S1_all = S1_all |> mutate(gender=factor(gender),
                   Education=factor(Education),
                   #convert age to decades for more interpretable effect size
                   age_dec=age_1/10)
@@ -1374,7 +1731,7 @@ df_all = df_all |> mutate(gender=factor(gender),
 ```
 
 ```{r rq2exmod}
-mod=lm(frequency_1~gender+age_dec+Education+IH+TFD+political_leaning,data=df_all) 
+mod=lm(frequency_1~gender+age_dec+Education+IH+TFD+political_leaning,data=S1_all) 
 ```
 
 **Results**
@@ -1457,20 +1814,20 @@ This research question will be examined using two multiple regressions per surve
 #| echo: false
 #| include: false
 
-df=df |> 
+S1=S1 |> 
   #across all variables contains('mode') replace NA with 0
   mutate(across((contains('mode') | contains('motive')) & !contains('TEXT'), ~ replace_na(.x, 0)),
          #convert closeness to 10-steps for better effect size estimation
          closeness_dec=closeness_1/10) 
 
-df_all=df_all |> 
+S1_all=S1_all |> 
   #across all variables contains('mode') replace NA with 0
   mutate(across((contains('mode') | contains('motive')) & !contains('TEXT'), ~ replace_na(.x, 0)),
          #convert closeness to 10-steps for better effect size estimation
          closeness_dec=closeness_1/10) 
 
 #no high correlations
-df |> mutate(gender=as.numeric(gender)) |> filter(gender<3) |> 
+S1 |> mutate(gender=as.numeric(gender)) |> filter(gender<3) |> 
   select(IH,TFD,political_leaning,gender,age_dec,closeness_1,mode_1,mode_2,mode_3,mode_4,mode_5,number_1,relationship,closeness_dec,depth,planning_indicator,emotion_onset_1,motive_1,motive_2,motive_3,motive_4,motive_5,motive_6,motive_7,motive_8,motive_9) |>
   cor(use = "pairwise.complete.obs") 
 ```
@@ -1486,7 +1843,7 @@ mod<-lm(PDQI ~
         #starting situations
         planning_indicator+emotion_onset_1+
         #motives
-        motive_1+motive_2+motive_3+motive_4+motive_5+motive_6+motive_7+motive_8, data=df) 
+        motive_1+motive_2+motive_3+motive_4+motive_5+motive_6+motive_7+motive_8, data=S1) 
 ```
 
 **Results**
@@ -1531,7 +1888,7 @@ mod<-lm(PDQI_general ~
           #starting situations
           plan_strangers_2+
           #motives
-          motive_general_1+motive_general_2+motive_general_3+motive_general_4+motive_general_5+motive_general_6+motive_general_7+motive_general_8, data=df_all) 
+          motive_general_1+motive_general_2+motive_general_3+motive_general_4+motive_general_5+motive_general_6+motive_general_7+motive_general_8, data=S1_all) 
 ```
 
 **Results**
@@ -1580,7 +1937,7 @@ mod<-lm(process_emo_2 ~
           #starting situations
           planning_indicator+emotion_onset_1+
           #motives
-          motive_1+motive_2+motive_3+motive_4+motive_5+motive_6+motive_7+motive_8, data=df) 
+          motive_1+motive_2+motive_3+motive_4+motive_5+motive_6+motive_7+motive_8, data=S1) 
 ```
 
 **Results**
@@ -1625,7 +1982,7 @@ mod<-lm(process_emo_general_2 ~
           #starting situations
           plan_strangers_2+
           #motives
-          motive_general_1+motive_general_2+motive_general_3+motive_general_4+motive_general_5+motive_general_6+motive_general_7+motive_general_8+motive_general_9, data=df_all) 
+          motive_general_1+motive_general_2+motive_general_3+motive_general_4+motive_general_5+motive_general_6+motive_general_7+motive_general_8+motive_general_9, data=S1_all) 
 
 ```
 
@@ -1681,7 +2038,7 @@ mod<-lm(outcome_1 ~ #learn something
           #motives
           motive_1+motive_2+motive_3+motive_4+motive_5+motive_6+motive_7+motive_8+motive_9+
           #process
-          PDQI+process_emo_1, data=df) 
+          PDQI+process_emo_1, data=S1) 
 ```
 
 **Results** Learning something is positively predicted by trying to find a compromise and by DKOs that are characterized by more positive emotions.
@@ -1726,7 +2083,7 @@ mod<-lm(outcome_general_1 ~ #learn something
           #motives
           motive_general_1+motive_general_2+motive_general_3+motive_general_4+motive_general_5+motive_general_6+motive_general_7+motive_general_8+motive_general_9 +
           #process
-          PDQI_general+process_emo_general_2, data=df_all) 
+          PDQI_general+process_emo_general_2, data=S1_all) 
 ```
 
 **Results**
@@ -1775,7 +2132,7 @@ mod<-lm(outcome_2 ~ #enjoy
           #motives
           motive_1+motive_2+motive_3+motive_4+motive_5+motive_6+motive_7+motive_8+motive_9+
           #process
-          PDQI+process_emo_1, data=df) 
+          PDQI+process_emo_1, data=S1) 
 
 ```
 
@@ -1821,7 +2178,7 @@ mod<-lm(outcome_general_2 ~ #enjoy
           #motives
           motive_general_1+motive_general_2+motive_general_3+motive_general_4+motive_general_5+motive_general_6+motive_general_7+motive_general_8+motive_general_9 +
           #process
-          PDQI_general+process_emo_general_2, data=df_all) 
+          PDQI_general+process_emo_general_2, data=S1_all) 
 ```
 
 **Results**
@@ -1870,7 +2227,7 @@ mod<-lm(outcome_attitude_change ~
           #motives
           motive_1+motive_2+motive_3+motive_4+motive_5+motive_6+motive_7+motive_8+motive_9+
           #process
-          PDQI+process_emo_1, data=df) 
+          PDQI+process_emo_1, data=S1) 
 ```
 
 **Results** Older people were less likely to experience attitude change. Audio (vs. face-to-face) conversations are less likely to lead to attitude change. Planned conversations and conversations in which people are trying to learn are more likely to lead to attitude change. Higher PDQI is less likely to lead to attitude change. Higher positive emotions are more likely to lead to attitude change.
@@ -1915,7 +2272,7 @@ mod<-lm(outcome_general_attitude_change ~
           #motives
           motive_general_1+motive_general_2+motive_general_3+motive_general_4+motive_general_5+motive_general_6+motive_general_7+motive_general_8+motive_general_9 +
           #process
-          PDQI_general+process_emo_general_2, data=df_all) 
+          PDQI_general+process_emo_general_2, data=S1_all) 
 
 ```
 
@@ -1965,7 +2322,7 @@ mod<-lm(outcome_behavior_change ~
           #motives
           motive_1+motive_2+motive_3+motive_4+motive_5+motive_6+motive_7+motive_8+motive_9+
           #process
-          PDQI+process_emo_1, data=df) 
+          PDQI+process_emo_1, data=S1) 
 ```
 
 **Results**
@@ -2010,7 +2367,7 @@ mod<-lm(outcome_general_behavior_change ~
           #motives
           motive_general_1+motive_general_2+motive_general_3+motive_general_4+motive_general_5+motive_general_6+motive_general_7+motive_general_8+motive_general_9 +
           #process
-          PDQI_general+process_emo_general_2, data=df_all) 
+          PDQI_general+process_emo_general_2, data=S1_all) 
 ```
 
 **Results**
@@ -2059,7 +2416,7 @@ mod<-lm(outcome_7 ~ #relationship worsens
           #motives
           motive_1+motive_2+motive_3+motive_4+motive_5+motive_6+motive_7+motive_8+motive_9+
           #process
-          PDQI+process_emo_1, data=df) 
+          PDQI+process_emo_1, data=S1) 
 ```
 
 **Results**
@@ -2104,7 +2461,7 @@ mod<-lm(outcome_general_7 ~ #relationship worsens
           #motives
           motive_general_1+motive_general_2+motive_general_3+motive_general_4+motive_general_5+motive_general_6+motive_general_7+motive_general_8+motive_general_9 +
           #process
-          PDQI_general+process_emo_general_2, data=df_all) 
+          PDQI_general+process_emo_general_2, data=S1_all) 
 
 ```
 
@@ -2151,7 +2508,7 @@ mod<-lm(outcome_10 ~ #repetition
           #motives
           motive_1+motive_2+motive_3+motive_4+motive_5+motive_6+motive_7+motive_8+motive_9+
           #process
-          PDQI+process_emo_1, data=df) 
+          PDQI+process_emo_1, data=S1) 
 ```
 
 **Results**

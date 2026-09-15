@@ -111,13 +111,68 @@ df = df |>
 df = df |> 
   mutate(political_leaning=na_if(political_leaning,'-99'))
 
-
-
 df=df|> mutate(conv_topic_char=case_when(!is.na(conv_topic) & conv_topic=='1'~"Health",
                                      !is.na(conv_topic) & conv_topic=='2'~'Politics',
                                      !is.na(conv_topic) & conv_topic=='3'~'Environment',
                                      !is.na(conv_topic) & conv_topic=='4'~'Other',
                                      TRUE~NA_character_),
                 conv_topic_char=factor(conv_topic_char,levels=c('Health','Politics','Environment','Other')))
+
+df = df |> 
+  mutate(across(starts_with("TFD"), as.numeric))|> 
+  rowwise() |>
+  mutate(
+  #Tolerance for Disagreement
+   TFD_pos = sum(c_across(c(TFD_1, TFD_2, TFD_5, TFD_7, TFD_8, TFD_14, TFD_15)), na.rm = TRUE),
+   TFD_neg = sum(c_across(c(TFD_3, TFD_4, TFD_6, TFD_9, TFD_10, TFD_11, TFD_12, TFD_13)), na.rm = TRUE),
+   TFD = 48 + TFD_pos - TFD_neg) |>  
+  ungroup()
+
+df = df |>
+  mutate(across(starts_with("depth_"), as.numeric))|> 
+  rowwise() |>
+  mutate(
+    depth = mean(c_across(c(depth_1,depth_2,depth_3,depth_4,depth_5,depth_6,depth_7)), na.rm = TRUE)
+  ) |> ungroup()
+
+df = df |> 
+  mutate(across(starts_with("process_PDQI_"), as.numeric))|> 
+  rowwise() |>
+  mutate(
+    PDQI = mean(c_across(c(process_PDQI_1,process_PDQI_2,process_PDQI_3,process_PDQI_4,process_PDQI_5,process_PDQI_6,process_PDQI_7)), na.rm = TRUE)
+  ) |> ungroup()
+
+df = df |> 
+  mutate(across(starts_with('process_general'), as.numeric))|> 
+  rowwise() |>
+  mutate(
+    PDQI_general = mean(c_across(c(process_general_1, process_general_3)), na.rm = TRUE)
+  ) |>
+  ungroup()
+
+df = df |> 
+  mutate(across(starts_with('IH_'), as.numeric))|> 
+  rowwise() |>
+  mutate(
+    IH = mean(c_across(c(IH_1:IH_6)), na.rm = TRUE)
+  ) |> ungroup()
+
+#Outcomes
+# small helper function to deal with situations where both values are NA (participants that will be excluded anyways)
+max_or_na <- function(x) {
+  if (all(is.na(x))) NA_real_ else max(x, na.rm = TRUE)
+}
+
+df = df |> 
+  mutate(across(starts_with('outcome_'), as.numeric)) |> 
+  #set Don't know to NA
+  mutate(across(starts_with("outcome_"), ~ na_if(., -99))) |> 
+  rowwise() |>
+  mutate(
+    outcome_attitude_change = max_or_na(c_across(c(outcome_3, outcome_4))),
+    outcome_behavior_change = max_or_na(c_across(c(outcome_8, outcome_9))),
+    outcome_general_attitude_change = max_or_na(c_across(c(outcome_general_3, outcome_general_4))),
+    outcome_general_behavior_change = max_or_na(c_across(c(outcome_general_8, outcome_general_9)))
+  )  |> ungroup()
 
 write_csv(df, 'data/clean_study1_data.csv')
