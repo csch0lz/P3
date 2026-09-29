@@ -176,30 +176,44 @@ Conversation outcomes
 
 \section{Results}
 
+\subsection{Societally-relevant DKOs have a somewhat better reputation than expected}
+
 First, we sought to confirm general perceptions of societally-relevant DKOs as specified in H1:
 
 H1: On average, societally-relevant DKOs are perceived as unenjoyable (H1A), are
 unlikely to change attitudes (H1B) and behavior (H1C), and do not motivate repetition of
 similar conversations (H1D).
 
+Pre-registered, one-sided, one-sample t-tests (Figure ~\ref{fig:modelFigure}) support all change-related hypotheses (H1B & H1C) across both individually recalled, specific DKOs and DKOs in general. Societally-relevant DKOs are perceived to be unlikely to lead to attitude or behavior change in either the reporting participant or their conversation partners. In contrast, we did not find support for H1A and H1D. On average, societally-relevant DKOs were perceived to be slightly enjoyable and our participants reported a weak willingness to repeat their recalled conversation. In sum, our data suggest that the reputation of societally-relevant DKOs is slightly better than expected, although there is certainly room for improvement.
 
-between known others rather than strangers using a series of pre-registered one-sided, one-sample t-tests comparing the sample mean per variable to the scale midpoint (4). 
-
-\subsection{Societally-relevant DKOs have a better reputation than expected}
-
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{Figure/H1.png}
+    \caption{Average expected outcomes of specifically recalled societally-relevant DKOs (RECALL) and societally-relevant DKOs in general (GENERAL)}
+    \label{fig:H1Figure}
+\end{figure}
 
 <<H2test, echo=FALSE>>=
 tt <- t.test(S1_all$plan_strangers_1, mu = 3, alternative = "greater", conf.level = 0.95)
 @
 
-While H2, a pre-registered one-sided, one-sample t-test showed that, on average, participants indicated to discuss disagreements with known others rather than strangers slightly more than half of the time (M>3 on a scale from 1-7; M = \Sexpr{round(mean(S1_all$plan_strangers_1),2)}$, SD = \Sexpr{round(sd(S1_all$plan_strangers_1),2)}$, t($\Sexpr{tt$parameter}$ = $\Sexpr{round(tt$statistic,2)}$), p = $\Sexpr{ifelse(tt$p.value<0.001,'<.001',round(tt$p.value,3))}$, 95\% CI[\Sexpr{round(tt$conf.int[1],2)}$, 'Inf']. This small effects highlights that disagreements with known rather than unknown others are frequent, but not an overwhelming majority.
+Further, pre-registered, one-sided, one-sample t-test confirmed H2, such that participants indicated to discuss disagreements with known others rather than strangers slightly more than half of the time (M>3 on a scale from 1-7; M = \Sexpr{round(mean(S1_all$plan_strangers_1),2)}$, SD = \Sexpr{round(sd(S1_all$plan_strangers_1),2)}$, t($\Sexpr{tt$parameter}$ = $\Sexpr{round(tt$statistic,2)}$), p = $\Sexpr{ifelse(tt$p.value<0.001,'<.001',round(tt$p.value,3))}$, 95\% CI[$\Sexpr{round(tt$conf.int[1],2)}$, 'Inf']. This small effects highlights that disagreements with known rather than unknown others are frequent, but not an overwhelming majority.
 
-\subsection{Frequency}
+\subsection{Planning and DKO Frequency}
+
+Next, we examined the relationship between planning DKOs and DKO frequency.
+
 Overall, the GENERAL part of the survey suggests that disagreements are relatively infrequent (@fig-frequency). The most common reported frequency of "any disagreement" was "2-11x/year".
 
 With regards to the three focal topics, conversations about the environment were least frequent, with the most common response being "2-11x/year", closely followed by "less than yearly". Conversations about health were somewhat more frequent ("2-11x/year" and "monthly" being the most common categories). Conversations about politics were most frequent, with the most common response being "2-11x/year", closely followed by "weekly" and "monthly".
 
 Disagreements about the focal topics were even less frequent with the most likely responses for the environment and health being "less than yearly" and the most likely response for politics being "2-11x/year".
+
+We next tested whether those who were more likely to plan societally-relevant DKOs were also more likely to have them and whetehr 
+
+H3: The majority of DKOs is unplanned and planned vs. unplanned DKOs are
+more likely to be repeated. RQ1: Is planning associated with the frequency of
+societally-relevant DKOs?
 
 
 
