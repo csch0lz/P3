@@ -1,18 +1,18 @@
 Hypothesis,Recall,General
 H1A: Unenjoyable,"Not supported 
 M = 4.27SD = 1.77","Not supported 
-M = 4.34, SD = 1.47"
+M = 4.31, SD = 1.46"
 H1B: Attitude change (self),"Supported 
 M = 2.63, SD = 1.67, p <= .001","Supported 
-M = 3.67, SD = 1.43, p <= .001"
+M = 3.61, SD = 1.42, p <= .001"
 H1B: Attitude change (other),"Supported 
 M = 2.93, SD = 1.65, p <= .001","Supported 
-M = 3.66, SD = 1.4, p <= .001"
+M = 3.61, SD = 1.38, p <= .001"
 H1C: Behavior change (self),"Supported 
 M = 3.17, SD = 1.81, p <= .001","Supported 
-M = 3.78, SD = 1.43, p <= .001"
+M = 3.73, SD = 1.4, p <= .001"
 H1C: Behavior change (other),"Supported 
 M = 3.08, SD = 1.75, p <= .001","Supported 
-M = 3.68, SD = 1.39, p <= .001"
+M = 3.6, SD = 1.38, p <= .001"
 H1D: No repetition,"Not supported 
 M = 4.22, SD = 1.7, p = 0.992",not measured
