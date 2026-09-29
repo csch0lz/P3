@@ -1,0 +1,73 @@
+---
+title: "Untitled"
+format: html
+---
+
+```{r, packages, echo=FALSE, message=FALSE}
+library('tidyverse')
+library('psych')
+library('performance')
+library('tidyverse')
+library('broom.mixed')
+library('gt')
+library('kableExtra')
+library('lmerTest')
+```
+
+```{r, data, echo=FALSE}
+S1_all=read_csv('../data/clean_study1_data.csv',col_types=cols())
+```
+
+# Exclusions
+
+```{r}
+# Apply exclusions
+S1_all=S1_all |> filter(completed==1, attentionPassed==1, time_exclusion==0, time_straightliner_exclusion==0) 
+# Tibble including only recalled societally-relevant DKOs about focal topics
+S1=S1_all |> filter(conv_topic <4)
+```
+
+# H1
+
+**H1: On average, societally-relevant DKOs are perceived as unenjoyable (H1A), are unlikely to change attitudes (H1B) and behavior (H1C), and do not motivate repetition of similar conversations (H1D).**
+
+All hypotheses, except H1D were tested in both the RECALL and GENERAL parts of the survey. Following the pre-registration, all tests are one-sided, one-sample t-test comparing the sample mean to 4 (the midpoint of the scale).
+
+```{r}
+H1_table=data.frame(Hypothesis=rep(NA,4),Recall=rep(NA,4),General=rep(NA,4))
+
+H1_table$Hypothesis=c('H1A: Unenjoyable', 'H1B: Unlikely to change attitudes', 'H1C: Unlikely to change behavior', 'H1D: No repetition')
+H1_table$Recall=c(paste0('Not supported \n', ))
+```
+
++-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| H1A: Unenjoyable                          | Not supported                                                                                                                                                                                                                                                                               | Not supported                                                                                                                                                                                                                                                                                                                               |
+|                                           |                                                                                                                                                                                                                                                                                             |                                                                                                                                                                                                                                                                                                                                             |
+|                                           | M = \`r round(mean(S1\$outcome_2,na.rm=T),2)\`, SD = \`r round(sd(S1\$outcome_2,na.rm=T),2)\`                                                                                                                                                                                               | M = \`r round(mean(S1_all\$outcome_general_2,na.rm=T),2)\`, SD = \`r round(sd(S1_all\$outcome_general_2,na.rm=T),2)\`                                                                                                                                                                                                                       |
++-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| H1B: No attitude change (own attitude)    | Supported                                                                                                                                                                                                                                                                                   | SUPPORTED                                                                                                                                                                                                                                                                                                                                   |
+|                                           |                                                                                                                                                                                                                                                                                             |                                                                                                                                                                                                                                                                                                                                             |
+|                                           | M = \`r round(mean(S1\$outcome_3,na.rm=T),2)\`, SD = \`r round(sd(S1\$outcome_3,na.rm=T),2)\`, p \`r ifelse(t.test(S1\$outcome_3, mu = 4, alternative = "less")\$p.value\<=0.001,'\<= .001',paste0('= ',round(t.test(S1\$outcome_3, mu = 4, alternative = "less")\$p.value,3)))\`           | M = \`r round(mean(S1_all\$outcome_general_3,na.rm=T),2)\`, SD = \`r round(sd(S1_all\$outcome_general_3,na.rm=T),2)\`, p \`r ifelse(t.test(S1_all\$outcome_general_3, mu = 4, alternative = "less")\$p.value\<=0.001,'\<= .001',paste0('= ',round(t.test(S1_all\$outcome_general_3, mu = 4, alternative = "less")\$p.value,3)))\`           |
++-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| H1B: No attitude change (others attitude) | SUPPORTED M = \`r round(mean(S1\$outcome_4,na.rm=T),2)\`, SD = \`r round(sd(S1\$outcome_4,na.rm=T),2)\`, p \`r ifelse(t.test(S1\$outcome_4, mu = 4, alternative = "less")\$p.value\<=0.001,'\<= .001',paste0('= ',round(t.test(S1\$outcome_4, mu = 4, alternative = "less")\$p.value,3)))\` | SUPPORTED M = \`r round(mean(S1_all\$outcome_general_4,na.rm=T),2)\`, SD = \`r round(sd(S1_all\$outcome_general_4,na.rm=T),2)\`, p \`r ifelse(t.test(S1_all\$outcome_general_4, mu = 4, alternative = "less")\$p.value\<=0.001,'\<= .001',paste0('= ',round(t.test(S1_all\$outcome_general_4, mu = 4, alternative = "less")\$p.value,3)))\` |
++-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| H1C: No behavior change (own behavior)    | SUPPORTED M = \`r round(mean(S1\$outcome_8,na.rm=T),2)\`, SD = \`r round(sd(S1\$outcome_8,na.rm=T),2)\`, p \`r ifelse(t.test(S1\$outcome_8, mu = 4, alternative = "less")\$p.value\<=0.001,'\<= .001',paste0('= ',round(t.test(S1\$outcome_8, mu = 4, alternative = "less")\$p.value,3)))\` | SUPPORTED M = \`r round(mean(S1_all\$outcome_general_8,na.rm=T),2)\`, SD = \`r round(sd(S1_all\$outcome_general_8,na.rm=T),2)\`, p \`r ifelse(t.test(S1_all\$outcome_general_8, mu = 4, alternative = "less")\$p.value\<=0.001,'\<= .001',paste0('= ',round(t.test(S1_all\$outcome_general_8, mu = 4, alternative = "less")\$p.value,3)))\` |
++-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| H1C: No behavior change (others behavior) | SUPPORTED M = \`r round(mean(S1\$outcome_9,na.rm=T),2)\`, SD = \`r round(sd(S1\$outcome_9,na.rm=T),2)\`, p \`r ifelse(t.test(S1\$outcome_9, mu = 4, alternative = "less")\$p.value\<=0.001,'\<= .001',paste0('= ',round(t.test(S1\$outcome_9, mu = 4, alternative = "less")\$p.value,3)))\` | SUPPORTED M = \`r round(mean(S1_all\$outcome_general_9,na.rm=T),2)\`, SD = \`r round(sd(S1_all\$outcome_general_9,na.rm=T),2)\`, p \`r ifelse(t.test(S1_all\$outcome_general_9, mu = 4, alternative = "less")\$p.value\<=0.001,'\<= .001',paste0('= ',round(t.test(S1_all\$outcome_general_9, mu = 4, alternative = "less")\$p.value,3)))\` |
++-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| H1D: No repetition                        | UNSUPPORTED M = \`r round(mean(S1\$outcome_10,na.rm=T),2)\`, SD = \`r round(sd(S1\$outcome_10,na.rm=T),2)\`                                                                                                                                                                                 | not measured                                                                                                                                                                                                                                                                                                                                |
++-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+## 5.10 RQ
+
+# H2
+
+In the GENERAL part of the survey, participants, on average, indicated to talk to known others rather than strangers about societally-relevant disagreements slightly more than half the time.
+
+M = `r round(mean(S1_all$plan_strangers_1,na.rm=T),2)`, SD = `r round(sd(S1_all$plan_strangers_1,na.rm=T),2)`
+
+**pre-registered one-sided, one-sample t-test (H0: average \>3)**
+
+```{r H2Test}
+tt <- t.test(S1_all$plan_strangers_1, mu = 3, alternative = "greater", conf.level = 0.95)
+```

@@ -1370,23 +1370,10 @@ S1 |>
 
 ## 5.9 RQ7_H1: On average, DKOs are perceived as unenjoyable (H1A), are unlikely to change attitudes (H1B) and behavior (H1C), and do not motivate repetition of similar conversations (H1D).
 
-```{r}
-#| echo: false
-#| include: false
-#clean outcome variables
-S1 <- S1 |>
-  mutate(across(starts_with("outcome_"),
-                ~ na_if(.x, -99)))
-S1_all <- S1_all |>
-  mutate(across(starts_with("outcome_"),
-                ~ na_if(.x, -99)))
-
-```
-
 All hypotheses, except RQ7_H1D were tested in both the RECALL and GENERAL parts of the survey. Following the pre-registration, all tests are one-sided, one-sample t-test comparing the sample mean to 4 (the midpoint of the scale).
 
 | Hypothesis | RECALL | GENERAL |
-|------------------------|------------------------|------------------------|
+|--------------------------|-----------------------------------------|--------------------------------------------------------------|
 | H1A: Unenjoyable | UNSUPPORTED; M = `r round(mean(S1$outcome_2,na.rm=T),2)`, SD = `r round(sd(S1$outcome_2,na.rm=T),2)`) | UNSUPPORTED M = `r round(mean(S1_all$outcome_general_2,na.rm=T),2)`, SD = `r round(sd(S1_all$outcome_general_2,na.rm=T),2)` |
 | H1B: No attitude change (own attitude) | SUPPORTED M = `r round(mean(S1$outcome_3,na.rm=T),2)`, SD = `r round(sd(S1$outcome_3,na.rm=T),2)`, p `r ifelse(t.test(S1$outcome_3, mu = 4, alternative = "less")$p.value<0.001,'< .001',paste0('= ',round(t.test(S1$outcome_3, mu = 4, alternative = "less")$p.value,3)))` | SUPPORTED M = `r round(mean(S1_all$outcome_general_3,na.rm=T),2)`, SD = `r round(sd(S1_all$outcome_general_3,na.rm=T),2)`, p `r ifelse(t.test(S1_all$outcome_general_3, mu = 4, alternative = "less")$p.value<0.001,'< .001',paste0('= ',round(t.test(S1_all$outcome_general_3, mu = 4, alternative = "less")$p.value,3)))` |
 | H1B: No attitude change (other's attitude) | SUPPORTED M = `r round(mean(S1$outcome_4,na.rm=T),2)`, SD = `r round(sd(S1$outcome_4,na.rm=T),2)`, p `r ifelse(t.test(S1$outcome_4, mu = 4, alternative = "less")$p.value<0.001,'< .001',paste0('= ',round(t.test(S1$outcome_4, mu = 4, alternative = "less")$p.value,3)))` | SUPPORTED M = `r round(mean(S1_all$outcome_general_4,na.rm=T),2)`, SD = `r round(sd(S1_all$outcome_general_4,na.rm=T),2)`, p `r ifelse(t.test(S1_all$outcome_general_4, mu = 4, alternative = "less")$p.value<0.001,'< .001',paste0('= ',round(t.test(S1_all$outcome_general_4, mu = 4, alternative = "less")$p.value,3)))` |
