@@ -153,6 +153,8 @@ formatnum <- function(integer){
 S1_all=S1_preExclusion |> filter(completed==1, attentionPassed==1, time_exclusion==0, time_straightliner_exclusion==0) |>
 mutate(age_1=as.numeric(age_1),political_leaning=as.numeric(political_leaning))
 
+#Tibble including only recalled societally-relevant DKOs about focal topics
+S1=S1_all |> filter(conv_topic <4)
 @
 
 After providing informed consent (ERB # ANONYMIZED), participants completed an online survey consisting of two main parts: In Part 1, participants were asked to recall details about one specific DKO. Participants were randomly assigned to one of the three focal topics (health, politics, or the environment). Those who were unable to recall a DKO about the assigned topic were first asked to recall a DKO about another focal topic. Participants who did not recall any societally-relevant DKO, were asked to recall a DKO about any topic. In Part 2, participants were asked to report experiences with and impressions of societally-relevant DKOs in general. The pre-registration, measures, and analysis scripts are available on our OSF page. 
@@ -199,19 +201,49 @@ tt <- t.test(S1_all$plan_strangers_1, mu = 3, alternative = "greater", conf.leve
 
 Further, pre-registered, one-sided, one-sample t-test confirmed H2, such that participants indicated to discuss disagreements with known others rather than strangers slightly more than half of the time (M>3 on a scale from 1-7; M = \Sexpr{round(mean(S1_all$plan_strangers_1),2)}$, SD = \Sexpr{round(sd(S1_all$plan_strangers_1),2)}$, t($\Sexpr{tt$parameter}$ = $\Sexpr{round(tt$statistic,2)}$), p = $\Sexpr{ifelse(tt$p.value<0.001,'<.001',round(tt$p.value,3))}$, 95\% CI[$\Sexpr{round(tt$conf.int[1],2)}$, 'Inf']. This small effects highlights that disagreements with known rather than unknown others are frequent, but not an overwhelming majority.
 
-\subsection{Planning and DKO Frequency}
+\subsection{DKO Frequency and planning}
 
-Next, we examined the relationship between planning DKOs and DKO frequency.
+Overall, the GENERAL part of the survey confirms that societally-relevant disagreements are infrequent ~\ref{fig:freqFigure}. The average frequency of disagreements about any topic is roughly monthly, which is similar to the frequency of any societally-relevant conversation about the three focal topics. Disagreements about societally-relevant topics were even less frequent, occuring on average roughly 2-11 times per year with environmental disagreements being rated least frequent and political disagreements most frequent.
 
-Overall, the GENERAL part of the survey suggests that disagreements are relatively infrequent (@fig-frequency). The most common reported frequency of "any disagreement" was "2-11x/year".
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{Figure/freq.png}
+    \caption{Frequency of any conversations and disagreements across topics. Black dots indicate average values}
+    \label{fig:freqFigure}
+\end{figure}
 
-With regards to the three focal topics, conversations about the environment were least frequent, with the most common response being "2-11x/year", closely followed by "less than yearly". Conversations about health were somewhat more frequent ("2-11x/year" and "monthly" being the most common categories). Conversations about politics were most frequent, with the most common response being "2-11x/year", closely followed by "weekly" and "monthly".
+We then examined the relationship between planning and DKO frequency. 
 
-Disagreements about the focal topics were even less frequent with the most likely responses for the environment and health being "less than yearly" and the most likely response for politics being "2-11x/year".
+<<planningRecall,echo=FALSE>>=
+S1=S1 |> 
+  mutate(planning_label=case_when(planning==1~"planned_self",
+                            planning==2~"planned_other",
+                            planning==3~"unplanned",
+                            planning==4~"don't remember",
+                            TRUE~NA_character_),
+         planning_indicator=case_when(planning<3~1,
+                           planning==3~0,
+                           TRUE~NA_real_)) 
 
-We next tested whether those who were more likely to plan societally-relevant DKOs were also more likely to have them and whetehr 
+zTest=prop.test(x=sum(S1$planning_indicator[!is.na(S1$planning_indicator)]), 
+                n=length(S1$planning_indicator[!is.na(S1$planning_indicator)]),
+          p = 0.5,
+          conf.level=0.95,
+          alternative = "less",
+          correct = FALSE)  
+@
 
-H3: The majority of DKOs is unplanned and planned vs. unplanned DKOs are
+<<planningGeneral,echo=FALSE>>=
+tt=t.test(S1_all$plan_strangers_2,S1_all$plan_strangers_3,paired=T, alternative='less')
+@
+
+First, examining the recalled, societally-relevant DKOs, we confirmed H3 with a pre-registered, one-sided z-test. Only a minority of recalled societally-relevant DKOs was planned ($\Sexpr{S1 |> summarize(prop_unplanned=round(sum(planning<3,na.rm=T)/sum(planning<4,na.rm=T)*100,2))}$ \%; 95\% CI[$\Sexpr{zTest$conf.int[1]}$,$\Sexpr{round(zTest$conf.int[2],2)}$]). This pattern was confirmed in the general part of the survey where planned DKOs were reported to be less frequent than unplanned DKOs (t($\Sexpr{tt$parameter}$) = $\Sexpr{round(tt$statistic,2)}$, p $\Sexpr{ifelse(tt$p.value<0.001,'<.001',round(tt$p.value,3))}$. [NOTE: NEED TO ADD SCALE INFORMATION/MEANS OR FIGURE]
+
+However, we found evidence of a link between planning and frequency such that participants who were generally more likely to plan societally-relevant DKOs reported to engage in them with higher frequency. These associations were of medium size and held across all focal topics (Figure ~\ref{fig:planFreq}). Compounding this effect, planned recalled DKOs were associated with a higher willingness to repeat them than unplanned recalled DKOs.
+
+
+
+DKOs are
 more likely to be repeated. RQ1: Is planning associated with the frequency of
 societally-relevant DKOs?
 
