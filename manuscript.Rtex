@@ -275,6 +275,17 @@ In support of H5, we found medium to large associations between trait intellectu
 
 [STILL UNCERTAIN WHETHER TO ONLY REPORT TESTS FOR PRE-REG HYPOTHESES OR WHETHER TO SHOW CORRELATIONS FOR ALL OUTCOME WHICH HIGHLIGHT THE DISSOCIATION BETWEEN CHANGE AND SOCIAL COHESION OUTCOMES]
 
+H6: DKOs with higher discourse quality are perceived to be more instructive
+(H6A), more enjoyable (H6B), less likely to harm the relationship of the conversation partners (H6C) and associated with higher willingness to have similar conversations in the future (H6D). 
+
+All confirmed across both RECALL And GENERAL models (Figure ~\ref{fig:PDQIOutcomesFigure})
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{Figure/PDQIOutcomes.png}
+    \caption{Association between perceived discourse quality and DKO outcomes}
+    \label{fig:PDQIOutcomesFigure}
+\end{figure}
 
 \section{Discussion Study 1}
 
