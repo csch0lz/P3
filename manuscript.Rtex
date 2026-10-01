@@ -90,9 +90,9 @@ Known natural predictors of the initiation of social interactions (e.g., of onli
 
 The strong motivation for positive social interactions makes it easier to choose for topics that, on average, are more often part of daily discourse and that don't cause controversy between the interaction partners. In addition, a well-studied strategy to protect a positive self-image is avoiding counterattitudinal information (CITE XINYAO AS SUMBITTED and MEZULIS). Other well-known drivers of interactions, like arousal, salience, and emotionality  \parencite{bergerContagiousWhyThings2013} may overwrite the self- and social hesitations to discuss disagreements. However, disagreements started in the context of strong emotions may impair careful listening and promote motivated reasoning and, thereby, cause resistance, low enjoyment and relational harm. In other words, natural predictors of social interactions make disagreements unlikely and if they do occur might make them counterproductive. 
 
-We propose that planning a DKO can essentially substitute these naturally occurring frequency predictors and enhance frequency without harming social cohesion. By planning, we mean a concrete and detailed plan to engage in a specific societally-relevant DKO with a specific known other at a specific time. Research on implementation intentions [CITE] and action planning [GOLLWITZER?] suggests that concrete plans can bridge intention behavior gaps through explicit commitment and by supporting the planner's memory with specific situational triggers (e.g., "When I have dinner with X at home tonight, I will ask about Y."). We theorize that planning a DKO increases the chance of occurrence of that specific DKO and might impact overall frequency because one successful/enjoyable DKO might lead to repetitions of similar behavior [MAYBE CITE REINFORCEMENT LEARNING]. Indeed, work on sharing suggests that when given the opportunity and time to consider potential routes through which content could be framed as socially or self-relevant enhances people's likelihood to engage in social interactions about this content even if they wouldn't have done so otherwise \parencite{cosmePerceivedSelfSocial2025a, scholzInvokingSelfRelatedSocial2023}. As such, planning might reduce the perceived self- and social relevance barriers while increasing DKO frequency without relying on the crutch of emotions. Here, we will test the assumption that, given negative perceptions, most people are not already planning societally-relevant DKOs and explore whether those who are more likely to plan DKOs engage in them more frequently.
+We propose that planning a DKO can essentially substitute these naturally occurring frequency predictors and enhance frequency without harming social cohesion. By planning, we mean a concrete and detailed plan to engage in a specific societally-relevant DKO with a specific known other at a specific time. Research on implementation intentions [CITE] and action planning [GOLLWITZER?] suggests that concrete plans can bridge intention behavior gaps through explicit commitment and by supporting the planner's memory with specific situational triggers (e.g., "When I have dinner with X at home tonight, I will ask about Y."). We theorize that planning a DKO increases the chance of occurrence of that specific DKO and might impact overall frequency because one successful/enjoyable DKO might lead to repetitions of similar behavior [MAYBE CITE REINFORCEMENT LEARNING]. Indeed, work on sharing suggests that when given the opportunity and time to consider potential routes through which content could be framed as socially or self-relevant enhances people's likelihood to engage in social interactions about this content even if they wouldn't have done so otherwise \parencite{cosmePerceivedSelfSocial2025a, scholzInvokingSelfRelatedSocial2023}. As such, planning might reduce the perceived self- and social relevance barriers while increasing DKO frequency without relying on the crutch of emotions. Here, we will test the assumption that, given negative perceptions, most people are not already planning societally-relevant DKOs and explore whether those who are more likely to plan DKOs engage in them more frequently. 
 
-H3: The majority of DKOs is unplanned and planned vs. unplanned DKOs are  more likely to be repeated.
+H3: The majority of DKOs is unplanned and planned vs. unplanned DKOs.
 RQ1: Is planning associated with the frequency of societally-relevant DKOs?
 
 \subsubsection{Planning and Change Outcomes}
@@ -111,7 +111,7 @@ Here, we propose an alternative route to influencing the outcomes of disagreemen
 
 This approach offers a fundamentally different model of intervention. Rather than functioning as a top-down instrument for promoting researcher-defined outcomes, planning could empower individuals to navigate consequential disagreements in their everyday social relationships more effectively. Moreover, because planning allows individuals to anticipate not only their partner’s responses but also the potential relational consequences of the conversation, it may help them manage disagreements in ways that reduces the risk of relational harm. This approach is valuable in that a society in which there is greater flexibility and fluidity in societally-relevant attitudes and behaviors can more easily adapt to environmental pressures like threats or novel evidence and avoid rigid attitudinal structures like those characterizing polarization. We therefore hypothesize:
 
-H4: Planned vs. unplanned DKOs are perceived to be more instructive (H4A) less likely to harm the relationship of the conversation partners (H4B), and more likely to lead to attitude (H4C) and behavior change (H4D).
+H4: Planned vs. unplanned DKOs are perceived to be more instructive (H4A) less likely to harm the relationship of the conversation partners (H4B), more likely to lead to attitude (H4C) and behavior change (H4D), and more likley to be repeatd (H4E).
 
 \subsubsection{Intellectual Humility as a Predictor of Social Cohesion}
 
@@ -180,13 +180,13 @@ Conversation outcomes
 
 \subsection{Societally-relevant DKOs have a somewhat better reputation than expected}
 
-First, we sought to confirm general perceptions of societally-relevant DKOs as specified in H1:
+First, we examined general perceptions of societally-relevant DKOs by testing H1.
 
 H1: On average, societally-relevant DKOs are perceived as unenjoyable (H1A), are
 unlikely to change attitudes (H1B) and behavior (H1C), and do not motivate repetition of
 similar conversations (H1D).
 
-Pre-registered, one-sided, one-sample t-tests (Figure ~\ref{fig:modelFigure}) support all change-related hypotheses (H1B & H1C) across both individually recalled, specific DKOs and DKOs in general. Societally-relevant DKOs are perceived to be unlikely to lead to attitude or behavior change in either the reporting participant or their conversation partners. In contrast, we did not find support for H1A and H1D. On average, societally-relevant DKOs were perceived to be slightly enjoyable and our participants reported a weak willingness to repeat their recalled conversation. In sum, our data suggest that the reputation of societally-relevant DKOs is slightly better than expected, although there is certainly room for improvement.
+Pre-registered, one-sided, one-sample t-tests (Figure ~\ref{fig:modelFigure}) support all change-related hypotheses (H1B & H1C) across both individually recalled, specific DKOs and perceptions of societally-relevant DKOs in general. As expected, societally-relevant DKOs are perceived to be unlikely to lead to attitude or behavior change in either the reporting participant or their conversation partners. In contrast, we did not find support for H1A and H1D. On average, societally-relevant DKOs were perceived to be slightly enjoyable and our participants reported a weak willingness to repeat their recalled conversation. In sum, although societally-relevant DKOs appear to have a slightly more positive reputation than expected, there remains significant room for improvement. 
 
 \begin{figure}[htbp]
     \centering
@@ -199,11 +199,11 @@ Pre-registered, one-sided, one-sample t-tests (Figure ~\ref{fig:modelFigure}) su
 tt <- t.test(S1_all$plan_strangers_1, mu = 3, alternative = "greater", conf.level = 0.95)
 @
 
-Further, pre-registered, one-sided, one-sample t-test confirmed H2, such that participants indicated to discuss disagreements with known others rather than strangers slightly more than half of the time (M>3 on a scale from 1-7; M = \Sexpr{round(mean(S1_all$plan_strangers_1),2)}$, SD = \Sexpr{round(sd(S1_all$plan_strangers_1),2)}$, t($\Sexpr{tt$parameter}$ = $\Sexpr{round(tt$statistic,2)}$), p = $\Sexpr{ifelse(tt$p.value<0.001,'<.001',round(tt$p.value,3))}$, 95\% CI[$\Sexpr{round(tt$conf.int[1],2)}$, 'Inf']. This small effects highlights that disagreements with known rather than unknown others are frequent, but not an overwhelming majority.
+Further, pre-registered, one-sided, one-sample t-test confirmed H2, such that participants indicated to discuss disagreements with known others rather than strangers slightly more than half of the time (M>3 on a scale from 1-5; M = \Sexpr{round(mean(S1_all$plan_strangers_1),2)}$, SD = \Sexpr{round(sd(S1_all$plan_strangers_1),2)}$, t($\Sexpr{tt$parameter}$ = $\Sexpr{round(tt$statistic,2)}$), p = $\Sexpr{ifelse(tt$p.value<0.001,'<.001',round(tt$p.value,3))}$, 95\% CI[$\Sexpr{round(tt$conf.int[1],2)}$, 'Inf']. This small effects highlights that disagreements with known rather than unknown others are frequent, but not an overwhelming majority.
 
 \subsection{DKO Frequency and planning}
 
-Overall, the GENERAL part of the survey confirms that societally-relevant disagreements are infrequent ~\ref{fig:freqFigure}. The average frequency of disagreements about any topic is roughly monthly, which is similar to the frequency of any societally-relevant conversation about the three focal topics. Disagreements about societally-relevant topics were even less frequent, occuring on average roughly 2-11 times per year with environmental disagreements being rated least frequent and political disagreements most frequent.
+Overall, the GENERAL part of the survey confirms that societally-relevant disagreements are infrequent (Figure ~\ref{fig:freqFigure}). The average frequency of disagreements about any topic is roughly monthly, which is similar to the frequency of any societally-relevant conversation about the three focal topics. Disagreements about societally-relevant topics were even less frequent, occuring on average roughly 2-11 times per year with environmental disagreements being rated least frequent and political disagreements most frequent.
 
 \begin{figure}[htbp]
     \centering
@@ -237,16 +237,27 @@ zTest=prop.test(x=sum(S1$planning_indicator[!is.na(S1$planning_indicator)]),
 tt=t.test(S1_all$plan_strangers_2,S1_all$plan_strangers_3,paired=T, alternative='less')
 @
 
-First, examining the recalled, societally-relevant DKOs, we confirmed H3 with a pre-registered, one-sided z-test. Only a minority of recalled societally-relevant DKOs was planned ($\Sexpr{S1 |> summarize(prop_unplanned=round(sum(planning<3,na.rm=T)/sum(planning<4,na.rm=T)*100,2))}$ \%; 95\% CI[$\Sexpr{zTest$conf.int[1]}$,$\Sexpr{round(zTest$conf.int[2],2)}$]). This pattern was confirmed in the general part of the survey where planned DKOs were reported to be less frequent than unplanned DKOs (t($\Sexpr{tt$parameter}$) = $\Sexpr{round(tt$statistic,2)}$, p $\Sexpr{ifelse(tt$p.value<0.001,'<.001',round(tt$p.value,3))}$. [NOTE: NEED TO ADD SCALE INFORMATION/MEANS OR FIGURE]
+First, examining the recalled, societally-relevant DKOs, we confirmed H3 with a pre-registered, one-sided z-test. Only a minority of recalled, societally-relevant DKOs was planned ($\Sexpr{S1 |> summarize(prop_unplanned=round(sum(planning<3,na.rm=T)/sum(planning<4,na.rm=T)*100,2))}$ \%; 95\% CI[$\Sexpr{zTest$conf.int[1]}$,$\Sexpr{round(zTest$conf.int[2],2)}$]). This pattern was confirmed in the general part of the survey where planned DKOs (M = $\Sexpr{round(mean(S1_all$plan_strangers_2,na.rm=T),2)}$, SD = $\Sexpr{round(sd(S1_all$plan_strangers_2,na.rm=T),2)}$) were reported to be less frequent than unplanned DKOs (M = $\Sexpr{round(mean(S1_all$plan_strangers_3,na.rm=T),2)}$, SD = $\Sexpr{round(sd(S1_all$plan_strangers_3,na.rm=T),2)}$; t($\Sexpr{tt$parameter}$) = $\Sexpr{round(tt$statistic,2)}$, p $\Sexpr{ifelse(tt$p.value<0.001,'<.001',round(tt$p.value,3))}$ on a scale from 1-5 where 2 means "sometimes" and 3 means "half the time". 
 
-However, we found evidence of a link between planning and frequency such that participants who were generally more likely to plan societally-relevant DKOs reported to engage in them with higher frequency. These associations were of medium size and held across all focal topics (Figure ~\ref{fig:planFreq}). Compounding this effect, planned recalled DKOs were associated with a higher willingness to repeat them than unplanned recalled DKOs.
+However, we found evidence of a link between planning and frequency such that participants who were generally more likely to plan societally-relevant DKOs reported to engage in them with higher frequency. These associations were of medium size and held across all focal topics (Figure ~\ref{fig:planFreqFigure}). 
 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{Figure/planFreq.png}
+    \caption{Frequency of any conversations and disagreements across topics. Black dots indicate average values, Error bars are two-sided 95% confidence intervals}
+    \label{fig:planFreqFigure}
+\end{figure}
 
+\subsection{Planned DKOs are associated with change but might harm social cohesion}
 
-DKOs are
-more likely to be repeated. RQ1: Is planning associated with the frequency of
-societally-relevant DKOs?
+Among individual recalled DKOs (Figure ~\ref{fig: planOutcomesFigure}A), planned DKOs were perceived to be more instructive (confirming H4A), more likely to lead do attitude (H4C) and behavior (H4D) change. In contrast to H4B and H4E, planned DKOs were more, not less, likely to be associated with reational harm (although both DKO types were rated low on the likelihood of causing harm) and did not increase the willingness to repeat similar conversations. When examining the association between a person's likelihood to plan societally-relevant DKOs and their perceived outcomes of DKOs in general (Figure ~\ref{fig: planOutcomesFigure}B), we found corroborating evidence for H4A, C, and D. However, we did not find additional evidence for the idea that planning DKOs is associated with relational harm.
 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{Figure/planOutcomes.png}
+    \caption{Effect of planning on DKO outcomes. A) Average outcomes of planned vs. unplanned recalled DKOs. Error bars are two-sided 95\% CIs, Significance indicators are based on one-sided, independent-sample t-tests, B) Correlations between frequency of planned DKOs and perceived outcomes of the average DKO, Error bars are one-sided, 95% CIs, Significance indicators are based on one-sided Pearsson correlation tests.}
+    \label{fig:planOutcomesFigure}
+\end{figure}
 
 
 \section{Discussion Study 1}
