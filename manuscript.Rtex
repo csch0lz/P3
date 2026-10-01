@@ -244,27 +244,43 @@ However, we found evidence of a link between planning and frequency such that pa
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{Figure/planFreq.png}
-    \caption{Frequency of any conversations and disagreements across topics. Black dots indicate average values, Error bars are two-sided 95% confidence intervals}
+    \caption{Association between likelihood of planning DKOs and general DKO frequency across topics. Black dots indicate average values, Error bars are two-sided 95\% confidence intervals}
     \label{fig:planFreqFigure}
 \end{figure}
 
 \subsection{Planned DKOs are associated with change but might harm social cohesion}
 
-Among individual recalled DKOs (Figure ~\ref{fig: planOutcomesFigure}A), planned DKOs were perceived to be more instructive (confirming H4A), more likely to lead do attitude (H4C) and behavior (H4D) change. In contrast to H4B and H4E, planned DKOs were more, not less, likely to be associated with reational harm (although both DKO types were rated low on the likelihood of causing harm) and did not increase the willingness to repeat similar conversations. When examining the association between a person's likelihood to plan societally-relevant DKOs and their perceived outcomes of DKOs in general (Figure ~\ref{fig: planOutcomesFigure}B), we found corroborating evidence for H4A, C, and D. However, we did not find additional evidence for the idea that planning DKOs is associated with relational harm.
-
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{Figure/planOutcomes.png}
-    \caption{Effect of planning on DKO outcomes. A) Average outcomes of planned vs. unplanned recalled DKOs. Error bars are two-sided 95\% CIs, Significance indicators are based on one-sided, independent-sample t-tests, B) Correlations between frequency of planned DKOs and perceived outcomes of the average DKO, Error bars are one-sided, 95% CIs, Significance indicators are based on one-sided Pearsson correlation tests.}
+    \caption{Effect of planning on DKO outcomes. A) Average outcomes of planned vs. unplanned recalled DKOs. Error bars are two-sided 95\% CIs, Significance indicators are based on one-sided, independent-sample t-tests, B) Correlations between frequency of planned DKOs and perceived outcomes of the average DKO, Error bars are one-sided, 95\% CIs, Significance indicators are based on one-sided Pearsson correlation tests.}
     \label{fig:planOutcomesFigure}
 \end{figure}
+
+Among individual recalled DKOs (Figure ~\ref{fig:planOutcomesFigure}A), planned DKOs were perceived to be more instructive (confirming H4A), more likely to lead do attitude (H4C) and behavior (H4D) change. In contrast to H4B and H4E, planned DKOs were more, not less, likely to be associated with reational harm (although both DKO types were rated low on the likelihood of causing harm) and did not increase the willingness to repeat similar conversations. When examining the association between a person's likelihood to plan societally-relevant DKOs and their perceived outcomes of DKOs in general (Figure ~\ref{fig:planOutcomesFigure}B), we found corroborating evidence for H4A, C, and D. However, we did not find additional evidence for the idea that planning DKOs is associated with relational harm.
+
+\subsubsection{Intellectual humility enhances discourse quality}
+
+<<echo=FALSE>>=
+#RECALL
+ctr=cor.test(S1$IH,S1$PDQI, alternative='greater')
+
+#GENERAL
+ctg=cor.test(S1_all$IH,S1_all$PDQI_general, alternative='greater')
+@
+
+In support of H5, we found medium to large associations between trait intellectual humility and perceived discourse quality, both for specific, recalled, societally-relevant DKOs (r = $\Sexpr{round(ctr$estimate,3)}$, p (one-sided) $\Sexpr{ifelse(ctr$p.value<0.001,'< .001',paste0('= ',round(ctr$p.value,3)))}$) and general perceiptions of DKOs (r = $\Sexpr{round(ctg$estimate,3)}$, p (one-sided) $\Sexpr{ifelse(ctg$p.value<0.001,'< .001',paste0('= ',round(ctg$p.value,3)))}$).
+
+\subsubsection{Discourse quality enhances social cohesion outcomes}
+
+[STILL UNCERTAIN WHETHER TO ONLY REPORT TESTS FOR PRE-REG HYPOTHESES OR WHETHER TO SHOW CORRELATIONS FOR ALL OUTCOME WHICH HIGHLIGHT THE DISSOCIATION BETWEEN CHANGE AND SOCIAL COHESION OUTCOMES]
 
 
 \section{Discussion Study 1}
 
 \subsection{STUDY2}
 \section{Study2 Introduction}
-
+[WORKING ON THIS]
 Argyle and colleagues \citeyear{argyleAIChatAssistants2023} showed that AI-assisted real-time recommendations improved perceived understanding, reduced divisiveness, and improved conversational tone-without shifting policy attitudes. 
 
 some work showing that AI can suggest improvement strategies for conversations 
